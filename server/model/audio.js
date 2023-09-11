@@ -1,18 +1,42 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const audioSchema = new mongoose.Schema({
-    AudioName: {
+    AudioId: {
         type: String,
-        require: true
+        require: true,
     },
-    
-    MIMEtype : {
+    UserId:{
         type: String,
-        require: false
+        require: true,
     },
-    buffer   :{
-        type: Buffer,
-        require: false
+    PhotoURL:{
+        type:String,
+        require: true,
+    },
+    AudioURL:{
+        type: String,
+        require: true,
+    },
+    Plays: {
+        type: Number,
+        require: true,
+    },
+    Genre:{
+        type: String,
+        require: true,
+    },
+    AudioName:{
+        type: String,
+        require: true,
+    },
+    IsPublic:{
+        type: Boolean,
+        require: true,
+    },
+    Description:{
+        type: String,
+        require: false,
     }
 });
-module.exports = mongoose.model("Audio", audioSchema, "Audio");
+const Audio = mongoose.model("Audio", audioSchema, "Audio");
+module.exports = Audio;

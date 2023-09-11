@@ -6,7 +6,6 @@ var bodyParser = require('body-parser');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 
-const customerRoute = require("./router/customer_router");
 const userRoute = require("./router/user_router");
 const audioRoute = require("./router/audio_router");
 
@@ -36,7 +35,6 @@ app.use(cors());
 app.use(morgan("common"))
 
 // ROUTE
-app.use("/v1/customer", customerRoute);
 app.use("/v1/user", userRoute);
 app.use("/v1/audio", audioRoute);
 
