@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import APlayer from 'aplayer';
+import 'aplayer/dist/APlayer.min.css'
 import axios from 'axios'
 
 function App() {
@@ -17,6 +19,16 @@ function App() {
       });
   }, [apiEndpoint]);
 
+  const player = new APlayer({
+    container: document.getElementById('aplayer'),
+    audio: [{
+      name: 'name',
+      artist: 'artist',
+      // AudioURL MongoDb
+      url: 'https://storage.googleapis.com/hosting-audio-398017.appspot.com/audio/Song.MP3?GoogleAccessId=firebase-adminsdk-rr6x7%40hosting-audio-398017.iam.gserviceaccount.com&Expires=4102419600&Signature=BvyiQoXBNnQ%2B1eHknCJtiuCSlf5%2F6rCOvg7qQMX2DPs1E67lCVpQRDbw1D9NbNLSKgw2iUEOHri6j%2FhJxC8YOno7tIdhzmbjeQ691aJWWhAuDV0%2FEcalr7gl9vm7%2FKte83X0x7oBIB0bA1gK0SKv5J2RKVZNYiK8MWJPDY937tgajVufuvD2VwnsvKkZy81QqlmMs7yq%2FBgRWCOHkzyNPGZ%2Fm%2BF%2FdnjptSH3TuRiwYRIxqY8hp%2Fxstl5Oio2FYfXLGKRakEH9SOaQ5EOXucYs2SZC2VktnwBAqBXTu9S1AngQrVjrRZYYh1yiW2JYWXLPP4hsRhdZhjvnWsMArXHcw%3D%3D',
+      cover: 'https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg'
+  }]
+  });
 
   const handleFileInputChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -55,8 +67,10 @@ function App() {
           </li>
         ))}
       </ul>
-      
-      <h1>Google Drive File Upload</h1>
+
+      <div id="aplayer"></div>
+
+      <h1>File Upload</h1>
       <input
         type="file"
         accept=".wav, .flac, .mp3, .aiff, .alac"
