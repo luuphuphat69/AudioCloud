@@ -1,6 +1,6 @@
 const User = require('../model/user');
 const jwt = require("jsonwebtoken");
-const token = 'token';
+var token = "token";
 
 const userController = {
     getAllUser: async (req, res) => {
@@ -22,7 +22,7 @@ const userController = {
             token = jwt.sign({ userId: user.UserId, role: user.Role }, process.env.SECRET_KEY, {
                 expiresIn: '1h',
             });
-            console.log(customer.Email)
+            console.log(user.Email)
             res.json({ token }); // Send the JWT token as a response
         }catch(error){
             console.error(error);
