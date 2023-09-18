@@ -29,28 +29,53 @@ function generateDownloadUrl(fileName) {
     });
 }
 
+function generateDownloadUrlForAudioPhoto(fileName) {
+  const file = storageBucket.file(`audio_photo/${fileName}`);
+
+  return file
+    .getSignedUrl({
+      action: 'read',
+      expires: '01-01-2100', //  Expiration date
+    })
+    .then(([url]) => {
+      console.log('Download URL generated successfully:', url);
+      return url;
+    })
+    .catch((error) => {
+      console.error('Error generating download URL:', error);
+      throw error;
+    });
+}
+
 // Controller
 const audioController = {
   postAudio: async (req, res) => {
     try {
-      const file = req.file;
+      const file = req.files['Audio'][0];
+      const photoFile = req.files['Photo'] ? req.files['Photo'][0] : null;
       const audioName = req.body.AudioName;
       const audioGerne = req.body.Genre;
       const isPublic = req.body.isPublic;
       // .....
 
+      const audioPhotoUrl = null;
+
       if (!file) {
-        return res.status(400).json({ message: 'No file uploaded.' });
+        return res.status(400).json({ message: 'No audio uploaded.' });
       }
-      const downloadUrl = await uploadFile(file);
+      if(photoFile){
+        audioPhotoUrl = await uploadAudioPhoto(photoFile); 
+      }
+      const downloadUrl = await uploadAudioFile(file);
+
       const audio = new Audio({
         AudioName: audioName,
         Genre: audioGerne,
         AudioURL: downloadUrl,
+        PhotoURL: audioPhotoUrl,
         IsPublic: isPublic,
       });
       await audio.save();
-      
       res.json({ message: 'File uploaded successfully!' });
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -59,8 +84,8 @@ const audioController = {
   }
 }
 
-// Func Upload File
-function uploadFile(file) {
+// Func Upload Audio File
+function uploadAudioFile(file) {
   return new Promise((resolve, reject) => {
     try {
       const fileName = file.originalname;
@@ -79,6 +104,37 @@ function uploadFile(file) {
 
           // Generate a download URL for the uploaded file
           const downloadUrl = await generateDownloadUrl(fileName);
+
+          // Resolve the Promise with the download URL
+          resolve(downloadUrl);
+        });
+    } catch (error) {
+      console.error('Error in uploadFile:', error);
+      reject(error);
+    }
+  });
+}
+
+// Func Upload Audio Photo
+function uploadAudioPhoto(file) {
+  return new Promise((resolve, reject) => {
+    try {
+      const fileName = file.originalname;
+      const fileStream = require('fs').createReadStream(file.path);
+      const fileReference = storageBucket.file(`audio_photo/${fileName}`);
+
+      // Upload file to firebase storage.
+      fileStream
+        .pipe(fileReference.createWriteStream())
+        .on('error', (error) => {
+          console.error('Error uploading file:', error);
+          reject(error);
+        })
+        .on('finish', async () => {
+          console.log('Audio photo uploaded successfully!');
+
+          // Generate a download URL for the uploaded file
+          const downloadUrl = await generateDownloadUrlForAudioPhoto(fileName);
 
           // Resolve the Promise with the download URL
           resolve(downloadUrl);

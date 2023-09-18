@@ -11,7 +11,7 @@ const audioSchema = new mongoose.Schema({
     },
     PhotoURL:{
         type:String,
-        require: true,
+        require: false,
     },
     AudioURL:{
         type: String,
