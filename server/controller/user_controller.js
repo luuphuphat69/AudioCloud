@@ -1,6 +1,6 @@
 const User = require('../model/user');
 const jwt = require("jsonwebtoken");
-var token = "token";
+var token = null;
 
 const userController = {
     getAllUser: async (req, res) => {
