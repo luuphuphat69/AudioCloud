@@ -35,7 +35,7 @@ const audioController = {
     try {
       const file = req.file;
       const audioName = req.body.AudioName;
-      const audioGerne = req.body.Gerne;
+      const audioGerne = req.body.Genre;
       const isPublic = req.body.isPublic;
       // .....
 
@@ -47,7 +47,7 @@ const audioController = {
         AudioName: audioName,
         Genre: audioGerne,
         AudioURL: downloadUrl,
-        // ......
+        IsPublic: isPublic,
       });
       await audio.save();
       

@@ -21,13 +21,30 @@ function App() {
 
   const player = new APlayer({
     container: document.getElementById('aplayer'),
+    mini: false,
+    autoplay: false,
+    theme: '#FADFA3',
+    loop: 'all',
+    order: 'random',
+    preload: 'auto',
+    volume: 0.7,
+    mutex: true,
+    listFolded: false,
+    listMaxHeight: 90,
+    lrcType: 3,
     audio: [{
       name: 'name',
       artist: 'artist',
       // AudioURL MongoDb
-      url: 'https://storage.googleapis.com/hosting-audio-398017.appspot.com/audio/Di%C3%A1%C2%BB%C2%85m%20X%C3%86%C2%B0a.mp3?GoogleAccessId=firebase-adminsdk-rr6x7%40hosting-audio-398017.iam.gserviceaccount.com&Expires=4102419600&Signature=h2S%2FCKmi4p2PyG1THDZnWgIY%2FLFqPidWW1xHoZ2b7A6b95vr3JARBndrHqFQZySxjmkFyL%2FokNRr1rkijCq0Mq9qsDKgs8ZVFjzyDCPF7qxWqA%2BLmay5zSLTal3cb5w3wNuRlm8MOL1iRMUWwxQC1iAVgJ5S1loOgGpO9UDBqIo%2F1kC1uDzeg%2F1f%2FOXxMHPpGEFdG%2FdXjCnRW18b%2BO6EPGn21yiZIu4%2Bz2pClzs0D8JmBTsK1Y5QZ6IeSWm53AwSdHJutnYyxusnfYzmJL4DYEOjlg66kjTzslg5amg2JDPN%2Bxe2FFlY484NsJlIQ%2B6TLzf33QACpMgmyV2XFmZn3A%3D%3D',
+      url: 'https://storage.googleapis.com/hosting-audio-398017.appspot.com/audio/VCC%20TOSKA%20x%20TRUNGNG%20-%20ROLE%20MODELS%20%28ft.%20VCC%20LEFT%20HAND%29.mp3?GoogleAccessId=firebase-adminsdk-rr6x7%40hosting-audio-398017.iam.gserviceaccount.com&Expires=4102419600&Signature=sqEhQt7lkG3Pa6o8J3JmhmWCDkp8ekQScfLYcliJQ%2Fw79awoMgL0T1Epl7kOyuT2fa%2F6G9wbwyLaarQDaTuaVnQZaZso96sJWD5b%2Bih2VNgU5faIqHwVdhAiFuZanhTazYRWvIYL2schlbQFQXbdDZYAhYZF8QImSpzmB%2F7GQSdLdiJINB2lmv4WpaTlG4AYNp%2BUI8sJqt6xR2RuKvmZEJjnWsaMweQFXYd0qffQEibdF%2BqedPbk3NVKKyaZkEdELTWaAB7vwXmopRMco0v90mD%2FMWYCKfl%2FoapoYQR4D%2FiiaMRU66aNTtqoOsgvhKCFtizmeDeWIBc6ikoN%2BpP45Q%3D%3D',
       cover: 'https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg'
-  }]
+  
+    },{
+      artist: "song 1",
+      url:'https://storage.googleapis.com/hosting-audio-398017.appspot.com/audio/Song.MP3?GoogleAccessId=firebase-adminsdk-rr6x7%40hosting-audio-398017.iam.gserviceaccount.com&Expires=4102419600&Signature=BvyiQoXBNnQ%2B1eHknCJtiuCSlf5%2F6rCOvg7qQMX2DPs1E67lCVpQRDbw1D9NbNLSKgw2iUEOHri6j%2FhJxC8YOno7tIdhzmbjeQ691aJWWhAuDV0%2FEcalr7gl9vm7%2FKte83X0x7oBIB0bA1gK0SKv5J2RKVZNYiK8MWJPDY937tgajVufuvD2VwnsvKkZy81QqlmMs7yq%2FBgRWCOHkzyNPGZ%2Fm%2BF%2FdnjptSH3TuRiwYRIxqY8hp%2Fxstl5Oio2FYfXLGKRakEH9SOaQ5EOXucYs2SZC2VktnwBAqBXTu9S1AngQrVjrRZYYh1yiW2JYWXLPP4hsRhdZhjvnWsMArXHcw%3D%3D',
+      cover:'https://www.elle.vn/wp-content/uploads/2017/07/25/hinh-anh-dep-1.jpg'
+    }
+  ]
   });
 
   const handleFileInputChange = (event) => {
@@ -67,8 +84,6 @@ function App() {
           </li>
         ))}
       </ul>
-
-      <div id="aplayer"></div>
 
       <h1>File Upload</h1>
       <input
