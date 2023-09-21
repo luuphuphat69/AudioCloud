@@ -1,74 +1,129 @@
 const User = require('../model/user');
 const jwt = require("jsonwebtoken");
+const bcrypt = require('bcrypt');
 var token = null;
 
 const userController = {
     getAllUser: async (req, res) => {
-        try{
+        try {
             const users = await User.find();
             res.json(users)
-        }catch(error){
+        } catch (error) {
             console.log(error);
-            res.status(500).json({message: "Server error"});
+            res.status(500).json({ message: "Server error" });
         }
     },
     login: async (req, res) => {
-        try{
+        try {
             const { Account, Password } = req.body;
-            const user = await User.findOne({Account});
-            if(!user || user.Password !== Password){
-                return res.status(401).json({message: "Invalid username or password"});
+            const user = await User.findOne({ Account });
+            if (!user) {
+                return res.status(401).json({ message: "Invalid username" });
             }
-            token = jwt.sign({ userId: user.UserId, role: user.Role }, process.env.SECRET_KEY, {
-                expiresIn: '1h',
+            bcrypt.compare(Password, user.Password, (err, result) => {
+                if (err) {
+                    return res.status(401).json({ message: "Invalid password" });
+                }
+                if (result) {
+                    // Passwords match, authentication is successful
+                    console.log('Authentication successful');
+                    // Create JWT
+                    token = jwt.sign({ userId: user.UserId, role: user.Role }, process.env.SECRET_KEY, {
+                        expiresIn: '1h',
+                    });
+                    return res.status(200).json("Login successfully");
+                } else {
+                    console.log('Authentication failed');
+                    return res.status(401).json({ message: "Invalid password" });
+                }
             });
-            console.log(user.Email)
-            res.json({ token }); // Send the JWT token as a response
-        }catch(error){
+        } catch (error) {
             console.error(error);
-            res.status(500).json({message: "Server error"});
+            res.status(500).json({ message: "Server error" });
         }
     },
-    deleteUser: async(req, res) => {
+    register: async (req, res) => {
+        try {
+            const { Account, Password, Email } = req.body
+            const UserId = generateUserId();
+            const existingUser = await User.findOne({ $or: [{ Account }, { Email }] });
+
+            // Check if Account or Password is null or empty
+            if (!Account || !Password) {
+                return res.status(400).json({ message: 'Account or Password cannot be empty' });
+            }
+
+            // Generate a salt (a random value used for hashing)
+            const saltRounds = 10; // Recommended number of salt rounds
+            bcrypt.genSalt(saltRounds, (err, salt) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                // Hash the password with the generated salt
+                bcrypt.hash(Password, salt, async (err, hash) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    if (existingUser) {
+                        // If an account with the same Account or Email exists, return an error
+                        return res.status(400).json({ message: 'Account or Email already exists' });
+                    }
+                    const newUser = new User({
+                        UserId,
+                        Account,
+                        Password: hash,
+                        Email,
+                    });
+                    await newUser.save();
+                    res.status(201).json({ message: 'Registration successful', Account, Password, Email });
+                });
+            });
+        } catch (error) {
+            res.status(500).json({ message: error });
+        }
+    },
+    deleteUser: async (req, res) => {
         const UserId = req.body;
         const user = await User.findOne(UserId);
 
-        try{
+        try {
             const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
             const userRole = decodedToken.role;
 
-            if(decodedToken){
-                if(userRole == "Admin"){
-                    if(user.Role == "Admin"){
-                        return res.status(403).json({message: "You can not delete an admin"});
+            if (decodedToken) {
+                if (userRole == "Admin") {
+                    if (user.Role == "Admin") {
+                        return res.status(403).json({ message: "You can not delete an admin" });
                     }
                     const deletedUser = await User.deleteOne(user);
                     if (!deletedUser) {
-                      return res.status(404).json({ message: 'User not found.' });
+                        return res.status(404).json({ message: 'User not found.' });
                     }
                     res.status(200).json({ message: 'User deleted successfully.' });
-                }else{
-                    res.status(403).json({message: "You're not the admin"});
+                } else {
+                    res.status(403).json({ message: "You're not the admin" });
                 }
-            }else{
-                res.status(500).json({message: "You haven't login yet!!"});
+            } else {
+                res.status(500).json({ message: "You haven't login yet!!" });
             }
 
-        }catch(error){
-            res.status(500).json({message: "You haven't login yet!!"});
+        } catch (error) {
+            res.status(500).json({ message: "You haven't login yet!!" });
             console.log(error);
         }
     },
-    getUserInfo: async(req, res) =>{
-        try{
-            const user = await User.findOne(req.body);
+    getUserInfo: async (req, res) => {
+        try {
+            const user = await User.findOne(req.body); // req.body = UserID
             res.status(200).json(user);
-        }catch (error){
+        } catch (error) {
             console.log(error);
         }
     },
-    editUserInfo: async(req, res) =>{
-        try{
+    editUserInfo: async (req, res) => {
+        try {
             const displayName = req.body.Displayname;
             const email = req.body.Email;
             const userId = req.params.UserId;
@@ -76,18 +131,27 @@ const userController = {
             console.log(userId);
 
             const updatedUser = await User.findOneAndUpdate(
-                {UserId: userId},
-                {$set:{Email: email, Displayname: displayName}},
-                {new: true}
+                { UserId: userId },
+                { $set: { Email: email, Displayname: displayName } },
+                { new: true }
             );
             if (!updatedUser) {
                 return res.status(404).json({ message: 'User not found.' });
-              }
+            }
 
-        }catch(error){
-            res.status(500).json({message: "Server error"});
+        } catch (error) {
+            res.status(500).json({ message: "Server error" });
             console.log(error);
         }
     }
+}
+function generateUserId() {
+    // Generate an 8-digit random number
+    const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
+
+    // Concatenate the random number with 'UID' prefix
+    const userId = `UID${randomNumber}`;
+
+    return userId;
 }
 module.exports = userController;

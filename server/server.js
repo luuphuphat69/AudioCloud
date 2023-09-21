@@ -33,6 +33,7 @@ app.use(cors());
 
 // Announce api request
 app.use(morgan("common"))
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // ROUTE
 app.use("/v1/user", userRoute);
