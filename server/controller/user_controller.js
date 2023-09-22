@@ -73,7 +73,9 @@ const userController = {
                     const newUser = new User({
                         UserId,
                         Account,
+                        Displayname: Account,
                         Password: hash,
+                        Role: 'User',
                         Email,
                     });
                     await newUser.save();
@@ -85,8 +87,10 @@ const userController = {
         }
     },
     deleteUser: async (req, res) => {
-        const UserId = req.body;
-        const user = await User.findOne(UserId);
+        const userId = req.params.userId;
+        const filter = { UserId: userId };
+        // Use the filter object in the findOne method
+        const user = await User.findOne(filter);
 
         try {
             const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
@@ -97,10 +101,7 @@ const userController = {
                     if (user.Role == "Admin") {
                         return res.status(403).json({ message: "You can not delete an admin" });
                     }
-                    const deletedUser = await User.deleteOne(user);
-                    if (!deletedUser) {
-                        return res.status(404).json({ message: 'User not found.' });
-                    }
+                    await User.deleteOne(user);
                     res.status(200).json({ message: 'User deleted successfully.' });
                 } else {
                     res.status(403).json({ message: "You're not the admin" });
@@ -108,7 +109,6 @@ const userController = {
             } else {
                 res.status(500).json({ message: "You haven't login yet!!" });
             }
-
         } catch (error) {
             res.status(500).json({ message: "You haven't login yet!!" });
             console.log(error);

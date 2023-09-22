@@ -1,6 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from 'axios'
 
 const Users = () => {
+  const apiEndpoint = 'http://localhost:8000/v1/user/getAll';
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    // Fetch data from the API endpoint
+    axios.get(apiEndpoint)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [apiEndpoint]);
+
+  const handleDeleteUser = async (userId) => {
+    try {
+      // Make an API request to delete the user with the provided userId
+      await axios.delete(`http://localhost:8000/v1/user/removeUser/${userId}`);
+      window.alert('User deleted successfully');
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      window.alert('Error deleting user. Please try again.');
+    }
+  };
+
   return (
     <div>
       <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
@@ -51,18 +76,19 @@ const Users = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      {data.map((item) => (
+                        <tr>
                         <td>
-                          <p className="text-x text-secondary mb-0">UID12345</p>
+                          <p className="text-x text-secondary mb-0" key={item._id}>{item.UserId}</p>
                         </td>
                         <td>
-                          <p className="text-x text-secondary mb-0">adolph69</p>
+                          <p className="text-x text-secondary mb-0" key={item._id}>{item.Account}</p>
                         </td>
                         <td className="align-middle text-center text-sm">
-                          <span className="text-secondary text-x font-weight-bold">username</span>
+                          <span className="text-secondary text-x font-weight-bold" key={item._id}>{item.Displayname}</span>
                         </td>
                         <td className="align-middle text-center">
-                          <span className="text-secondary text-x font-weight-bold">example@gmail.com</span>
+                          <span className="text-secondary text-x font-weight-bold" key={item._id}>{item.Email}</span>
                         </td>
                         <td className="align-middle">
                           <a href="" class="btn-1" data-toggle="tooltip" data-original-title="Edit user">
@@ -70,11 +96,12 @@ const Users = () => {
                           </a>
                         </td>
                         <td className="align-middle">
-                          <button href="" class="btn-1" data-toggle="tooltip" data-original-title="Edit user">
+                          <button href="" class="btn-1" data-toggle="tooltip" data-original-title="Remove user" onClick={() => handleDeleteUser(item.UserId)}>
                             Remove
                           </button>
                         </td>
                       </tr>
+                      ))}
                     </tbody>
                   </table>
                 </div>
