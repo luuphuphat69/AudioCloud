@@ -8,6 +8,7 @@ const dotenv = require('dotenv');
 
 const userRoute = require("./router/user_router");
 const audioRoute = require("./router/audio_router");
+const cookieParser = require('cookie-parser');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -34,6 +35,7 @@ app.use(cors());
 // Announce api request
 app.use(morgan("common"))
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // ROUTE
 app.use("/v1/user", userRoute);

@@ -31,6 +31,8 @@ const userController = {
                     token = jwt.sign({ userId: user.UserId, role: user.Role }, process.env.SECRET_KEY, {
                         expiresIn: '1h',
                     });
+                    // Save token into cookies
+                    res.cookie('token', token, { httpOnly: true, secure: true });
                     return res.status(200).json("Login successfully");
                 } else {
                     console.log('Authentication failed');
@@ -87,6 +89,7 @@ const userController = {
         }
     },
     deleteUser: async (req, res) => {
+        
         const userId = req.params.userId;
         const filter = { UserId: userId };
         // Use the filter object in the findOne method
@@ -154,4 +157,7 @@ function generateUserId() {
 
     return userId;
 }
-module.exports = userController;
+module.exports = {
+    userController, // Export the userController object
+    token,         // Export the token variable
+};
