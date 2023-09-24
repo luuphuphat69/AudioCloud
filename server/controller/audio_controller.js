@@ -1,4 +1,5 @@
 const Audio = require("../model/audio");
+const Playlist = require("../model/playlist");
 const admin = require("firebase-admin");
 const jwt = require("jsonwebtoken");
 const serviceAccount = require("../hosting-audio-398017-firebase-adminsdk-rr6x7-6060b64630.json");
@@ -113,6 +114,41 @@ const audioController = {
     }
   },
 
+  getAudioInfo: async(req, res) =>{
+    try{
+      const audioId = req.params.audioId;
+      const filter = { AudioId: audioId };
+      const audio = await Audio.findOne(filter);
+      res.status(200).json(audio);
+    }catch(error){
+      console.log(error);
+      res.status(500).json({message: "Server error"});
+    }
+  },
+
+  addToPlaylist: async(req, res) =>{
+    try{
+      const audioId = req.params.audioId;
+      const playlistId = req.params.playlistId;
+
+      const audio = await Audio.findOne({ AudioId: audioId });
+      const playlist = await Playlist.findOne({ PlaylistId: playlistId });
+
+      if (!audio || !playlist) {
+        return res.status(404).json({ message: 'Audio or playlist not found' });
+      }
+          // Check if the audio is already in the playlist
+      if (playlist.ListAudio.includes(audioId)) {
+        return res.status(400).json({ message: 'Audio is already in the playlist' });
+      }
+
+      playlist.ListAudio.push(audioId);
+      await playlist.save();
+      res.status(200).json({ message: 'Audio added to the playlist' });
+    }catch(error){
+      console.log(error);
+    }
+  }
 }
 
 // Func Upload Audio File
@@ -181,8 +217,8 @@ function generateAudioId() {
   const randomNumber = Math.floor(10000000 + Math.random() * 90000000);
 
   // Concatenate the random number with 'UID' prefix
-  const userId = `AUDIO${randomNumber}`;
+  const audioId = `AUDIO${randomNumber}`;
 
-  return userId;
+  return audioId;
 }
 module.exports = audioController;

@@ -127,21 +127,18 @@ const userController = {
     },
     editUserInfo: async (req, res) => {
         try {
-            const displayName = req.body.Displayname;
-            const email = req.body.Email;
+            const{Displayname, Email} = req.body;
             const userId = req.params.UserId;
 
-            console.log(userId);
-
-            const updatedUser = await User.findOneAndUpdate(
-                { UserId: userId },
-                { $set: { Email: email, Displayname: displayName } },
-                { new: true }
-            );
-            if (!updatedUser) {
-                return res.status(404).json({ message: 'User not found.' });
+            const user = await User.findOne({UserId: userId});
+            if(!user){
+                return res.status(404).json({ message: "User not found" });
             }
+            user.Displayname = Displayname;
+            user.Email = Email;
 
+            await user.save();
+            return res.status(201).json({message:"Change user info success"});
         } catch (error) {
             res.status(500).json({ message: "Server error" });
             console.log(error);

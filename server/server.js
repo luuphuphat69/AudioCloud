@@ -5,10 +5,12 @@ const mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
 
 const userRoute = require("./router/user_router");
 const audioRoute = require("./router/audio_router");
-const cookieParser = require('cookie-parser');
+const playlistRoute = require("./router/playlist_router");
+
 
 // Load environment variables from .env file
 dotenv.config();
@@ -40,6 +42,7 @@ app.use(cookieParser());
 // ROUTE
 app.use("/v1/user", userRoute);
 app.use("/v1/audio", audioRoute);
+app.use("/v1/playlist", playlistRoute);
 
 app.listen(8000, () => {
    console.log("Server is running");
