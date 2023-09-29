@@ -20,6 +20,7 @@
     "firebase-admin": "^11.10.1",
     "google-auth-library": "^9.0.0",
     "googleapis": "^126.0.1",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.0",
     "morgan": "^1.10.0",

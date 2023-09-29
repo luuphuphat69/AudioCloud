@@ -13,6 +13,10 @@ const audioSchema = new mongoose.Schema({
         type:String,
         require: false,
     },
+    UserDisplayname:{
+        type:String,
+        require:false,
+    },
     AudioURL:{
         type: String,
         require: true,

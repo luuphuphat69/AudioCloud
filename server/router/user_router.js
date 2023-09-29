@@ -3,7 +3,10 @@ const router = require("express").Router();
 
 //Endpoint
 router.get("/getAll", userController.getAllUser);
-router.post("/login", userController.login);
+router.post('/login', (req, res, next) => {
+    req.withCredentials = true;
+    next();
+  }, userController.login);
 router.post("/register", userController.register);
 router.delete("/removeUser/:userId", userController.deleteUser);
 router.get("/getUserInfo", userController.getUserInfo);

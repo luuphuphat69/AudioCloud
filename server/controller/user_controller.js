@@ -1,6 +1,7 @@
 const User = require('../model/user');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
+const Cookies = require('js-cookie');
 var token = null;
 
 const userController = {
@@ -28,12 +29,13 @@ const userController = {
                     // Passwords match, authentication is successful
                     console.log('Authentication successful');
                     // Create JWT
-                    token = jwt.sign({ userId: user.UserId, role: user.Role }, process.env.SECRET_KEY, {
+                    token = jwt.sign({ userId: user.UserId, role: user.Role, userDisplayname: user.Displayname }, process.env.SECRET_KEY, {
                         expiresIn: '1h',
                     });
+                    // console.log(token);
                     // Save token into cookies
-                    res.cookie('token', token, { httpOnly: true, secure: true });
-                    return res.status(200).json("Login successfully");
+                    res.cookie('token', token, { secure: false, signed: true, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/'});
+                    return res.send('Cookies Added');
                 } else {
                     console.log('Authentication failed');
                     return res.status(401).json({ message: "Invalid password" });

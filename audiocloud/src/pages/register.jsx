@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-
+import NavbarLoggedIn from '../component/navbar_loggedin';
 const Register = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -62,79 +62,83 @@ const Register = () => {
     };
 
     return (
-        <div className="mycontainer">
-            <div className="signup-content">
-                <form method="POST" id="signup-form" className="signup-form" onSubmit={handleSubmit}>
-                    <h2 className="textH2">Sign Up</h2>
-                    <div className="form-group">
-                        <input
-                            id='account'
-                            type="text"
-                            className="form-input"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                            placeholder="Your Account"
-                        />
-                    </div>
-                    <div className="form-group">
-                        <input
-                            id="password"
-                            type="password"
-                            className="form-input"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleInputChange}
-                            placeholder="Password"
-                        />
-                        <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
-                    </div>
-                    <div className="form-group">
-                        <input
-                            type="password"
-                            className="form-input"
-                            name="repassword"
-                            value={formData.repassword}
-                            onChange={handleInputChange}
-                            placeholder="Repassword"
-                        />
-                        <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
-                    </div>
-                    {formData.passwordMatchError && (
-                        <div className="password-match-error text-error">Passwords do not match.</div>
-                    )}
-                    <div className="form-group">
-                        <input
-                            id="email"
-                            type="text"
-                            className="form-input"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                            placeholder="Email"
-                        />
-                    </div>
-                    <div className="separator textColor">Or</div>
-                    <div>
-                        <img src="../src/assets/img/facebook.png" className="icon" />
-                        <img src="../src/assets/img/google_pic.png" className="icon" />
-                        <img src="../src/assets/img/instagram.png" className="icon" />
-                    </div>
-                    <div className="form-group d-flex justify-content-between">
-                        <button
-                            type="submit"
-                            name="submit"
-                            id="submit"
-                            value="Sign up"
-                            className="btn-61">
-                            <span>Sign Up</span>
-                        </button>
-                        <a href="login" class="submit-link submit">Sign In</a>
-                    </div>
-                </form>
+        <body class="custom_container">
+            <div>
+                <NavbarLoggedIn />
             </div>
-        </div>
-
+            <div className="mycontainer">
+                <div className="signup-content">
+                    <form method="POST" id="signup-form" className="signup-form" onSubmit={handleSubmit}>
+                        <h2 className="textH2">Sign Up</h2>
+                        <div className="form-group">
+                            <input
+                                id='account'
+                                type="text"
+                                className="form-input"
+                                name="name"
+                                value={formData.name}
+                                onChange={handleInputChange}
+                                placeholder="Your Account"
+                            />
+                        </div>
+                        <div className="form-group">
+                            <input
+                                id="password"
+                                type="password"
+                                className="form-input"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleInputChange}
+                                placeholder="Password"
+                            />
+                            <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
+                        </div>
+                        <div className="form-group">
+                            <input
+                                type="password"
+                                className="form-input"
+                                name="repassword"
+                                value={formData.repassword}
+                                onChange={handleInputChange}
+                                placeholder="Repassword"
+                            />
+                            <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
+                        </div>
+                        {formData.passwordMatchError && (
+                            <div className="password-match-error text-error">Passwords do not match.</div>
+                        )}
+                        <div className="form-group">
+                            <input
+                                id="email"
+                                type="text"
+                                className="form-input"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleInputChange}
+                                placeholder="Email"
+                            />
+                        </div>
+                        <div className="separator textColor">Or</div>
+                        <div>
+                            <img src="../src/assets/img/facebook.png" className="icon" />
+                            <img src="../src/assets/img/google_pic.png" className="icon" />
+                            <img src="../src/assets/img/instagram.png" className="icon" />
+                        </div>
+                        <div className="form-group d-flex justify-content-between">
+                            <button
+                                type="submit"
+                                name="submit"
+                                id="submit"
+                                value="Sign up"
+                                className="btn-61">
+                                <span>Sign Up</span>
+                            </button>
+                            <a href="login" class="submit-link submit">Sign In</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </body>
     );
 };
 

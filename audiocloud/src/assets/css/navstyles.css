@@ -5672,10 +5672,6 @@ button.bg-dark:focus {
   -ms-flex-pack: center !important;
   justify-content: center !important; }
 
-.justify-content-between {
-  -webkit-box-pack: justify !important;
-  -ms-flex-pack: justify !important;
-  justify-content: space-between !important; }
 
 .justify-content-around {
   -ms-flex-pack: distribute !important;
@@ -5691,7 +5687,7 @@ button.bg-dark:focus {
   -ms-flex-align: end !important;
   align-items: flex-end !important; }
 
-.align-items-center {
+.myalign-items-center {
   -webkit-box-align: center !important;
   -ms-flex-align: center !important;
   align-items: center !important; }

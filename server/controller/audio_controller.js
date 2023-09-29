@@ -66,6 +66,7 @@ const audioController = {
       const audioId = generateAudioId();
       const audioPhotoUrl = null;
       const userId = decodedToken.userId;
+      const userDisplayname = decodedToken.userDisplayname;
 
       if (!file) {
         return res.status(400).json({ message: 'No audio uploaded.' });
@@ -83,6 +84,7 @@ const audioController = {
         AudioURL: downloadUrl,
         PhotoURL: audioPhotoUrl,
         IsPublic: isPublic,
+        UserDisplayname: userDisplayname,
       });
       await audio.save();
       res.json({ message: 'File uploaded successfully!' });
@@ -148,7 +150,17 @@ const audioController = {
     }catch(error){
       console.log(error);
     }
-  }
+  },
+  getTop50: async(req, res) =>{
+    try{
+      const type = req.params.type;
+      const topAudio = await Audio.find({Genre: type}).sort({ playCount: -1 }).limit(50);
+      res.status(201).json(topAudio);
+    }catch(error){
+      console.log(error);
+      return res.status(500).json({message: "Server error"});
+    }
+  },
 }
 
 // Func Upload Audio File
