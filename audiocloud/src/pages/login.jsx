@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import Navbar from '../component/navbar';
 axios.defaults.withCredentials = true;
 
 
@@ -46,20 +47,21 @@ const Login = () => {
     }, []);
 
     return (
-        <body class="custom_container">
-            <div class="mycontainer">
-                <div class="signup-content">
-                    <form method="POST" id="login-form" class="signin-form">
-                        <h2 class="textH2">Sign In </h2>
-                        <div class="form-group">
-                            <input type="text" class="form-input" name="name" id="account" placeholder="Your Account" />
+        <body className="custom_container">
+             <Navbar />
+            <div className="mycontainer">
+                <div className="signup-content">
+                    <form method="POST" id="login-form" className="signin-form">
+                        <h2 className="textH2">Sign In </h2>
+                        <div className="form-group">
+                            <input type="text" className="form-input" name="name" id="account" placeholder="Your Account" />
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-input" name="password" id="password" placeholder="Password" />
-                            <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+                        <div className="form-group">
+                            <input type="text" className="form-input" name="password" id="password" placeholder="Password" />
+                            <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
                             <a href=''>Forgot password ?</a>
                         </div>
-                        <div class="separator textColor">Or</div>
+                        <div className="separator textColor">Or</div>
                         <div>
                             <img src='../src/assets/img/facebook.png' className='icon' />
                             <img src='../src/assets/img/google_pic.png' className='icon' />
@@ -74,7 +76,7 @@ const Login = () => {
                                 className="btn-61">
                                 <span>Sign In</span>
                             </button>
-                            <a href="register" class="submit-link submit">Sign Up</a>
+                            <a href="register" className="submit-link submit">Sign Up</a>
                         </div>
                     </form>
                 </div>

@@ -6,7 +6,6 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import NavbarLoggedOut from '../component/navbar_loggedout';
 import NavbarLoggedIn from '../component/navbar_loggedin';
-import { CookiesProvider, useCookies } from "react-cookie";
 
 axios.defaults.withCredentials = true;
 
@@ -32,7 +31,7 @@ const Home = () => {
 
     const [data, setData] = useState([]);
     const [genre, setGenre] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [token, setToken] = useState(null);
     const handleImageClick = async (newGenre) => {
         setGenre(newGenre); // Set the genre based on the clicked image
@@ -53,14 +52,16 @@ const Home = () => {
             }
         };
         fetchToken();
-    }, []);
+    }, [isLoggedIn]);
 
-    const checkLoginStatus = async () => {
+    const checkLoginStatus = () => {
         // Check if the token exists and update the login status
         if (token) {
             setIsLoggedIn(true);
+            console.log(isLoggedIn);
         } else {
             setIsLoggedIn(false);
+            console.log(isLoggedIn);
         }
     };
 
@@ -98,7 +99,7 @@ const Home = () => {
     return (
 
         <section className="product_list best_seller section_padding">
-            <div>{isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}</div>
+            {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
             <div className='row'>
                 <div className='col-lg-8 mb-5 mb-lg-0'>
                     <div className="container">
@@ -125,7 +126,7 @@ const Home = () => {
                                                     </div>
                                                 </div>
                                             </a>
-                                            <h4>TOP 50 <span>{item.id}</span></h4>
+                                            <h4>TOP50 <span>{item.id}</span></h4>
                                         </div>
                                     ))}
                                 </Slider>
@@ -157,7 +158,7 @@ const Home = () => {
                                                     </div>
                                                 </div>
                                             </a>
-                                            <h4>TOP 50 <span>{item.id}</span></h4>
+                                            <h4>TOP50 <span>{item.id}</span></h4>
                                         </div>
                                     ))}
                                 </Slider>
@@ -189,7 +190,7 @@ const Home = () => {
                                                     </div>
                                                 </div>
                                             </a>
-                                            <h4>TOP 50 <span>{item.id}</span></h4>
+                                            <h4>TOP50 <span>{item.id}</span></h4>
                                         </div>
                                     ))}
                                 </Slider>

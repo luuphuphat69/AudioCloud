@@ -1,6 +1,10 @@
 import React from 'react';
 
 const NavbarLoggedOut = () => {
+    const handleLogout = () => {
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+    
     return (
         <header>
             <div className="header-area header-transparent">
@@ -38,7 +42,7 @@ const NavbarLoggedOut = () => {
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <a className="dropdown-item" href="#">Profile</a>
                                         <a className="dropdown-item" href="#">My workspace</a>
-                                        <a className="dropdown-item" href="#">Log Out</a>
+                                        <a className="dropdown-item" href="" onClick={handleLogout}>Log Out</a>
                                     </div>
                                 </li>
                             </ul>

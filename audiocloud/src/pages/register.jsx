@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import NavbarLoggedIn from '../component/navbar_loggedin';
+import Navbar from '../component/navbar';
 const Register = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -64,7 +64,7 @@ const Register = () => {
     return (
         <body class="custom_container">
             <div>
-                <NavbarLoggedIn />
+                <Navbar />
             </div>
             <div className="mycontainer">
                 <div className="signup-content">

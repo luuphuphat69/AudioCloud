@@ -34,7 +34,8 @@ const userController = {
                     });
                     // console.log(token);
                     // Save token into cookies
-                    res.cookie('token', token, { secure: false, signed: true, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/'});
+                    res.cookie('token', token, { secure: true, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/'});
+                    //res.cookie('user', user.UserId, { secure: true, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/'});
                     return res.send('Cookies Added');
                 } else {
                     console.log('Authentication failed');
@@ -89,6 +90,10 @@ const userController = {
         } catch (error) {
             res.status(500).json({ message: error });
         }
+    },
+    logout: async (req, res) =>{
+        res.clearCookie('token');
+        res.clearCookie('user');
     },
     deleteUser: async (req, res) => {
         

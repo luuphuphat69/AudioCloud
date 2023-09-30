@@ -8,6 +8,7 @@ router.post('/login', (req, res, next) => {
     next();
   }, userController.login);
 router.post("/register", userController.register);
+router.post("/logout", userController.logout);
 router.delete("/removeUser/:userId", userController.deleteUser);
 router.get("/getUserInfo", userController.getUserInfo);
 router.put("/editUserInfo/:UserId", userController.editUserInfo);

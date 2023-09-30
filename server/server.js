@@ -52,7 +52,7 @@ app.use("/v1/audio", audioRoute);
 app.use("/v1/playlist", playlistRoute);
 
 app.get('/getcookie', (req, res) =>{
-  res.send(req.cookies);
+  res.send(req.cookies.token);
   console.log(req.cookies);
 });
 
