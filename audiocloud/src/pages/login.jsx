@@ -59,10 +59,10 @@ const Login = () => {
                         <div className="form-group">
                             <input type="text" className="form-input" name="password" id="password" placeholder="Password" />
                             <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
-                            <a href=''>Forgot password ?</a>
+                            <a className="forgot-password" href=''>Forgot password ?</a>
                         </div>
                         <div className="separator textColor">Or</div>
-                        <div>
+                        <div className='icon_login'>
                             <img src='../src/assets/img/facebook.png' className='icon' />
                             <img src='../src/assets/img/google_pic.png' className='icon' />
                             <img src='../src/assets/img/instagram.png' className='icon' />

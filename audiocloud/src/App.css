@@ -18,6 +18,7 @@
   margin-top: 10px;
   margin-right: 10px;
   margin-bottom: 20px;
+  
 }
 
 .playlist {
@@ -373,6 +374,7 @@
   margin-bottom: auto;
   margin-top: 10%;
 }
+<<<<<<< HEAD
 
 .player {
   position: relative;
@@ -418,4 +420,17 @@
   position: absolute;
   bottom: -250px;
   width: 100%;
+=======
+.icon_login{
+  justify-content: center;
+  display: flex;
+}
+.icon {
+  width: 40px; 
+  height: 40px; 
+  margin-top: 10px; 
+  margin-left: 10px;
+  margin-right: 10px; 
+  margin-bottom: 20px; 
+>>>>>>> c3699b745daeeed43c14f4dee495457034049a2b
 }
