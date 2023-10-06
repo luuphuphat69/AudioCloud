@@ -9,6 +9,8 @@ router.put("/add/:audioId/:playlistId", audioController.addToPlaylist);
 router.delete("/removeAudio/:audioId", audioController.removeAudio);
 router.get("/getAudios", audioController.getAllAudio);
 router.get("/getTop50/:type", audioController.getTop50);
+router.get("/getTop100", audioController.getTop100);
+router.get("/search", audioController.search);
 
 router.get("/getAudioInfo/:audioId", audioController.getAudioInfo);
 module.exports = router;

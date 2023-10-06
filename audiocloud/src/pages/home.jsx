@@ -6,6 +6,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import NavbarLoggedOut from '../component/navbar_loggedout';
 import NavbarLoggedIn from '../component/navbar_loggedin';
+import Sidebar from '../component/sidebar';
+import SidebarTop100 from '../component/sidebar_top100';
+import { useAPlayer } from '../component/player_context';
 
 axios.defaults.withCredentials = true;
 
@@ -30,11 +33,19 @@ const Home = () => {
     ];
 
     const [data, setData] = useState([]);
-    const [genre, setGenre] = useState('');
+    const [genre, setGenre] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [token, setToken] = useState(null);
-    const handleImageClick = async (newGenre) => {
-        setGenre(newGenre); // Set the genre based on the clicked image
+
+    const { initializeAPlayer } = useAPlayer();
+    const { destroyAPlayer } = useAPlayer();
+
+    const handleImageClick = (newGenre) => {
+        if(genre == null){
+            setGenre(newGenre); // Set the genre based on the clicked image
+        }else{
+            setGenre(null);
+        }
     };
 
     useEffect(() => {
@@ -70,31 +81,22 @@ const Home = () => {
         const fetchData = async () => {
             if (genre) {
                 try {
+                    console.log("UseEffeect", genre);
                     const response = await axios.get(`http://localhost:8000/v1/audio/getTop50/${genre}`);
                     setData(response.data);
+                    console.log(data);
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
             }
         };
-
         fetchData();
     }, [genre]);
 
     useEffect(() => {
         // Initialize APlayer when data is available
-        if (data.length > 0) {
-            const ap = new APlayer({
-                container: document.getElementById('aplayer'),
-                autoplay: true,
-                audio: data.map(item => ({
-                    name: item.AudioName,
-                    url: item.AudioURL,
-                    cover: item.PhotoURL,
-                    artist: item.UserDisplayname,
-                })),
-            });
-        }
+        console.log(data);
+        initializeAPlayer(data);
     }, [data]);
     return (
 
@@ -112,7 +114,7 @@ const Home = () => {
                                 <Slider {...sliderSettings}>
                                     {items.map((item) => (
                                         <div className="col-md-3" key={item.id}>
-                                            <a href="#" className="album-poster" onClick={() => handleImageClick(item.id)}>
+                                            <a className="album-poster" onClick={() => handleImageClick(item.id)}>
                                                 <div className="image-container slider-item">
                                                     <img src={item.text} alt="" />
                                                     <div className="center-button">
@@ -144,7 +146,7 @@ const Home = () => {
                                 <Slider {...sliderSettings}>
                                     {items.map((item) => (
                                         <div className="col-md-3" key={item.id}>
-                                            <a href="#" className="album-poster" onClick={() => handleImageClick(item.id)}>
+                                            <a className="album-poster" onClick={() => handleImageClick(item.id)}>
                                                 <div className="image-container slider-item">
                                                     <img src={item.text} alt="" />
                                                     <div className="center-button">
@@ -176,11 +178,11 @@ const Home = () => {
                                 <Slider {...sliderSettings}>
                                     {items.map((item) => (
                                         <div className="col-md-3" key={item.id}>
-                                            <a href="#" className="album-poster" onClick={() => handleImageClick(item.id)}>
+                                            <a className="album-poster">
                                                 <div className="image-container slider-item">
                                                     <img src={item.text} alt="" />
                                                     <div className="center-button">
-                                                        <button className="btn-95">
+                                                        <button className="btn-95" onClick={() => handleImageClick(item.id)}>
                                                             <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
                                                                 <g>
                                                                     <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
@@ -198,93 +200,7 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                <div className='col-lg-4'>
-                    <div className="blog_right_sidebar">
-                        <aside className="single_sidebar_widget popular_post_widget">
-                            <h3 className="widget_title">Favourite</h3>
-                            <div className="media post_item">
-                                <img src="img/post/post_1.png" alt="post" />
-                                <div className="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>From life was you fish...</h3>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="media post_item">
-                                <img src="img/post/post_2.png" alt="post" />
-                                <div className="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>The Amazing Hubble</h3>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="media post_item">
-                                <img src="img/post/post_3.png" alt="post" />
-                                <div className="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Astronomy Or Astrology</h3>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className="media post_item">
-                                <img src="img/post/post_4.png" alt="post" />
-                                <div className="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Asteroids telescope</h3>
-                                    </a>
-                                </div>
-                            </div>
-                            <div className='mt-4'>
-                                <a href=''>See more</a>
-                            </div>
-                        </aside>
-                    </div>
-
-                    <div className="blog_right_sidebar">
-                        <aside className="single_sidebar_widget popular_post_widget">
-                            <h3 className="widget_title">Related Track</h3>
-                            <div className="media post_item">
-                                <img src="img/post/post_1.png" alt="post" />
-                                <div className="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>From life was you fish...</h3>
-                                    </a>
-                                    <p>January 12, 2019</p>
-                                </div>
-                            </div>
-                            <div className="media post_item">
-                                <img src="img/post/post_2.png" alt="post" />
-                                <div className="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>The Amazing Hubble</h3>
-                                    </a>
-                                    <p>02 Hours ago</p>
-                                </div>
-                            </div>
-                            <div className="media post_item">
-                                <img src="img/post/post_3.png" alt="post" />
-                                <div className="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Astronomy Or Astrology</h3>
-                                    </a>
-                                    <p>03 Hours ago</p>
-                                </div>
-                            </div>
-                            <div className="media post_item">
-                                <img src="img/post/post_4.png" alt="post" />
-                                <div className="media-body">
-                                    <a href="single-blog.html">
-                                        <h3>Asteroids telescope</h3>
-                                    </a>
-                                    <p>01 Hours ago</p>
-                                </div>
-                            </div>
-                            <div className='mt-4'>
-                                <a href=''>See more</a>
-                            </div>
-                        </aside>
-                    </div>
-                </div>
+                {isLoggedIn ? <Sidebar /> : <SidebarTop100 />}
             </div>
         </section>
     );

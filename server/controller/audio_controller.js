@@ -151,16 +151,55 @@ const audioController = {
       console.log(error);
     }
   },
+  // Get Top 50 songs by their GERNE
   getTop50: async(req, res) =>{
     try{
       const type = req.params.type;
-      const topAudio = await Audio.find({Genre: type}).sort({ playCount: -1 }).limit(50);
+      const topAudio = await Audio.find({Genre: type}).sort({Plays: -1 }).limit(50);
       res.status(201).json(topAudio);
     }catch(error){
       console.log(error);
       return res.status(500).json({message: "Server error"});
     }
   },
+  // Get Top 100 songs by plays
+  getTop100: async(req, res) =>{
+    try{
+      const top100Audio = await Audio.find().sort({Plays: -1}).limit(100);
+      res.status(201).json(top100Audio);
+    }catch(error){
+      console.log(error);
+      return res.status(500).json({message: "Server error"});
+    }
+  },
+  search: async (req, res) => {
+    try {
+      const filter = req.query.queries;
+      const audio = await Audio.find({
+        $or: [
+          { AudioName: { $regex: filter, $options: 'i' } }, // Case-insensitive search for AudioName
+          { UserDisplayname: { $regex: filter, $options: 'i' } }, // Case-insensitive search for UserDisplayname
+        ],
+      });
+      res.status(200).json(audio);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  },
+  updatePlays: async(req, res) =>{
+    try{
+      const audioId = req.params.audioId;
+      const audio = await Audio.findOne({AudioId: audioId});
+      
+      audio.Plays++;
+      await audio.save();
+      return res.status(200).json('updated');
+    }catch(error){
+      console.log(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  }
 }
 
 // Func Upload Audio File

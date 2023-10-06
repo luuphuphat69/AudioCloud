@@ -1,10 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useHistory from React Router
+import axios from 'axios';
 
-const NavbarLoggedOut = () => {
-    const handleLogout = () => {
+const NavbarLoggedIn = () => {
+    // Logout, delete cookie
+    const handleLogOut = () => {
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
-    
+
+    const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate(); // Create a history object for navigation
+    // Function to handle the search
+    const handleSearch = async (e) => {
+        e.preventDefault(); // Prevent the default form submission behavior
+
+        try {
+            const response = await axios.get(`http://localhost:8000/v1/audio/search?queries=${searchTerm}`);
+            // Redirect to the search page with search results as a URL parameter
+            // Navigate to the /search page with response data as a prop
+            navigate('/search', { state: { searchResults: response.data } });
+        } catch (error) {
+            console.error(error);
+        }
+    }
     return (
         <header>
             <div className="header-area header-transparent">
@@ -25,9 +43,14 @@ const NavbarLoggedOut = () => {
                             </div>
                         </div>
                         <div>
-                            <form action="#" className="searchform order-sm-start order-lg-last">
+                            <form className="searchform order-sm-start order-lg-last" onSubmit={handleSearch}>
                                 <div className="form-group d-flex">
-                                    <input type="text" className="form-control pl-3" style={{ width: '300px' }} placeholder="Search"/>
+                                    <input type="text"
+                                        className="form-control pl-3"
+                                        style={{ width: '300px' }}
+                                        placeholder="Search"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)} />
                                 </div>
                             </form>
                         </div>
@@ -36,13 +59,12 @@ const NavbarLoggedOut = () => {
                                 <li className="nav-item dropdown">
                                     <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        {/* You may need to update the img src path */}
                                         <img src="../src/assets/img/user.png" width="45px" height="45px" className="rounded-circle" alt="User" />
                                     </a>
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                         <a className="dropdown-item" href="#">Profile</a>
                                         <a className="dropdown-item" href="#">My workspace</a>
-                                        <a className="dropdown-item" href="" onClick={handleLogout}>Log Out</a>
+                                        <a className="dropdown-item" href="" onClick={handleLogOut}>Log Out</a>
                                     </div>
                                 </li>
                             </ul>
@@ -54,4 +76,4 @@ const NavbarLoggedOut = () => {
     );
 };
 
-export default NavbarLoggedOut;
+export default NavbarLoggedIn;
