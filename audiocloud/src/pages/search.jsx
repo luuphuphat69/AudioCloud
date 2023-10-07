@@ -3,7 +3,7 @@ import axios from 'axios'; // Import axios for API requests
 import { useLocation } from 'react-router-dom';
 import NavbarLoggedIn from '../component/navbar_loggedin';
 import NavbarLoggedOut from '../component/navbar_loggedout';
-import {useAPlayer } from '../component/player_context';
+import { useAPlayer } from '../component/player_context';
 
 const Search = () => {
     const location = useLocation();
@@ -47,13 +47,13 @@ const Search = () => {
             UserDisplayname: artist,
             AudioURL: audioURL,
             PhotoURL: coverImg
-          }]);
-          setAudio(newAudio);
-          console.log(audio);   
+        }]);
+        setAudio(newAudio);
+        console.log(audio);
     }
 
     // Init player
-    const {initializeAPlayer}  = useAPlayer();
+    const { initializeAPlayer } = useAPlayer();
     useEffect(() => {
         if (audio) {
             initializeAPlayer(audio);
@@ -63,7 +63,7 @@ const Search = () => {
     useEffect(() => {
         // Update the data state when searchResults prop changes
         setData(searchResults);
-      }, [searchResults]);
+    }, [searchResults]);
 
     return (
         <section className="cart_area padding_top">
@@ -90,7 +90,47 @@ const Search = () => {
                         </div>
                         <div class="text">
                             <h3 class="font-weight-light ml-3"><a href="single-post.html">{item.AudioName}</a></h3>
-                            <p class="mb-4 ml-3">{item.UserDisplayname}</p>
+                            <h5 class="font-weight-light mb-4 ml-3">
+                                <a href='#'> {item.UserDisplayname}</a>
+                            </h5>
+                            <div className='ml-3 mt-5' style={{ display: 'flex' }}>
+                                <button className='mr-3' style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div className='box'>
+                                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/heart.png' style={{ width: "20px", height: "20px" }} />
+                                    </div>
+                                    <div className='box'>
+                                        <p>Likes</p>
+                                    </div>
+                                </button>
+
+                                <button className='mr-3' style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div className='box'>
+                                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/playlist.png' style={{ width: "20px", height: "20px" }} />
+                                    </div>
+                                    <div className='box'>
+                                        <p>Add to playlist</p>
+                                    </div>
+                                </button>
+
+                                <button className='mr-3' style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div className='box'>
+                                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/music-album.png' style={{ width: "30px", height: "30px" }} />
+                                    </div>
+                                    <div className='box'>
+                                        <p>Add to album</p>
+                                    </div>
+                                </button>
+
+                                <button className='mr-3' style={{ display: 'flex', alignItems: 'center' }}>
+                                    <div className='box'>
+                                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/share.png' style={{ width: "20px", height: "20px" }} />
+                                    </div>
+                                    <div className='box'>
+                                        <p>Share</p>
+                                    </div>
+                                </button>
+                            </div>
+
                         </div>
                     </div>
                 ))}

@@ -180,7 +180,7 @@ const audioController = {
           { AudioName: { $regex: filter, $options: 'i' } }, // Case-insensitive search for AudioName
           { UserDisplayname: { $regex: filter, $options: 'i' } }, // Case-insensitive search for UserDisplayname
         ],
-      });
+      }).sort({Plays: -1}).limit(100);
       res.status(200).json(audio);
     } catch (error) {
       console.error(error);
