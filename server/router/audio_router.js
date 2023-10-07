@@ -11,6 +11,7 @@ router.get("/getAudios", audioController.getAllAudio);
 router.get("/getTop50/:type", audioController.getTop50);
 router.get("/getTop100", audioController.getTop100);
 router.get("/search", audioController.search);
+router.get("/getTracks/:UserId", audioController.getTracks);
 
 router.get("/getAudioInfo/:audioId", audioController.getAudioInfo);
 module.exports = router;

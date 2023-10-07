@@ -199,6 +199,16 @@ const audioController = {
       console.log(error);
       res.status(500).json({ message: "Server error" });
     }
+  },
+  getTracks: async(req, res) => {
+    try{
+      const userId = req.params.UserId;
+      const tracks = await Audio.find({UserId: userId});
+      res.status(201).json(tracks);
+    }catch(err){
+      console.log(err);
+      res.status(500).json({message: "Server error"});
+    }
   }
 }
 

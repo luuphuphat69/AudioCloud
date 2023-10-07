@@ -8,6 +8,7 @@ import Register from './pages/register';
 import Home from './pages/home';
 import Search from './pages/search';
 import Upload from './pages/upload';
+import Profile from './pages/profile';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,6 +48,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path='/home' exact element={<Home />} />
+          <Route path='/profile' element={isLoggedIn === false ? <Profile /> : <Navigate to="/login" />} />
           <Route path='/login' element={<Login />} />
           <Route path='/search' element={<Search />} />
           <Route path='/upload' element={isLoggedIn === false ? <Upload /> : <Navigate to="/login" />} />

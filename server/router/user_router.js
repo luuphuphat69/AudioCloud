@@ -10,7 +10,7 @@ router.post('/login', (req, res, next) => {
 router.post("/register", userController.register);
 router.post("/logout", userController.logout);
 router.delete("/removeUser/:userId", userController.deleteUser);
-router.get("/getUserInfo", userController.getUserInfo);
+router.get("/getUserInfo/:UserId", userController.getUserInfo);
 router.put("/editUserInfo/:UserId", userController.editUserInfo);
 
 module.exports = router;

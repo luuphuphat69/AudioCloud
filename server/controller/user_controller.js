@@ -1,7 +1,6 @@
 const User = require('../model/user');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-const Cookies = require('js-cookie');
 var token = null;
 
 const userController = {
@@ -126,7 +125,8 @@ const userController = {
     },
     getUserInfo: async (req, res) => {
         try {
-            const user = await User.findOne(req.body); // req.body = UserID
+            const userId = req.params.UserId;
+            const user = await User.findOne({UserId: userId});
             res.status(200).json(user);
         } catch (error) {
             console.log(error);

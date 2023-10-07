@@ -62,7 +62,7 @@ const NavbarLoggedIn = () => {
                                         <img src="../src/assets/img/user.png" width="45px" height="45px" className="rounded-circle" alt="User" />
                                     </a>
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <a className="dropdown-item" href="#">Profile</a>
+                                        <a className="dropdown-item" href="/profile">Profile</a>
                                         <a className="dropdown-item" href="#">My workspace</a>
                                         <a className="dropdown-item" href="" onClick={handleLogOut}>Log Out</a>
                                     </div>
