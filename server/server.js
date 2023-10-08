@@ -35,7 +35,7 @@ const mongoURI = process.env.MONGO_DATABASE;
 app.use(bodyParser.json({limit: "50mb"}));
 
 const corsOptions = {
-  origin: "http://localhost:8080", //included origin as true
+  origin: ["http://localhost:8080", "http://localhost:3000"],
   credentials: true, //included credentials as true
 };
 app.use(cors(corsOptions));

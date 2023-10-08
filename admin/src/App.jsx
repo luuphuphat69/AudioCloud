@@ -3,13 +3,15 @@ import './App.css';
 
 import Users from './pages/user_management';
 import Login from './pages/login';
+import Audios from './pages/audio_management';
 
 function App() {
 
   return (
   <Router>
     <Routes>
-        <Route path='/usermanagement' element={<Users />} />
+        <Route path='/user-management' element={<Users />} />
+        <Route path='/audio-management' element={<Audios />} />
         <Route path='/login' element={<Login />} />
     </Routes>
   </Router>

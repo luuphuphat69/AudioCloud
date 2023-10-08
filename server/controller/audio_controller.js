@@ -54,10 +54,6 @@ const audioController = {
 
   postAudio: async (req, res) => {
     try {
-      // Get token from cookies when login success
-      const token = req.cookies.token;
-      const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-
       const file = req.files['Audio'][0];
       const photoFile = req.files['Photo'] ? req.files['Photo'][0] : null;
       const audioName = req.body.AudioName;
@@ -65,9 +61,8 @@ const audioController = {
       const isPublic = req.body.isPublic;
       const audioId = generateAudioId();
       const audioPhotoUrl = null;
-      const userId = decodedToken.userId;
-      const userDisplayname = decodedToken.userDisplayname;
-
+      const userId = req.params.UserId;
+      
       if (!file) {
         return res.status(400).json({ message: 'No audio uploaded.' });
       }
@@ -75,7 +70,6 @@ const audioController = {
         audioPhotoUrl = await uploadAudioPhoto(photoFile);
       }
       const downloadUrl = await uploadAudioFile(file);
-
       const audio = new Audio({
         AudioId: audioId,
         AudioName: audioName,
@@ -84,7 +78,6 @@ const audioController = {
         AudioURL: downloadUrl,
         PhotoURL: audioPhotoUrl,
         IsPublic: isPublic,
-        UserDisplayname: userDisplayname,
       });
       await audio.save();
       res.json({ message: 'File uploaded successfully!' });
