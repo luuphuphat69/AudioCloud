@@ -504,3 +504,34 @@
   color: #95afc0;
   opacity: 0.55;
 }
+
+/* Popup Container */
+/* Popup Container */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: top 0.3s ease-in-out;
+}
+
+
+/* Visible Popup */
+.popup.visible {
+  top: 0;
+}
+
+/* Popup Content */
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}

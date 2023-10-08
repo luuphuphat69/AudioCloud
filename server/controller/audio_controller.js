@@ -56,11 +56,9 @@ const audioController = {
     try {
       const file = req.files['Audio'][0];
       const photoFile = req.files['Photo'] ? req.files['Photo'][0] : null;
-      const audioName = req.body.AudioName;
-      const audioGerne = req.body.Genre;
-      const isPublic = req.body.isPublic;
+      const {audioName, audioGenre, description, isPublic} = req.body;
       const audioId = generateAudioId();
-      const audioPhotoUrl = null;
+      let audioPhotoUrl = null;
       const userId = req.params.UserId;
       
       if (!file) {
@@ -74,7 +72,8 @@ const audioController = {
         AudioId: audioId,
         AudioName: audioName,
         UserId: userId,
-        Genre: audioGerne,
+        Genre: audioGenre,
+        Description: description,
         AudioURL: downloadUrl,
         PhotoURL: audioPhotoUrl,
         IsPublic: isPublic,
