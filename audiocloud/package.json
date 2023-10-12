@@ -9,6 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.14.13",
+    "@mui/material": "^5.14.13",
     "aplayer": "^1.10.1",
     "axios": "^1.5.0",
     "firebase": "^10.4.0",
@@ -20,7 +24,9 @@
     "react-loader-spinner": "^5.4.5",
     "react-router-dom": "^6.16.0",
     "react-slick": "^0.29.0",
-    "slick-carousel": "^1.8.1"
+    "react-wavify": "^1.9.0",
+    "slick-carousel": "^1.8.1",
+    "web-audio-api": "^0.2.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",

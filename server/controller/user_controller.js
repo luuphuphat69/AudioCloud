@@ -31,10 +31,8 @@ const userController = {
                     token = jwt.sign({ userId: user.UserId, role: user.Role, userDisplayname: user.Displayname }, process.env.SECRET_KEY, {
                         expiresIn: '1h',
                     });
-                    // console.log(token);
                     // Save token into cookies
                     res.cookie('token', token, { secure: true, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/'});
-                    //res.cookie('user', user.UserId, { secure: true, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/'});
                     return res.send('Cookies Added');
                 } else {
                     console.log('Authentication failed');

@@ -2222,7 +2222,7 @@ ul {
 }
 
 /* line 116, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
-.main_menu .cart .dropdown-toggle::after {
+.main_menu .cart .dropdown1-toggle::after {
   display: inline-block;
   margin-left: .255em;
   vertical-align: .255em;
@@ -2270,7 +2270,7 @@ ul {
 }
 
 /* line 165, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
-.dropdown .dropdown-menu {
+.dropdown1 .dropdown1-menu {
   transition: all 0.5s;
   overflow: hidden;
   transform-origin: top center;
@@ -2281,7 +2281,7 @@ ul {
 }
 
 /* line 174, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
-.dropdown .dropdown-menu .dropdown-item {
+.dropdown1 .dropdown1-menu .dropdown1-item {
   font-size: 14px;
   padding: 8px 20px !important;
   color: #fff !important;
@@ -2290,7 +2290,7 @@ ul {
 }
 
 /* line 185, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
-.dropdown:hover .dropdown-menu {
+.dropdown1:hover .dropdown1-menu {
   transform: scale(1);
 }
 
@@ -2327,19 +2327,19 @@ ul {
     text-align: center !important;
   }
   /* line 226, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
-  .dropdown .dropdown-menu {
+  .dropdown1 .dropdown1-menu {
     transform: scale(1, 0);
     display: none;
     margin-top: 10px;
   }
   /* line 233, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
-  .dropdown:hover .dropdown-menu {
+  .dropdown1:hover .dropdown1-menu {
     transform: scale(1);
     display: block;
     color: #ff3368;
   }
   /* line 240, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
-  .dropdown .dropdown-item:hover {
+  .dropdown1 .dropdown1-item:hover {
     color: #ff3368 !important;
   }
   /* line 245, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
@@ -2383,13 +2383,13 @@ ul {
 }
 
 /* line 284, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
-.dropdown-menu {
+.dropdown1-menu {
   border: 0px solid rgba(0, 0, 0, 0.15) !important;
   background-color: #fafafa;
 }
 
 /* line 290, ../../01 cl html template/03_jun 2019/188_Aranoz shop_html/sass/_menu.scss */
-.dropdown:hover .dropdown-menu {
+.dropdown1:hover .dropdown1-menu {
   display: block;
 }
 

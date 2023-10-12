@@ -200,7 +200,12 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-                {isLoggedIn ? <Sidebar /> : <SidebarTop100 />}
+                <div className='col-lg-4'>
+                    <div className="blog_right_sidebar">
+                    {isLoggedIn ? <Sidebar /> : <SidebarTop100 />}
+                    </div>
+                </div>
+                
             </div>
         </section>
     );

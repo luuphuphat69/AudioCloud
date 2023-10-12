@@ -72,13 +72,17 @@ const Profile = () => {
                         <div class="h-100">
                             <h5 class="mb-1">
                                 {user?.Displayname}
+                                <a href="" className="ml-2"><span role="img" aria-label="Edit" className="edit-icon">✏️</span></a>
                             </h5>
-                            <p class="mb-0 font-weight-normal text-sm">
+                            <p class="mb-0 font-weight-normal text-sm" style={{color:"#fff", background:"#000"}}>
                                 {user?.Bio}
+                            </p>
+                            <p class="mb-0 font-weight-normal text-sm" style={{color:"#fff", background:"#000"}}>
+                                {user?.Address}
                             </p>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                    <div class="col-md-6 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
                         <div class="nav-wrapper position-relative end-0">
                             <ul class="nav nav-pills nav-fill p-1" role="tablist">
                                 <li class="nav-item1">

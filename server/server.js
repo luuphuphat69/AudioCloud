@@ -37,6 +37,8 @@ app.use(bodyParser.json({limit: "50mb"}));
 const corsOptions = {
   origin: ["http://localhost:8080", "http://localhost:3000"],
   credentials: true, //included credentials as true
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Origin', 'X-Requested-With', 'Accept', 'x-client-key', 'x-client-token', 'x-client-secret', 'Authorization'],
 };
 app.use(cors(corsOptions));
 

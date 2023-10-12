@@ -140,7 +140,7 @@ const Upload = () => {
                         <h1 className="h1_upload">Upload your audio</h1>
                         <div className="upload-container">
                             <div className="border-container">
-                                <input type="file" id="Audio" name="Audio" accept=".mp3" onChange={handleFileInputChange} required />
+                                <input type="file" style={{color:"#000"}} id="Audio" name="Audio" accept=".mp3" onChange={handleFileInputChange} required />
                                 <p>
                                     Drag and drop files here, or <a href="#" id="file-browser">browse</a> your computer.
                                 </p>
