@@ -138,17 +138,17 @@ const userController = {
             const photoFile = req.files['UserPhoto'] ? req.files['UserPhoto'][0] : null;
             const userId = req.params.UserId;
             let PhotoUrl = null;
-            const user = await User.findOne({ UserId: userId});
+            const user = await User.findOne({ UserId: userId });
             if (!user) {
                 return res.status(404).json({ message: "User not found" });
             }
             if (photoFile) {
                 PhotoUrl = await uploadUserPhoto(photoFile);
-            }              
+                user.ProfilePic = PhotoUrl;
+            }
             user.Displayname = Displayname;
             user.Address = Address;
             user.Bio = Bio;
-            user.ProfilePic = PhotoUrl;
 
             await user.save();
             return res.status(201).json({ message: "Change user info success" });
@@ -171,20 +171,20 @@ function generateUserId() {
 // Generate downloadURL for file
 function generateDownloadUrl(fileName) {
     const file = storageBucket.file(`user_photo/${fileName}`);
-  
+
     return file
-      .getSignedUrl({
-        action: 'read',
-        expires: '01-01-2100', //  Expiration date
-      })
-      .then(([url]) => {
-        console.log('Download URL generated successfully:', url);
-        return url;
-      })
-      .catch((error) => {
-        console.error('Error generating download URL:', error);
-        throw error;
-      });
+        .getSignedUrl({
+            action: 'read',
+            expires: '01-01-2100', //  Expiration date
+        })
+        .then(([url]) => {
+            console.log('Download URL generated successfully:', url);
+            return url;
+        })
+        .catch((error) => {
+            console.error('Error generating download URL:', error);
+            throw error;
+        });
 }
 // Func Upload Audio Photo
 function uploadUserPhoto(file) {

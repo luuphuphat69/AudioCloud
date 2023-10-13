@@ -1,4 +1,5 @@
 const Audio = require("../model/audio");
+const User = require("../model/user");
 const Playlist = require("../model/playlist");
 const jwt = require("jsonwebtoken");
 const admin = require("firebase-admin");
@@ -50,27 +51,31 @@ const audioController = {
     try {
       const file = req.files['Audio'][0];
       const photoFile = req.files['Photo'] ? req.files['Photo'][0] : null;
-      const {audioName, audioGenre, description, isPublic} = req.body;
+      const { audioName, audioGenre, description, isPublic } = req.body;
       const audioId = generateAudioId();
-      let audioPhotoUrl = null;
       const userId = req.params.UserId;
-      
-      if (!file) {
-        return res.status(400).json({ message: 'No audio uploaded.' });
+
+      let audioUrl = null;
+      let audioPhotoUrl = null;
+
+      if (file) {
+        audioUrl = await uploadAudioFile(file);
       }
       if (photoFile) {
         audioPhotoUrl = await uploadAudioPhoto(photoFile);
       }
-      const downloadUrl = await uploadAudioFile(file);
+      const user = await User.findOne({ UserId: userId });
+
       const audio = new Audio({
         AudioId: audioId,
         AudioName: audioName,
         UserId: userId,
         Genre: audioGenre,
         Description: description,
-        AudioURL: downloadUrl,
+        AudioURL: audioUrl,
         PhotoURL: audioPhotoUrl,
         IsPublic: isPublic,
+        UserDisplayname: user.Displayname
       });
       await audio.save();
       res.json({ message: 'File uploaded successfully!' });
@@ -86,7 +91,7 @@ const audioController = {
       const audio = await Audio.findOne(filter);
 
       await Audio.deleteOne(audio);
-      res.status(201).json({message: "Delete successfully"});
+      res.status(201).json({ message: "Delete successfully" });
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Server error" });
@@ -94,28 +99,28 @@ const audioController = {
   },
 
   getAllAudio: async (req, res) => {
-    try{
-      const listAudio = await Audio.find();
+    try {
+      const listAudio = await Audio.find({ IsPublic: true });
       res.status(200).json(listAudio);
-    }catch(error){
-      res.status(500).json({message: "Server error"});
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
     }
   },
 
-  getAudioInfo: async(req, res) =>{
-    try{
+  getAudioInfo: async (req, res) => {
+    try {
       const audioId = req.params.audioId;
       const filter = { AudioId: audioId };
       const audio = await Audio.findOne(filter);
       res.status(200).json(audio);
-    }catch(error){
+    } catch (error) {
       console.log(error);
-      res.status(500).json({message: "Server error"});
+      res.status(500).json({ message: "Server error" });
     }
   },
 
-  addToPlaylist: async(req, res) =>{
-    try{
+  addToPlaylist: async (req, res) => {
+    try {
       const audioId = req.params.audioId;
       const playlistId = req.params.playlistId;
 
@@ -125,7 +130,7 @@ const audioController = {
       if (!audio || !playlist) {
         return res.status(404).json({ message: 'Audio or playlist not found' });
       }
-          // Check if the audio is already in the playlist
+      // Check if the audio is already in the playlist
       if (playlist.ListAudio.includes(audioId)) {
         return res.status(400).json({ message: 'Audio is already in the playlist' });
       }
@@ -133,67 +138,77 @@ const audioController = {
       playlist.ListAudio.push(audioId);
       await playlist.save();
       res.status(200).json({ message: 'Audio added to the playlist' });
-    }catch(error){
+    } catch (error) {
       console.log(error);
     }
   },
   // Get Top 50 songs by their GERNE
-  getTop50: async(req, res) =>{
-    try{
+  getTop50: async (req, res) => {
+    try {
       const type = req.params.type;
-      const topAudio = await Audio.find({Genre: type}).sort({Plays: -1 }).limit(50);
+      const topAudio = await Audio.find({ Genre: type, IsPublic: true }).sort({ Plays: -1 }).limit(50);
       res.status(201).json(topAudio);
-    }catch(error){
+    } catch (error) {
       console.log(error);
-      return res.status(500).json({message: "Server error"});
+      return res.status(500).json({ message: "Server error" });
     }
   },
   // Get Top 100 songs by plays
-  getTop100: async(req, res) =>{
-    try{
-      const top100Audio = await Audio.find().sort({Plays: -1}).limit(100);
+  getTop100: async (req, res) => {
+    try {
+      const top100Audio = await Audio.find({ IsPublic: true }).sort({ Plays: -1 }).limit(100);
       res.status(201).json(top100Audio);
-    }catch(error){
+    } catch (error) {
       console.log(error);
-      return res.status(500).json({message: "Server error"});
+      return res.status(500).json({ message: "Server error" });
     }
   },
   search: async (req, res) => {
     try {
       const filter = req.query.queries;
       const audio = await Audio.find({
+        IsPublic: true,
         $or: [
           { AudioName: { $regex: filter, $options: 'i' } }, // Case-insensitive search for AudioName
           { UserDisplayname: { $regex: filter, $options: 'i' } }, // Case-insensitive search for UserDisplayname
         ],
-      }).sort({Plays: -1}).limit(100);
+      }).sort({ Plays: -1 }).limit(100);
       res.status(200).json(audio);
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Server error" });
     }
   },
-  updatePlays: async(req, res) =>{
-    try{
+  updatePlays: async (req, res) => {
+    try {
       const audioId = req.params.audioId;
-      const audio = await Audio.findOne({AudioId: audioId});
-      
-      audio.Plays++;
-      await audio.save();
-      return res.status(200).json('updated');
-    }catch(error){
+      const audio = await Audio.findOne({ AudioId: audioId });
+
+      if (audio) {
+        if (audio.Plays === undefined) {
+          audio.Plays = 1; // If "Plays" doesn't exist, set it to 1
+        } else {
+          audio.Plays++; // If "Plays" exists, increment it
+        }
+
+        await audio.save();
+        return res.status(200).json('updated');
+      } else {
+        return res.status(404).json({ message: "Audio not found" });
+      }
+    } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Server error" });
     }
   },
-  getTracks: async(req, res) => {
-    try{
+  getTracks: async (req, res) => {
+    try {
       const userId = req.params.UserId;
-      const tracks = await Audio.find({UserId: userId});
+      const tracks = await Audio.find({ UserId: userId });
       res.status(201).json(tracks);
-    }catch(err){
+    } catch (err) {
       console.log(err);
-      res.status(500).json({message: "Server error"});
+      res.status(500).json({ message: "Server error" });
     }
   }
 }

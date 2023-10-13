@@ -59,6 +59,7 @@ const Upload = () => {
             // Implement the backend route to handle the file upload.
             const formData = new FormData();
             formData.append('Audio', selectedFile);
+            formData.append('Photo', photo);
             formData.append('audioName', document.getElementById('audioname').value);
             formData.append('audioGenre', genre);
             formData.append('description', document.getElementById('description').value);
@@ -107,14 +108,12 @@ const Upload = () => {
     const handlePhotoChange = (e) => {
         const selectedPhoto = e.target.files[0];
         setPhoto(selectedPhoto);
-
         // Create a URL for the selected image and set it in the state
         const imageURL = URL.createObjectURL(selectedPhoto);
         setSelectedImage(imageURL);
     };
 
     const handleSubmit = () => {
-        console.log("audioname:", audioName);
         if (audioName.length > 0 || genre.length > 0) {
             handleFileUpload();
         } else {
@@ -188,7 +187,7 @@ const Upload = () => {
                                     type="radio"
                                     name="access"
                                     value="public"
-                                    onChange={() => handleRadioChange(true)} />
+                                    onChange={() => handleRadioChange(true)} required/>
                                 Public
                             </label>
                             <label className="radio-label ml-5 mt-3">
@@ -196,7 +195,7 @@ const Upload = () => {
                                     type="radio"
                                     name="access"
                                     value="private"
-                                    onChange={() => handleRadioChange(false)} />
+                                    onChange={() => handleRadioChange(false)}/>
                                 Private
                             </label>
                         </div>
