@@ -18,7 +18,7 @@ const Users = () => {
   const handleDeleteUser = async (userId) => {
     try {
       // Make an API request to delete the user with the provided userId
-      await axios.delete(`http://localhost:8000/v1/user/removeUser/${userId}`); // params
+      await axios.delete(`http://localhost:8000/v1/user/remove/${userId}`); // params
       window.alert('User deleted successfully');
     } catch (error) {
       console.error('Error deleting user:', error);

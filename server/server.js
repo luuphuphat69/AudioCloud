@@ -7,6 +7,14 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const admin = require("firebase-admin");
+const serviceAccount = require("./hosting-audio-398017-firebase-adminsdk-rr6x7-6060b64630.json");
+
+// Connect firebase
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  storageBucket: "gs://hosting-audio-398017.appspot.com",
+});
 
 const userRoute = require("./router/user_router");
 const audioRoute = require("./router/audio_router");

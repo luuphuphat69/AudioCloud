@@ -1,14 +1,8 @@
 const Audio = require("../model/audio");
 const Playlist = require("../model/playlist");
-const admin = require("firebase-admin");
 const jwt = require("jsonwebtoken");
-const serviceAccount = require("../hosting-audio-398017-firebase-adminsdk-rr6x7-6060b64630.json");
+const admin = require("firebase-admin");
 
-// Connect firebase
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  storageBucket: "gs://hosting-audio-398017.appspot.com",
-});
 const storage = admin.storage();
 const storageBucket = storage.bucket();
 

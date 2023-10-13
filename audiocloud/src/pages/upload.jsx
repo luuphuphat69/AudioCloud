@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import NavbarLoggedIn from '../component/navbar_loggedin';
-import NavbarLoggedOut from '../component/navbar_loggedout';
+import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
+import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
 import axios from "axios";
 import jwt from 'jwt-decode';
 import {TailSpin} from "react-loader-spinner";

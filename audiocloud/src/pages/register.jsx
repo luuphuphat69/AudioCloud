@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import Navbar from '../component/navbar';
+import Navbar from '../component/navbar/navbar';
 const Register = () => {
     const [formData, setFormData] = useState({
         name: '',

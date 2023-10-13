@@ -4,10 +4,10 @@ axios.defaults.withCredentials = true;
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import NavbarLoggedOut from '../component/navbar_loggedout';
-import NavbarLoggedIn from '../component/navbar_loggedin';
-import Sidebar from '../component/sidebar';
-import SidebarTop100 from '../component/sidebar_top100';
+import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
+import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
+import Sidebar from '../component/sidebar/sidebar';
+import SidebarTop100 from '../component/sidebar/sidebar_top100';
 import { useAPlayer } from '../component/player_context';
 
 axios.defaults.withCredentials = true;

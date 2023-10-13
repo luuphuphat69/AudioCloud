@@ -1,8 +1,10 @@
 const User = require('../model/user');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
-var token = null;
+const admin = require("firebase-admin");
 
+const storage = admin.storage();
+const storageBucket = storage.bucket();
 const userController = {
     getAllUser: async (req, res) => {
         try {
@@ -32,7 +34,7 @@ const userController = {
                         expiresIn: '1h',
                     });
                     // Save token into cookies
-                    res.cookie('token', token, { secure: true, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/'});
+                    res.cookie('token', token, { secure: true, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/' });
                     return res.send('Cookies Added');
                 } else {
                     console.log('Authentication failed');
@@ -88,12 +90,12 @@ const userController = {
             res.status(500).json({ message: error });
         }
     },
-    logout: async (req, res) =>{
+    logout: async (req, res) => {
         res.clearCookie('token');
         res.clearCookie('user');
     },
     deleteUser: async (req, res) => {
-        
+
         const userId = req.params.userId;
         const filter = { UserId: userId };
         // Use the filter object in the findOne method
@@ -124,7 +126,7 @@ const userController = {
     getUserInfo: async (req, res) => {
         try {
             const userId = req.params.UserId;
-            const user = await User.findOne({UserId: userId});
+            const user = await User.findOne({ UserId: userId });
             res.status(200).json(user);
         } catch (error) {
             console.log(error);
@@ -132,18 +134,24 @@ const userController = {
     },
     editUserInfo: async (req, res) => {
         try {
-            const{Displayname, Email} = req.body;
+            const { Displayname, Address, Bio } = req.body;
+            const photoFile = req.files['UserPhoto'] ? req.files['UserPhoto'][0] : null;
             const userId = req.params.UserId;
-
-            const user = await User.findOne({UserId: userId});
-            if(!user){
+            let PhotoUrl = null;
+            const user = await User.findOne({ UserId: userId});
+            if (!user) {
                 return res.status(404).json({ message: "User not found" });
             }
+            if (photoFile) {
+                PhotoUrl = await uploadUserPhoto(photoFile);
+            }              
             user.Displayname = Displayname;
-            user.Email = Email;
+            user.Address = Address;
+            user.Bio = Bio;
+            user.ProfilePic = PhotoUrl;
 
             await user.save();
-            return res.status(201).json({message:"Change user info success"});
+            return res.status(201).json({ message: "Change user info success" });
         } catch (error) {
             res.status(500).json({ message: "Server error" });
             console.log(error);
@@ -159,7 +167,53 @@ function generateUserId() {
 
     return userId;
 }
-module.exports = {
-    userController, // Export the userController object
-    token,         // Export the token variable
-};
+
+// Generate downloadURL for file
+function generateDownloadUrl(fileName) {
+    const file = storageBucket.file(`user_photo/${fileName}`);
+  
+    return file
+      .getSignedUrl({
+        action: 'read',
+        expires: '01-01-2100', //  Expiration date
+      })
+      .then(([url]) => {
+        console.log('Download URL generated successfully:', url);
+        return url;
+      })
+      .catch((error) => {
+        console.error('Error generating download URL:', error);
+        throw error;
+      });
+}
+// Func Upload Audio Photo
+function uploadUserPhoto(file) {
+    return new Promise((resolve, reject) => {
+        try {
+            const fileName = file.originalname;
+            const fileStream = require('fs').createReadStream(file.path);
+            const fileReference = storageBucket.file(`user_photo/${fileName}`);
+
+            // Upload file to firebase storage.
+            fileStream
+                .pipe(fileReference.createWriteStream())
+                .on('error', (error) => {
+                    console.error('Error uploading file:', error);
+                    reject(error);
+                })
+                .on('finish', async () => {
+                    console.log('Audio photo uploaded successfully!');
+
+                    // Generate a download URL for the uploaded file
+                    const downloadUrl = await generateDownloadUrl(fileName);
+                    console.log("downloadurl", downloadUrl);
+                    // Resolve the Promise with the download URL
+                    resolve(downloadUrl);
+                });
+        } catch (error) {
+            console.error('Error in uploadFile:', error);
+            reject(error);
+        }
+    });
+}
+module.exports = userController;

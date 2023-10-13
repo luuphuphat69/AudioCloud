@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useAPlayer } from '../component/player_context';
+import { useAPlayer } from '../player_context';
 import axios from 'axios';
 
 const SidebarTop100 = () => {

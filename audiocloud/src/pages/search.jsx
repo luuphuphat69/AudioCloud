@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import axios for API requests
 import { useLocation } from 'react-router-dom';
-import NavbarLoggedIn from '../component/navbar_loggedin';
-import NavbarLoggedOut from '../component/navbar_loggedout';
+import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
+import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
 import { useAPlayer } from '../component/player_context';
 
 const Search = () => {

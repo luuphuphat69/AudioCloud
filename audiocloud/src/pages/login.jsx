@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import Navbar from '../component/navbar';
+import Navbar from '../component/navbar/navbar';
 axios.defaults.withCredentials = true;
 
 
