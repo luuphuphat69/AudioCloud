@@ -9,17 +9,14 @@ const SidebarTop100 = () => {
     // Init Player
     const { initializeAPlayer } = useAPlayer();
 
-    // const [likedItems, setLikedItems] = useState([]); // State to track liked items
-    // const handleToggleLike = (audioURL) => {
-    //     // Check if the item is already in the likedItems array
-    //     if (likedItems.includes(audioURL)) {
-    //         // If it's already liked, remove it
-    //         setLikedItems(likedItems.filter(item => item !== audioURL));
-    //     } else {
-    //         // If it's not liked, add it
-    //         setLikedItems([...likedItems, audioURL]);
-    //     }
-    // };
+
+    const handleLike = async (audioId, userId) => {
+        try{
+            const response = await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     const handleClick = async (audioURL, photoURL, audioName, userDisplayname) => {
         setAudio([{
@@ -72,7 +69,7 @@ const SidebarTop100 = () => {
                             <h3 class="font-weight-light ml-3"><a href="single-post.html">{item.AudioName}</a></h3>
                             <p class="mb-1 ml-3">{item.UserDisplayname}</p>
                             <div className='ml-3'>
-                                <img src='../src/assets/img/icon/heart.png' style={{ width: "20px", height: "20px" }} />
+                                <img src='../src/assets/img/icon/heart.png' onClick={() => handleLike(item.AudioId)} style={{ width: "20px", height: "20px" }} />
                                 <img className='ml-3' src='../src/assets/img/icon/plus.png' style={{ width: "20px", height: "20px" }} />
                             </div>
                         </div>
