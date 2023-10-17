@@ -7,7 +7,7 @@ const UserFavouriteSchema = new mongoose.Schema({
     },
     ListAudio:{
         type:Array,
-        require: false,
+        require: true,
     }
 });
 const UserFav = mongoose.model("User_Favourite", UserFavouriteSchema, "User_Favourite");

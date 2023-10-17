@@ -38,7 +38,6 @@ const Home = () => {
     const [token, setToken] = useState(null);
 
     const { initializeAPlayer } = useAPlayer();
-    const { destroyAPlayer } = useAPlayer();
 
     const handleImageClick = (newGenre) => {
         if(genre == null){
@@ -69,10 +68,8 @@ const Home = () => {
         // Check if the token exists and update the login status
         if (token) {
             setIsLoggedIn(true);
-            console.log(isLoggedIn);
         } else {
             setIsLoggedIn(false);
-            console.log(isLoggedIn);
         }
     };
 
@@ -84,7 +81,6 @@ const Home = () => {
                     console.log("UseEffeect", genre);
                     const response = await axios.get(`http://localhost:8000/v1/audio/getTop50/${genre}`);
                     setData(response.data);
-                    console.log(data);
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }

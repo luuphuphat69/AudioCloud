@@ -1,17 +1,39 @@
 import React, { useState, useEffect } from 'react'
 import { useAPlayer } from '../player_context';
+import jwt from 'jwt-decode';
 import axios from 'axios';
+import LongMenu from '../menu/audio_menu';
 
 const SidebarTop100 = () => {
     const apiEndpoint = 'http://localhost:8000/v1/audio/getTop100';
     const [data, setData] = useState([]);
     const [audio, setAudio] = useState([]);
+    const [userId, setUserId] = useState('');
+    const [isLiked, setIsLiked] = useState(false);
     // Init Player
     const { initializeAPlayer } = useAPlayer();
 
+    useEffect(() => {
+        const fetchToken = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/getcookie', { withCredentials: true });
+                const receivedToken = response.data;
+                const user = jwt(receivedToken);
+                setUserId(user.userId);
+            } catch (error) {
+                console.error('Error fetching token:', error);
+            }
+        };
+        fetchToken();
+    }, [userId]);
 
-    const handleLike = async (audioId, userId) => {
+    useEffect(() => {
+        console.log("Data: ", userId); // Log the data here, within a separate useEffect
+    }, [userId]);
+
+    const handleLike = async (audioId) => {
         try{
+            console.log(userId);
             const response = await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
         }catch(err){
             console.log(err);
@@ -48,7 +70,7 @@ const SidebarTop100 = () => {
             <h3 className="widget_title">TOP 100</h3>
             <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
                 {data.map((item) => (
-                    <div class="d-block d-md-flex podcast-entry bg-white mb-5" data-aos="fade-up">
+                    <div class="d-block d-md-flex podcast-entry mb-5" data-aos="fade-up">
                         <div className="image-container">
                             {item.PhotoURL ? (
                                 <img src={item.PhotoURL} style={{ width: '90px', height: '90px' }} alt="" />
@@ -66,12 +88,11 @@ const SidebarTop100 = () => {
                             </div>
                         </div>
                         <div class="text">
-                            <h3 class="font-weight-light ml-3"><a href="single-post.html">{item.AudioName}</a></h3>
+                            <h5 class="font-weight-light ml-3"><a href="single-post.html">{item.AudioName}</a></h5>
                             <p class="mb-1 ml-3">{item.UserDisplayname}</p>
-                            <div className='ml-3'>
-                                <img src='../src/assets/img/icon/heart.png' onClick={() => handleLike(item.AudioId)} style={{ width: "20px", height: "20px" }} />
-                                <img className='ml-3' src='../src/assets/img/icon/plus.png' style={{ width: "20px", height: "20px" }} />
-                            </div>
+                        </div>
+                        <div>
+                            <LongMenu audioId={item.AudioId} handleLike={handleLike} />
                         </div>
                     </div>
                 ))}

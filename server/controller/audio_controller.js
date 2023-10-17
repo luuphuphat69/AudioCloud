@@ -126,7 +126,6 @@ const audioController = {
 
       const audio = await Audio.findOne({ AudioId: audioId });
       const playlist = await Playlist.findOne({ PlaylistId: playlistId });
-
       if (!audio || !playlist) {
         return res.status(404).json({ message: 'Audio or playlist not found' });
       }
@@ -134,7 +133,6 @@ const audioController = {
       if (playlist.ListAudio.includes(audioId)) {
         return res.status(400).json({ message: 'Audio is already in the playlist' });
       }
-
       playlist.ListAudio.push(audioId);
       await playlist.save();
       res.status(200).json({ message: 'Audio added to the playlist' });
