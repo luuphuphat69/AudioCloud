@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import axios for API requests
+import jwt from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
 import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
+import Notification from '../component/notify/notify_comp';
 import { useAPlayer } from '../component/player_context';
 
 const Search = () => {
@@ -11,6 +13,13 @@ const Search = () => {
 
     const [data, setData] = useState(searchResults); // Initialize with searchResults
     const [audio, setAudio] = useState([]);
+    const [userId, setUserId] = useState('');
+
+    const [showNotification, setShowNotification] = useState(false);
+
+    const handleLikeClick = () => {
+        setShowNotification(true); // Show the notification
+      };
 
     // Load nav bar
     const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -20,8 +29,9 @@ const Search = () => {
             try {
                 const response = await axios.get('http://localhost:8000/getcookie', { withCredentials: true });
                 const receivedToken = response.data;
+                const user = jwt(receivedToken);
+                setUserId(user.userId);
                 setToken(receivedToken);
-
                 // Check the login status once the token is available
                 checkLoginStatus();
             } catch (error) {
@@ -40,6 +50,14 @@ const Search = () => {
         }
     };
 
+    useEffect(() => {
+        try{
+            console.log(userId);
+        }catch(error){
+            console.log(error);
+        }
+    }, [userId]);
+
     // Handle button clicked
     const handleClick = async (audioId, audioURL, audioname, artist, coverImg) => {
         const newAudio = ([{
@@ -52,6 +70,15 @@ const Search = () => {
         setAudio(newAudio);
         console.log(audio);
         updatePlays(audio[0].AudioId);
+    }
+
+    const handleLike = async (audioId) => {
+        try{
+            const response = await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            handleLikeClick();
+        }catch(err){
+            console.log(err);
+        }
     }
 
     const updatePlays = async (audioId) => {
@@ -106,7 +133,7 @@ const Search = () => {
                             </h5>
                             <p className='ml-3'>Plays: {item.Plays}</p>
                             <div className='ml-3' style={{ display: 'flex' }}>
-                                <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
+                                <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleLike(item.AudioId)}>
                                     <div className='box'>
                                         <img className='mr-3 horizontal-button' src='../src/assets/img/icon/heart.png' style={{ width: "20px", height: "20px" }} />
                                     </div>
@@ -144,6 +171,13 @@ const Search = () => {
                             </div>
 
                         </div>
+                        {showNotification && (
+        <Notification
+          message="You liked this item!"
+          type="success" // Set the type of notification (success, info, warning, error)
+          onClose={() => setShowNotification(false)} // Close the notification
+        />
+      )}
                     </div>
                 ))}
             </div>

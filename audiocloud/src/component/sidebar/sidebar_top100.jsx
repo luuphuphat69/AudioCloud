@@ -9,7 +9,6 @@ const SidebarTop100 = () => {
     const [data, setData] = useState([]);
     const [audio, setAudio] = useState([]);
     const [userId, setUserId] = useState('');
-    const [isLiked, setIsLiked] = useState(false);
     // Init Player
     const { initializeAPlayer } = useAPlayer();
 

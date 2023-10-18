@@ -7,7 +7,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
-import Notification from '../notify/notify_comp'; // Adjust the path to the actual location of your Notification component
+import Notification from '../notify/notify_comp';
 
 const options = [
   { label: 'Like', icon: <FavoriteBorderIcon /> },
