@@ -706,3 +706,38 @@
   margin-top: 5px;
   cursor: pointer;
 }
+.circle-button-1 {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ec870b; /* Set the background color you want */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  cursor: pointer;
+}
+.button-container {
+  position: absolute;
+  top: 5px;
+  right: 45px;
+  z-index: 1; /* Ensure the button is above other content */
+  /* You can adjust the top and right values to position the button as needed */
+}
+.playlist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
+  gap: 20px; /* Adjust the gap between items */
+}
+
+.playlist-item {
+  border: 5px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+}
+
+.playlist-item img {
+  max-width: 100%;
+  height: auto;
+}

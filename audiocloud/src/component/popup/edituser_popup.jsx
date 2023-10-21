@@ -83,7 +83,7 @@ const PopupForm = ({ closePopup }) => {
       }
     }).then((response) => {
       console.log(response.data);
-      window.alert('File uploaded successfully.');
+      window.alert('Update successfully.');
     }).catch((error) => {
       console.log('Error uploading file:', error);
       window.alert('File upload failed.');
@@ -97,9 +97,9 @@ const PopupForm = ({ closePopup }) => {
       <div className="popup-form" style={popupFormStyle}>
         <div className="wrapper" style={wrapperStyle}>
           <h2>Edit your profile</h2>
-          <form className="mt-3 border border-3 mb-5 p-4" method="POST" onSubmit={(e) => {
-            e.preventDefault();
-          }}>
+          <form className="mt-3 border border-3 mb-5 p-4" method="POST" onClick={(e) => {
+              e.stopPropagation(); // Prevent click event from propagating to the outer div
+            }}>
             <div className="form-row">
               <div className="col-md-4 mb-3">
                 <label>Displayname</label>
@@ -156,7 +156,7 @@ const PopupForm = ({ closePopup }) => {
             {isLoading ? (
               <TailSpin type="TailSpin" color="#00BFFF" height={80} width={80} />
             ) : (
-              <button className="btn btn-primary mt-3" type="submit" onClick={handleChanges}>
+              <button className="btn btn-primary mt-3" type="button" onClick={handleChanges}>
                 Save changes
               </button>
             )}
