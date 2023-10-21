@@ -1,4 +1,5 @@
 const Playlist = require('../model/playlist');
+const Audio = require('../model/audio');
 const jwt = require('jsonwebtoken');
 
 const PlaylistController = {
@@ -21,19 +22,48 @@ const PlaylistController = {
             res.status(500).json({message: "Server error"});
         }
     },
-    postPlaylist: async(req, res) => {
+    getUserPlaylist: async(req, res) => {
         try{
-            const token = req.cookies.token;
-            const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-            const userId = decodedToken.userId;
-        
-            const {Title, Genre, IsPublic} = req.body;
+            const userId = req.params.UserId;
+            const playlists = await Playlist.find({UserId: userId});
+            return res.status(201).json(playlists);
+        }catch(error){
+            console.log(error);
+        }
+    },
+    addToPlaylist: async(req, res) => {
+        try{
+            const audioId = req.params.audioId;
+            const playlistId = req.params.playlistId;
+            const audio = await Audio.findOne({AudioId: audioId});
+            const playlist = await Playlist.findOne({PlaylistId: playlistId})
+            const existingAudioIndex = playlist.ListAudio.findIndex(a => a.AudioId === audioId);
+            if (existingAudioIndex !== -1) {
+                // If the audio exists, replace it
+                playlist.ListAudio[existingAudioIndex] = audio;
+            } else {
+                // If the audio doesn't exist, add it to the list
+                playlist.ListAudio.push(audio);
+            }
+            await playlist.save();
+        }catch(err){
+            console.log(err);
+        }
+    },
+    createPlaylist: async(req, res) => {
+        try{
+            const userId = req.params.UserId;
+            const {title, genre, isPublic} = req.body;
+            const existPlaylist = await Playlist.findOne({Title: title, UserId: userId});
+            if(existPlaylist){
+                return res.status(400).json({message: "Playlist is existed"});
+            }
             const playlist = new Playlist({
                 PlaylistId: generatePlaylistId(),
                 UserId: userId,
-                Title: Title,
-                Genre: Genre,
-                IsPublic: IsPublic
+                Title: title,
+                Genre: genre,
+                IsPublic: isPublic
             });
             await playlist.save();
             res.status(201).json({message: "Create playlist succesfull"});

@@ -9,7 +9,7 @@ const Upload = () => {
 
     const [audioName, setAudioName] = useState(null);
     const [description, setDescription] = useState(null);
-    const [isPublic, setIsPublic] = useState(null);
+    const [isPublic, setIsPublic] = useState(true);
     const [genre, setGenre] = useState(null);
     const [photo, setPhoto] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);

@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
 import Notification from '../component/notify/notify_comp';
+import Popup_Playlist from '../component/popup/add_to_playlist';
 import { useAPlayer } from '../component/player_context';
 
 const Search = () => {
@@ -16,10 +17,11 @@ const Search = () => {
     const [userId, setUserId] = useState('');
 
     const [showNotification, setShowNotification] = useState(false);
+    const [showPoppupPlaylist, setShowPopupPlaylist] = useState(false);
 
     const handleLikeClick = () => {
         setShowNotification(true); // Show the notification
-      };
+    };
 
     // Load nav bar
     const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -51,9 +53,9 @@ const Search = () => {
     };
 
     useEffect(() => {
-        try{
+        try {
             console.log(userId);
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     }, [userId]);
@@ -73,19 +75,19 @@ const Search = () => {
     }
 
     const handleLike = async (audioId) => {
-        try{
+        try {
             const response = await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
             handleLikeClick();
-        }catch(err){
+        } catch (err) {
             console.log(err);
         }
     }
 
     const updatePlays = async (audioId) => {
-        try{
+        try {
             const response = await axios.put(`http://localhost:8000/v1/audio/update-plays/${audioId}`);
             console.log(response.data);
-        }catch(error){
+        } catch (error) {
             console.log(error);
         }
     }
@@ -99,17 +101,35 @@ const Search = () => {
     }, [audio]);
 
     useEffect(() => {
+        if(searchResults){
         // Update the data state when searchResults prop changes
         setData(searchResults);
+        }
     }, [searchResults]);
 
+    const handleDownload = (downloadURL, fileName) => {
+        const anchor = document.createElement('a');
+        anchor.href = downloadURL;
+        anchor.download = fileName; // Optional, set a custom filename
+        anchor.style.display = 'none';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    }
+
+    const handlePlaylistClick = () => {
+        setShowPopupPlaylist(true);
+    }
+    const closePopup = () => {
+        // Close popup
+        setShowPopupPlaylist(false);
+      }
     return (
         <section className="cart_area padding_top">
             {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
             <div className="container">
-
                 {data.map((item) => (
-                    <div class="d-block d-md-flex podcast-entry mb-5" style={{backgroundColor: "#EDEDED"}}>
+                    <div class="d-block d-md-flex podcast-entry mb-5" style={{ backgroundColor: "#EDEDED" }}>
                         <div className="image-container p-3 mt-4">
                             {item.PhotoURL ? (
                                 <img src={item.PhotoURL} style={{ width: '170px', height: '160px' }} alt="" />
@@ -142,7 +162,7 @@ const Search = () => {
                                     </div>
                                 </button>
 
-                                <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
+                                <button className='mr-3 mb-3' onClick={handlePlaylistClick} style={{ display: 'flex', alignItems: 'center' }}>
                                     <div className='box'>
                                         <img className='mr-3 horizontal-button' src='../src/assets/img/icon/playlist.png' style={{ width: "20px", height: "20px" }} />
                                     </div>
@@ -150,7 +170,7 @@ const Search = () => {
                                         <p>Add to playlist</p>
                                     </div>
                                 </button>
-
+                                {/* 
                                 <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
                                     <div className='box'>
                                         <img className='mr-3 horizontal-button' src='../src/assets/img/icon/music-album.png' style={{ width: "30px", height: "30px" }} />
@@ -158,26 +178,28 @@ const Search = () => {
                                     <div className='box mt-3'>
                                         <p>Add to album</p>
                                     </div>
-                                </button>
+                                </button> */}
 
-                                <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
+                                <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDownload(item.AudioURL, item.AudioName)}>
                                     <div className='box'>
-                                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/share.png' style={{ width: "20px", height: "20px" }} />
+                                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/download.png' style={{ width: "20px", height: "20px" }} />
                                     </div>
                                     <div className='box mt-3'>
-                                        <p>Share</p>
+                                        <p>Download</p>
                                     </div>
                                 </button>
                             </div>
 
                         </div>
+                        {showPoppupPlaylist && <Popup_Playlist audioId={item.AudioId} closePopup={closePopup} />}
                         {showNotification && (
-        <Notification
-          message="You liked this item!"
-          type="success" // Set the type of notification (success, info, warning, error)
-          onClose={() => setShowNotification(false)} // Close the notification
-        />
-      )}
+                            <Notification
+                                message="You liked this item!"
+                                type="success" // Set the type of notification (success, info, warning, error)
+                                onClose={() => setShowNotification(false)} // Close the notification
+                            />
+                            
+                        )}
                     </div>
                 ))}
             </div>

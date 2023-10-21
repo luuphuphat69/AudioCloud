@@ -6,20 +6,20 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import Notification from '../notify/notify_comp';
+import Popup_Playlist from '../popup/add_to_playlist';
 
 const options = [
   { label: 'Like', icon: <FavoriteBorderIcon /> },
   { label: 'Add to playlist', icon: <PlaylistAddIcon /> },
-  { label: 'Add to album', icon: <LibraryMusicIcon /> },
 ];
 
 const ITEM_HEIGHT = 48;
 
-export default function LongMenu({ audioId, handleLike }) {
+export default function LongMenu({ audioId, handleLike}) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [showNotification, setShowNotification] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const open = Boolean(anchorEl);
 
@@ -30,6 +30,17 @@ export default function LongMenu({ audioId, handleLike }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handlePlaylistClick = () => {
+    // Open popup
+    setShowPopup(true);
+    handleClose();
+  };
+  
+  const closePopup = () => {
+    // Close popup
+    setShowPopup(false);
+  }
 
   const handleLikeClick = () => {
     handleLike(audioId); // Call the handleLike function with audioId
@@ -62,10 +73,9 @@ export default function LongMenu({ audioId, handleLike }) {
             maxHeight: ITEM_HEIGHT * 4.5,
             width: '20ch',
           },
-        }}
-      >
+        }}>
         {options.map((option) => (
-          <MenuItem key={option.label} onClick={option.label === 'Like' ? handleLikeClick : handleClose}>
+          <MenuItem key={option.label} onClick={option.label === 'Like' ? handleLikeClick : option.label === 'Add to playlist' ? handlePlaylistClick : handleClose}>
             <ListItemIcon>{option.icon}</ListItemIcon>
             {option.label}
           </MenuItem>
@@ -79,6 +89,7 @@ export default function LongMenu({ audioId, handleLike }) {
           onClose={() => setShowNotification(false)} // Close the notification
         />
       )}
+      {showPopup && <Popup_Playlist audioId={audioId} closePopup={closePopup} />}
     </div>
   );
 }
