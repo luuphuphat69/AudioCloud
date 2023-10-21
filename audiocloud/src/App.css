@@ -639,6 +639,70 @@
   border-radius: 0.5rem 0.5rem 0 0;
   font-weight: 600;
 }
-.swipeable-list-item-left-action {
-  background: red;
+/* SearchPagination.css */
+
+/* Style the pagination container */
+.pagination {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+
+/* Style the individual page item */
+.pagination li {
+  margin: 0 5px;
+  font-size: 16px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+/* Style the active page item */
+.pagination li.active {
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+}
+
+/* Style the previous and next buttons */
+.pagination li.previous,
+.pagination li.next {
+  background-color: #f7f7f7;
+  font-weight: bold;
+}
+
+/* Style the break label */
+.pagination li.break {
+  padding: 5px;
+}
+
+/* Style the "previous" and "next" text */
+.pagination li.previous a,
+.pagination li.next a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* Style the "previous" and "next" arrow icons */
+.pagination li.previous a::before,
+.pagination li.next a::before {
+  content: '«';
+}
+
+.pagination li.next a::before {
+  content: '»';
+}
+.circle-button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ec870b; /* Set the background color you want */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 68px;
+  margin-top: 5px;
+  cursor: pointer;
 }

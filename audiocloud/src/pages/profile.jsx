@@ -39,7 +39,7 @@ const Profile = () => {
                 const userDataResponse = await axios.get(`http://localhost:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
                 setUser(userDataResponse.data);
             } catch (error) {
-                console.error('Error fetching token:', error);
+                // console.error('Error fetching token:', error);
             }
         };
         fetchToken();

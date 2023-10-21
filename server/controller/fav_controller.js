@@ -45,6 +45,23 @@ const Fav_Controller = {
             console.log(err);
         }
     },
+    removeFav: async (req, res) => {
+        try{
+            const audioId = req.params.AudioId;
+            const userId = req.params.UserId;
+            const fav = await UserFav.findOne({UserId: userId});
+            if (!fav) {
+                // Handle the case where the UserFav document doesn't exist
+                return res.status(404).json({ error: "UserFav document not found" });
+            }
+
+            fav.ListAudio = fav.ListAudio.filter((audio) => audio.AudioId !== audioId);
+            await fav.save();
+            return res.status(201).json("Removed");
+        }catch(err){
+            console.log(err);
+        }
+    },
     // Add user to audio list fav
     addUserToAuFav: async(req, res) => {
 

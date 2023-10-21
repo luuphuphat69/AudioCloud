@@ -1,11 +1,15 @@
 import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import jwt from 'jwt-decode';
+import Notification from "./notify/notify_comp";
 
 const Favourite = () => {
 
     const [data, setData] = useState(null);
+    const [userId, setUserId] = useState(null);
     const [token, setToken] = useState(null);
+    const [showNotify, setNotify] = useState(false);
+
     const audioContext = useRef();
     const audioElements = useRef([]);
     const analyzers = useRef([]);
@@ -20,6 +24,7 @@ const Favourite = () => {
                 setToken(receivedToken);
 
                 const _user = jwt(token);
+                setUserId(_user.userId);
 
                 const responseData = await axios.get(`http://localhost:8000/v1/fav/get-list-fav/${_user?.userId}`);
                 setData(responseData.data);
@@ -29,6 +34,16 @@ const Favourite = () => {
         };
         fetchToken();
     }, [token]);
+
+    const handleRemove = async (audioId, userId) => {
+        await axios.put(`http://localhost:8000/v1/fav/remove/${audioId}/${userId}`);
+        removeItem(audioId);
+        setNotify(true);
+    }
+    const removeItem = (audioId) => {
+        // Filter out the removed item from the local state
+        setData((prevData) => prevData.filter((item) => item.AudioId !== audioId));
+    };
 
     useEffect(() => {
         audioContext.current = new AudioContext();
@@ -127,7 +142,7 @@ const Favourite = () => {
         <section className="cart_area padding_top">
             <div className="container">
                 {data?.map((item, index) => (
-                    <div key={item.AudioID} className="d-block d-md-flex podcast-entry mb-5" style={{ backgroundColor: "#EDEDED" }}>
+                    <div key={item.AudioId} className="d-block d-md-flex podcast-entry mb-5" style={{ backgroundColor: "#EDEDED" }}>
                         <div className="image-container p-3 mt-4">
                             {item.PhotoURL ? (
                                 <img src={item.PhotoURL} style={{ width: '170px', height: '160px' }} alt="" />
@@ -157,8 +172,18 @@ const Favourite = () => {
                             <canvas id={`canvas-${index}`} width={900} height={250} />
                             <audio ref={audioRef => (audioElements.current[index] = audioRef)} />
                         </div>
+                        <button className="circle-button" type="button" onClick={() => handleRemove(item.AudioId, userId)}>
+                            X
+                        </button>
                     </div>
                 ))}
+                {showNotify && (
+                <Notification
+                    message="Remove successfully"
+                    type="success" // Set the type of notification (success, info, warning, error)
+                    onClose={() => setNotify(false)} // Close the notification
+                />
+            )}
             </div>
         </section>
     );

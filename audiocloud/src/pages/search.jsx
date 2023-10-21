@@ -7,14 +7,24 @@ import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
 import Notification from '../component/notify/notify_comp';
 import Popup_Playlist from '../component/popup/add_to_playlist';
 import { useAPlayer } from '../component/player_context';
+import ReactPaginate from 'react-paginate';
+import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons form react-icons
+import { IconContext } from "react-icons";
 
 const Search = () => {
     const location = useLocation();
     const { searchResults } = location.state || { searchResults: [] };
 
+    // Paging
+    const [currentPage, setCurrentPage] = useState(0);
+    const itemsPerPage = 3;
+
     const [data, setData] = useState(searchResults); // Initialize with searchResults
     const [audio, setAudio] = useState([]);
     const [userId, setUserId] = useState('');
+
+    const offset = currentPage * itemsPerPage;
+    const paginatedData = data.slice(offset, offset + itemsPerPage);
 
     const [showNotification, setShowNotification] = useState(false);
     const [showPoppupPlaylist, setShowPopupPlaylist] = useState(false);
@@ -101,9 +111,9 @@ const Search = () => {
     }, [audio]);
 
     useEffect(() => {
-        if(searchResults){
-        // Update the data state when searchResults prop changes
-        setData(searchResults);
+        if (searchResults) {
+            // Update the data state when searchResults prop changes
+            setData(searchResults);
         }
     }, [searchResults]);
 
@@ -123,12 +133,12 @@ const Search = () => {
     const closePopup = () => {
         // Close popup
         setShowPopupPlaylist(false);
-      }
+    }
     return (
         <section className="cart_area padding_top">
             {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
             <div className="container">
-                {data.map((item) => (
+                {paginatedData.map((item) => (
                     <div class="d-block d-md-flex podcast-entry mb-5" style={{ backgroundColor: "#EDEDED" }}>
                         <div className="image-container p-3 mt-4">
                             {item.PhotoURL ? (
@@ -198,10 +208,30 @@ const Search = () => {
                                 type="success" // Set the type of notification (success, info, warning, error)
                                 onClose={() => setShowNotification(false)} // Close the notification
                             />
-                            
+
                         )}
                     </div>
                 ))}
+                <div style={{marginBottom:"100px"}}>
+                    <ReactPaginate
+                        containerClassName={"pagination"}
+                        pageClassName={"page-item"}
+                        activeClassName={"active"}
+                        onPageChange={(event) => setCurrentPage(event.selected)}
+                        pageCount={Math.ceil(data.length / itemsPerPage)}
+                        breakLabel="..."
+                        previousLabel={
+                            <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
+                                <AiFillLeftCircle />
+                            </IconContext.Provider>
+                        }
+                        nextLabel={
+                            <IconContext.Provider value={{ color: "#B8C1CC", size: "36px" }}>
+                                <AiFillRightCircle />
+                            </IconContext.Provider>
+                        }
+                    />
+                </div>
             </div>
         </section>
     );
