@@ -48,39 +48,38 @@ const Login = () => {
 
     return (
         <body className="custom_container">
-             <Navbar />
-            <div className="mycontainer">
-                <div className="signup-content">
-                    <form method="POST" id="login-form" className="signin-form">
-                        <h2 className="textH2">Sign In </h2>
-                        <div className="form-group">
-                            <input type="text" className="form-input" name="name" id="account" placeholder="Your Account" />
-                        </div>
-                        <div className="form-group">
-                            <input type="text" className="form-input" name="password" id="password" placeholder="Password" />
-                            <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
-                            <a className="forgot-password" href=''>Forgot password ?</a>
-                        </div>
-                        <div className="separator textColor">Or</div>
-                        <div className='icon_login'>
-                            <img src='../src/assets/img/facebook.png' className='icon' />
-                            <img src='../src/assets/img/google_pic.png' className='icon' />
-                            <img src='../src/assets/img/instagram.png' className='icon' />
-                        </div>
-                        <div className="form-group d-flex justify-content-between">
-                            <button
-                                type="submit"
-                                name="submit"
-                                id="submit"
-                                value="Sign up"
-                                className="btn-61">
-                                <span>Sign In</span>
-                            </button>
-                            <a href="/register" className="submit-link submit">Sign Up</a>
-                        </div>
-                    </form>
-                </div>
+            <Navbar />
+            <div className="signup-content">
+                <form method="POST" id="login-form" className="signin-form">
+                    <h2 className="textH2">Sign In </h2>
+                    <div className="form-group">
+                        <input type="text" className="form-input" name="name" id="account" placeholder="Your Account" />
+                    </div>
+                    <div className="form-group">
+                        <input type="text" className="form-input" name="password" id="password" placeholder="Password" />
+                        <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
+                        <a className="forgot-password" href=''>Forgot password ?</a>
+                    </div>
+                    <div className="separator textColor">Or</div>
+                    <div style={{display: 'flex', justifyContent:"center"}}>
+                        <img src='../src/assets/img/facebook.png' className='icon' />
+                        <img src='../src/assets/img/google_pic.png' className='icon' />
+                        <img src='../src/assets/img/instagram.png' className='icon' />
+                    </div>
+                    <div className="form-group d-flex justify-content-between">
+                        <button
+                            type="submit"
+                            name="submit"
+                            id="submit"
+                            value="Sign up"
+                            className="btn-61">
+                            <span>Sign In</span>
+                        </button>
+                        <a href="/register" className="submit-link submit">Sign Up</a>
+                    </div>
+                </form>
             </div>
+
         </body>
     );
 }

@@ -66,7 +66,6 @@ const Register = () => {
             <div>
                 <Navbar />
             </div>
-            <div className="mycontainer">
                 <div className="signup-content">
                     <form method="POST" id="signup-form" className="signup-form" onSubmit={handleSubmit}>
                         <h2 className="textH2">Sign Up</h2>
@@ -119,7 +118,7 @@ const Register = () => {
                             />
                         </div>
                         <div className="separator textColor">Or</div>
-                        <div>
+                        <div style={{display: 'flex', justifyContent:"center"}}>
                             <img src="../src/assets/img/facebook.png" className="icon" />
                             <img src="../src/assets/img/google_pic.png" className="icon" />
                             <img src="../src/assets/img/instagram.png" className="icon" />
@@ -137,7 +136,6 @@ const Register = () => {
                         </div>
                     </form>
                 </div>
-            </div>
         </body>
     );
 };
