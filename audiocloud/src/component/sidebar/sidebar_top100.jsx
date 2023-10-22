@@ -10,7 +10,7 @@ const SidebarTop100 = () => {
     const [audio, setAudio] = useState([]);
     const [userId, setUserId] = useState('');
     // Init Player
-    const { initializeAPlayer } = useAPlayer();
+    const { initializeAPlayer} = useAPlayer();
 
     useEffect(() => {
         const fetchToken = async () => {
@@ -33,7 +33,7 @@ const SidebarTop100 = () => {
     const handleLike = async (audioId) => {
         try{
             console.log(userId);
-            const response = await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
         }catch(err){
             console.log(err);
         }
@@ -69,7 +69,7 @@ const SidebarTop100 = () => {
             <h3 className="widget_title">TOP 100</h3>
             <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
                 {data.map((item) => (
-                    <div class="d-block d-md-flex podcast-entry mb-5" data-aos="fade-up">
+                    <div key={item.AudioId} class="d-block d-md-flex podcast-entry mb-5" data-aos="fade-up">
                         <div className="image-container">
                             {item.PhotoURL ? (
                                 <img src={item.PhotoURL} style={{ width: '90px', height: '90px' }} alt="" />

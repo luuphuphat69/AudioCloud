@@ -160,7 +160,7 @@ const Tracks = () => {
                             <canvas id={`canvas-${index}`} width={900} height={250} />
                             <audio ref={audioRef => (audioElements.current[index] = audioRef)} />
                         </div>
-                        <LongMenu/>
+                        <LongMenu audioId={item.AudioId}/>
                     </div>
                 ))}
             </div>

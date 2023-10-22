@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import Tab_AddToPlaylist from "../tab_addtoplaylist";
-import Tab_CreatePlaylist from "../tab_createaplaylist";
+import Tab_AddToPlaylist from "../tab/tab_addtoplaylist";
+import Tab_CreatePlaylist from "../tab/tab_createaplaylist";
 
 const Popup_Playlist = ({audioId, closePopup }) => {
   const [activeTab, setActiveTab] = useState("add"); // Set the default tab to "add"

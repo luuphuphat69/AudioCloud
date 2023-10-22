@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Notification from '../component/notify/notify_comp';
+import Notification from '../notify/notify_comp';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 
@@ -42,7 +42,7 @@ const Tab_AddToPlaylist = (audioId) => {
     const handleClick = async (audioId, playlistId) => {
         console.log(audioId.audioId);
         setShowNotification(true);
-        const addtoplaylist = await axios.put(`http://localhost:8000/v1/playlist/add-to-playlist/${audioId.audioId}/${playlistId}`);
+        await axios.put(`http://localhost:8000/v1/playlist/add-to-playlist/${audioId.audioId}/${playlistId}`);
         console.log("add success");
     }
 

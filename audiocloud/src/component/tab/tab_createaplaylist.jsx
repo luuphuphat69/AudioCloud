@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import jwt from 'jwt-decode';
 import axios from "axios";
-import Notification from '../component/notify/notify_comp';
+import Notification from '../notify/notify_comp';
 
 const Tab_CreatePlaylist = () => {
     const popupFormStyle = {
