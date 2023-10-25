@@ -9,6 +9,7 @@ import Home from './pages/home';
 import Search from './pages/search';
 import Upload from './pages/upload';
 import Profile from './pages/profile';
+import Details from './pages/song_details';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -47,6 +48,7 @@ function App() {
       <APlayerProvider>
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/details/:audioId" element={<Details />} />
           <Route path='/home' exact element={<Home />} />
           <Route path='/profile' element={isLoggedIn === false ? <Profile /> : <Navigate to="/login" />} />
           <Route path='/login' element={<Login />} />

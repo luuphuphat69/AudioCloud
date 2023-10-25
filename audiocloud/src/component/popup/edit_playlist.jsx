@@ -105,7 +105,9 @@ const EditPlaylist_Popup = ({ playlistId, closePopup }) => {
                                 </div>
 
                                 <div className="text ml-2">
-                                    <h5>{item.AudioName}</h5>
+                                    <h5>
+                                        <a href={`/details/${item.AudioId}`}>{item.AudioName}</a>
+                                    </h5>
                                     <h6 className='font-weight-light'>{item.Genre}</h6>
                                 </div>
                                 <button className='mt-2' style={{ marginLeft: "auto", height: "50px", color: "#000" }} onClick={() => handleRemoveAudio(item.AudioId, playlistId)}>Remove</button>

@@ -74,7 +74,7 @@ const SidebarTop100 = () => {
                             {item.PhotoURL ? (
                                 <img src={item.PhotoURL} style={{ width: '90px', height: '90px' }} alt="" />
                             ) : (
-                                <img style={{ width: '90px', height: '90px' }} src="./src/assets/img/blur_img.png" alt="Default" />
+                                <img style={{ width: '90px', height: '90px' }} src="../src/assets/img/blur_img.png" alt="Default" />
                             )}
                             <div className="center-button">
                                 <button className="btn-95" style={{ width: "50px", height: "50px"}} onClick={() => handleClick(item.AudioURL, item.PhotoURL, item.AudioName, item.UserDisplayname)}>
@@ -87,7 +87,7 @@ const SidebarTop100 = () => {
                             </div>
                         </div>
                         <div class="text">
-                            <h5 class="font-weight-light ml-3"><a href="single-post.html">{item.AudioName}</a></h5>
+                            <h5 class="font-weight-light ml-3"><a href={`/details/${item.AudioId}`}>{item.AudioName}</a></h5>
                             <p class="mb-1 ml-3">{item.UserDisplayname}</p>
                         </div>
                         <div className='ml-auto mr-2'>

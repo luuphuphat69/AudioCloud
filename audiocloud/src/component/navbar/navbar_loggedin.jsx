@@ -31,7 +31,7 @@ const NavbarLoggedIn = () => {
                     <nav className="navbar navbar-expand-lg ftco-navbar-light bg-light" id="ftco-navbar">
                         <div className="container">
                             <div>
-                                <img src="./src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
+                                <img src="../src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
                                 <a className="navbar-brand" href="/home">Audio Cloud <span>spacespeaking.inc</span></a>
                             </div>
                             <div className="collapse navbar-collapse" id="ftco-nav">

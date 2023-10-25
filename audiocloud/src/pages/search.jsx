@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import axios for API requests
 import jwt from 'jwt-decode';
+import { Navigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
@@ -157,9 +158,11 @@ const Search = () => {
                             </div>
                         </div>
                         <div class="text">
-                            <h3 class="font-weight-light p-3"><a href="single-post.html">{item.AudioName}</a></h3>
+                            <h3 class="font-weight-light p-3">
+                                <a href={`/details/${item.AudioId}`}>{item.AudioName}</a>
+                            </h3>
                             <h5 class="font-weight-light mb-4 ml-3">
-                                By: <a href='#'>{item.UserDisplayname}</a>
+                                By: {item.UserDisplayname}
                             </h5>
                             <p className='ml-3'>Plays: {item.Plays}</p>
                             <div className='ml-3' style={{ display: 'flex' }}>
@@ -180,16 +183,6 @@ const Search = () => {
                                         <p>Add to playlist</p>
                                     </div>
                                 </button>
-                                {/* 
-                                <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
-                                    <div className='box'>
-                                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/music-album.png' style={{ width: "30px", height: "30px" }} />
-                                    </div>
-                                    <div className='box mt-3'>
-                                        <p>Add to album</p>
-                                    </div>
-                                </button> */}
-
                                 <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDownload(item.AudioURL, item.AudioName)}>
                                     <div className='box'>
                                         <img className='mr-3 horizontal-button' src='../src/assets/img/icon/download.png' style={{ width: "20px", height: "20px" }} />
@@ -199,7 +192,6 @@ const Search = () => {
                                     </div>
                                 </button>
                             </div>
-
                         </div>
                         {showPoppupPlaylist && <Popup_Playlist audioId={item.AudioId} closePopup={closePopup} />}
                         {showNotification && (

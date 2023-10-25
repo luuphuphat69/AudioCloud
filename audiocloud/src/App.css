@@ -18,7 +18,7 @@
   margin-top: 10px;
   margin-right: 10px;
   margin-bottom: 20px;
-  
+
 }
 
 .playlist {
@@ -296,12 +296,12 @@
   border-radius: 50%;
   box-sizing: border-box;
   display: block;
-  height: 100px;
+  height: 60px;
   -webkit-mask-image: none;
   padding: 0;
   position: relative;
   transition: 0.2s;
-  width: 100px;
+  width: 60px;
 }
 
 .btn-95:hover {
@@ -420,29 +420,38 @@
   bottom: -250px;
   width: 100%;
 
-.icon_login{
-  justify-content: center;
-  display: flex;
+  .icon_login {
+    justify-content: center;
+    display: flex;
+  }
+
+  .icon {
+    width: 40px;
+    height: 40px;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+  }
+
+  .box {
+    display: inline-block;
+    /* Make the divs appear side by side */
+    width: 100px;
+    /* Set the width of each div */
+    height: 100px;
+    /* Set the height of each div */
+    background-color: #007bff;
+    color: white;
+    margin: 10px;
+    /* Optional: Add some spacing between the divs */
+    text-align: center;
+    /* Optional: Center the content horizontally within each div */
+    line-height: 100px;
+    /* Optional: Vertically center the content within each div */
+  }
 }
-.icon {
-  width: 40px; 
-  height: 40px; 
-  margin-top: 10px; 
-  margin-left: 10px;
-  margin-right: 10px; 
-  margin-bottom: 20px; 
-}
-.box {
-  display: inline-block; /* Make the divs appear side by side */
-  width: 100px; /* Set the width of each div */
-  height: 100px; /* Set the height of each div */
-  background-color: #007bff;
-  color: white;
-  margin: 10px; /* Optional: Add some spacing between the divs */
-  text-align: center; /* Optional: Center the content horizontally within each div */
-  line-height: 100px; /* Optional: Vertically center the content within each div */
-}
-}
+
 .wrapper {
   margin: auto;
   max-width: 640px;
@@ -475,7 +484,7 @@
 
 .border-container {
   border: 5px dashed rgba(198, 198, 198, 0.65);
-/*   border-radius: 4px; */
+  /*   border-radius: 4px; */
   padding: 20px;
 }
 
@@ -491,7 +500,7 @@
 
 #file-browser {
   text-decoration: none;
-  color: rgb(22,42,255);
+  color: rgb(22, 42, 255);
   border-bottom: 3px dotted rgba(22, 22, 255, 0.85);
 }
 
@@ -508,24 +517,28 @@
 .modal {
   font-size: 12px;
 }
-.modal > .header {
+
+.modal>.header {
   width: 100%;
   border-bottom: 1px solid gray;
   font-size: 18px;
   text-align: center;
   padding: 5px;
 }
-.modal > .content {
+
+.modal>.content {
   width: 100%;
   padding: 10px 5px;
 }
-.modal > .actions {
+
+.modal>.actions {
   width: 100%;
   padding: 10px 5px;
   margin: auto;
   text-align: center;
 }
-.modal > .close {
+
+.modal>.close {
   cursor: pointer;
   position: absolute;
   display: block;
@@ -538,12 +551,14 @@
   border-radius: 18px;
   border: 1px solid #cfcece;
 }
+
 .notification {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   padding: 8px;
 }
+
 .notification__left {
   display: flex;
   flex-direction: row;
@@ -551,18 +566,21 @@
   gap: 8px;
   margin-right: 24px;
 }
+
 .notification__content {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   padding: 0px;
 }
+
 .notification__title {
   font-family: "Inter";
   font-style: normal;
   font-weight: 500;
   font-size: 14px;
 }
+
 .notification__description {
   font-family: "Inter";
   font-style: normal;
@@ -570,6 +588,7 @@
   font-size: 12px;
   padding: 0;
 }
+
 .notification__success {
   background: #f6fef9;
   border: 1px solid #2f9461;
@@ -581,14 +600,17 @@
   border: 1px solid #cd3636;
   border-radius: 8px;
 }
+
 .notification__warning {
   background: #fffcf5;
   border: 1px solid #c8811a;
   border-radius: 8px;
 }
+
 .notification_icon_error {
   color: #cd3636;
 }
+
 .notification__icon__success {
   color: #2f9461;
 }
@@ -596,6 +618,7 @@
 .notification__icon__warning {
   color: #c8811a;
 }
+
 .notification__description__success {
   color: #53b483;
 }
@@ -603,32 +626,40 @@
 .notification__description__warning {
   color: #e9a23b;
 }
+
 .notification__description__error {
   color: #f34141;
 }
+
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(220, 216, 216, 0.5); /* Semi-transparent background color */
-  backdrop-filter: blur(5px); /* Apply a blur effect */
-  z-index: 1000; /* Make the overlay appear above other content */
+  background: rgba(220, 216, 216, 0.5);
+  /* Semi-transparent background color */
+  backdrop-filter: blur(5px);
+  /* Apply a blur effect */
+  z-index: 1000;
+  /* Make the overlay appear above other content */
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.card-custome{
+
+.card-custome {
   max-width: 41rem;
   padding: 0;
   border: none;
   border-radius: 0.5rem;
 }
+
 .nav-link {
-  color: rgb(0,0,0);
+  color: rgb(0, 0, 0);
   font-weight: 500;
 }
+
 .nav-link:hover {
   color: rgb(239, 133, 11);
 }
@@ -639,6 +670,7 @@
   border-radius: 0.5rem 0.5rem 0 0;
   font-weight: 600;
 }
+
 /* SearchPagination.css */
 
 /* Style the pagination container */
@@ -693,11 +725,13 @@
 .pagination li.next a::before {
   content: '»';
 }
+
 .circle-button {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #ec870b; /* Set the background color you want */
+  background-color: #000;
+  /* Set the background color you want */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -706,28 +740,35 @@
   margin-top: 5px;
   cursor: pointer;
 }
+
 .circle-button-1 {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #ec870b; /* Set the background color you want */
+  background-color: #ec870b;
+  /* Set the background color you want */
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
   cursor: pointer;
 }
+
 .button-container {
   position: absolute;
   top: 5px;
   right: 45px;
-  z-index: 1; /* Ensure the button is above other content */
+  z-index: 1;
+  /* Ensure the button is above other content */
   /* You can adjust the top and right values to position the button as needed */
 }
+
 .playlist-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Adjust the number of columns as needed */
-  gap: 20px; /* Adjust the gap between items */
+  grid-template-columns: repeat(3, 1fr);
+  /* Adjust the number of columns as needed */
+  gap: 20px;
+  /* Adjust the gap between items */
 }
 
 .playlist-item {
@@ -740,4 +781,84 @@
 .playlist-item img {
   max-width: 100%;
   height: auto;
+}
+
+.hero {
+  background: #FFA33C;
+  padding: calc(4rem) 0 0 0; /* Adjust the bottom padding as needed */
+}
+
+.hero .intro-excerpt {
+  top: -100px;
+  position: relative;
+  z-index: 3;
+}
+
+@media (min-width: 992px) {
+  .hero .intro-excerpt {
+    max-width: 450px;
+  }
+}
+
+.hero h1 {
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 30px;
+}
+
+@media (min-width: 1400px) {
+  .hero h1 {
+    font-size: 54px;
+  }
+}
+
+.hero p {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.hero .hero-img-wrap {
+  position: relative;
+}
+
+.hero .hero-img-wrap img {
+  position: relative;
+  margin-left: 39%;
+  z-index: 2;
+  margin-top: 5%;
+  width: 400px;
+  height: 330px;
+}
+
+@media (min-width: 768px) {
+  .hero .hero-img-wrap img {
+    right: 0px;
+    left: -100px;
+  }
+}
+
+@media (min-width: 992px) {
+  .hero .hero-img-wrap img {
+    left: 0px;
+    top: -80px;
+    position: absolute;
+    right: -50px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero .hero-img-wrap img {
+    left: 50px;
+    top: -80px;
+    right: -100px;
+  }
+}
+
+.comment-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.comment-details {
+  margin-left: 10px;
 }

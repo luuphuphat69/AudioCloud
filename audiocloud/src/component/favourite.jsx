@@ -80,11 +80,12 @@ const Favourite = () => {
                     // ctx.fillStyle = `rgb(${barHeight + 100},50,50)`;
                     ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight);
 
-                    let gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-                    gradient.addColorStop(0.2, "#2392f5");
-                    gradient.addColorStop(0.5, "#fe0095");
-                    gradient.addColorStop(1.0, "purple");
-                    ctx.fillStyle = gradient;
+                    // let gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+                    // gradient.addColorStop(0.2, "#2392f5");
+                    // gradient.addColorStop(0.5, "#fe0095");
+                    // gradient.addColorStop(1.0, "purple");
+                    // ctx.fillStyle = gradient;
+                    ctx.fillStyle = "#F6F1EE";
 
                     x += barWidth + 1;
                 }
@@ -142,7 +143,7 @@ const Favourite = () => {
         <section className="cart_area padding_top">
             <div className="container">
                 {data?.map((item, index) => (
-                    <div key={item.AudioId} className="d-block d-md-flex podcast-entry mb-5" style={{ backgroundColor: "#EDEDED" }}>
+                    <div key={item.AudioId} className="d-block d-md-flex podcast-entry mb-5" style={{ backgroundColor: "#FFA33C" }}>
                         <div className="image-container p-3 mt-4">
                             {item.PhotoURL ? (
                                 <img src={item.PhotoURL} style={{ width: '170px', height: '160px' }} alt="" />
@@ -160,9 +161,9 @@ const Favourite = () => {
                             </div>
                         </div>
                         <div className="text" style={{ width: "140px" }}>
-                            <h5 className="font-weight-light p-3"><a href="single-post.html">{item.AudioName}</a></h5>
-                            <h6 className="font-weight-light mb-4 ml-3">
-                                <a href='#'> {item.UserDisplayname}</a>
+                            <h5 className="font-weight-light p-3" style={{color: "#000"}}><a href={`/details/${item.AudioId}`}>{item.AudioName}</a></h5>
+                            <h6 className="font-weight-light mb-4 ml-3" style={{color:"#000"}}>
+                               {item.UserDisplayname}
                             </h6>
                             <h6 className="font-weight-light mb-4 ml-3">
                                 <p> Plays: {item.Plays}</p>

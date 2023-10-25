@@ -201,7 +201,6 @@ const Home = () => {
                     {isLoggedIn ? <Sidebar /> : <SidebarTop100 />}
                     </div>
                 </div>
-                
             </div>
         </section>
     );

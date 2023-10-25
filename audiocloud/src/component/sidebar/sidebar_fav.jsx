@@ -54,7 +54,7 @@ const SidebarFav = () => {
                         {item.PhotoURL ? (
                             <img src={item.PhotoURL} style={{ width: '90px', height: '90px' }} alt="" />
                         ) : (
-                            <img style={{ width: '90px', height: '90px' }} src="./src/assets/img/blur_img.png" alt="Default" />
+                            <img style={{ width: '90px', height: '90px' }} src="../src/assets/img/blur_img.png" alt="Default" />
                         )}
                         <div className="center-button">
                             <button className="btn-95" style={{ width: "50px", height: "50px" }} onClick={() => handleClick(item.AudioURL, item.PhotoURL, item.AudioName, item.UserDisplayname)}>
