@@ -76,7 +76,7 @@ const Playlists = () => {
                             </div>
                         </div>
                         <h2>{item.Title}</h2>
-                        <p>Genre: {item.Genre}</p>
+                        <p>Thể loại: {item.Genre}</p>
                     </div>
                 ))}
                 {showNotification && (

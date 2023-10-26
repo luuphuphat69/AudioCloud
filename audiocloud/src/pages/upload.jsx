@@ -139,7 +139,7 @@ const Upload = () => {
                         <h2 className="h1_upload">Đăng tải bài hát của bạn</h2>
                         <div className="upload-container">
                             <div className="border-container">
-                                <input type="file" style={{color:"#000"}} id="Audio" name="Audio" accept=".mp3 .wav .flac" onChange={handleFileInputChange} required />
+                                <input type="file" style={{color:"#000"}} id="Audio" name="Audio" accept=".mp3" onChange={handleFileInputChange} required />
                                 <p>
                                     Hãy chọn file bài hát trước khi đăng tải.
                                 </p>

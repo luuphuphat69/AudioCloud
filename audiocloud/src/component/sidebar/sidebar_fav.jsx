@@ -67,7 +67,7 @@ const SidebarFav = () => {
                         </div>
                     </div>
                     <div className="media-body">
-                        <a href="single-blog.html">
+                        <a href={`/details/${item.AudioId}`}>
                             <h3>{item.AudioName}</h3>
                         </a>
                         <div>
