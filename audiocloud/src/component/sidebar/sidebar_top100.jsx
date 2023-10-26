@@ -7,10 +7,10 @@ import LongMenu from '../menu/audio_menu';
 const SidebarTop100 = () => {
     const apiEndpoint = 'http://localhost:8000/v1/audio/getTop100';
     const [data, setData] = useState([]);
-    const [audio, setAudio] = useState([]);
     const [userId, setUserId] = useState('');
+
     // Init Player
-    const { initializeAPlayer} = useAPlayer();
+    const { initializeAPlayer } = useAPlayer();
 
     useEffect(() => {
         const fetchToken = async () => {
@@ -24,34 +24,7 @@ const SidebarTop100 = () => {
             }
         };
         fetchToken();
-    }, [userId]);
-
-    useEffect(() => {
-        console.log("Data: ", userId); // Log the data here, within a separate useEffect
-    }, [userId]);
-
-    const handleLike = async (audioId) => {
-        try{
-            console.log(userId);
-            await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
-        }catch(err){
-            console.log(err);
-        }
-    }
-
-    const handleClick = async (audioURL, photoURL, audioName, userDisplayname) => {
-        setAudio([{
-            AudioURL: audioURL,
-            PhotoURL: photoURL,
-            AudioName: audioName,
-            UserDisplayname: userDisplayname,
-        }]);
-    }
-
-    useEffect(() => {
-        // Initialize APlayer when data is available
-        initializeAPlayer(audio);
-    }, [audio]);
+    }, []);
 
     useEffect(() => {
         // Fetch data from the API endpoint
@@ -63,6 +36,25 @@ const SidebarTop100 = () => {
                 console.error('Error fetching data:', error);
             });
     }, [apiEndpoint]);
+
+    const handleLike = async (audioId) => {
+        try {
+            console.log(userId);
+            await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleClick = (audioURL, photoURL, audioName, userDisplayname) => {
+        // Initialize the player first
+        initializeAPlayer([{
+            AudioURL: audioURL,
+            PhotoURL: photoURL,
+            AudioName: audioName,
+            UserDisplayname: userDisplayname,
+        }]);
+    }
 
     return (
         <aside className="single_sidebar_widget popular_post_widget">

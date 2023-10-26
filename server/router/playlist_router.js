@@ -9,4 +9,5 @@ router.post("/create/:UserId", PlaylistController.createPlaylist);
 router.put("/edit/:PlaylistId", PlaylistController.editPlaylist);
 router.delete("/delete/:PlaylistId", PlaylistController.removePlaylist);
 router.put("/remove-audio/:AudioId/:PlaylistId", PlaylistController.removeAudio);
+router.get("/search", PlaylistController.search);
 module.exports = router;

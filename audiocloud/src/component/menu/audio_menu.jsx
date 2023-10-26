@@ -10,8 +10,8 @@ import Notification from '../notify/notify_comp';
 import Popup_Playlist from '../popup/add_to_playlist';
 
 const options = [
-  { label: 'Like', icon: <FavoriteBorderIcon /> },
-  { label: 'Add to playlist', icon: <PlaylistAddIcon /> },
+  { label: 'Thích', name:'Like', icon: <FavoriteBorderIcon /> },
+  { label: 'Thêm vào playlist', name: 'Add to playlist', icon: <PlaylistAddIcon /> },
 ];
 
 const ITEM_HEIGHT = 48;
@@ -75,7 +75,7 @@ export default function LongMenu({ audioId, handleLike}) {
           },
         }}>
         {options.map((option) => (
-          <MenuItem key={option.label} onClick={option.label === 'Like' ? handleLikeClick : option.label === 'Add to playlist' ? handlePlaylistClick : handleClose}>
+          <MenuItem key={option.label} onClick={option.name === 'Like' ? handleLikeClick : option.name === 'Add to playlist' ? handlePlaylistClick : handleClose}>
             <ListItemIcon>{option.icon}</ListItemIcon>
             {option.label}
           </MenuItem>
@@ -84,7 +84,7 @@ export default function LongMenu({ audioId, handleLike}) {
       {/* Render the Notification component */}
       {showNotification && (
         <Notification
-          message="You liked this item!"
+          message="Đã thích bài hát !!"
           type="success" // Set the type of notification (success, info, warning, error)
           onClose={() => setShowNotification(false)} // Close the notification
         />

@@ -42,7 +42,7 @@ const NavbarLoggedOut = () => {
                                     <input type="text"
                                         className="form-control pl-3"
                                         style={{ width: '300px' }}
-                                        placeholder="Search"
+                                        placeholder="Tìm kiếm"
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)} />
                                 </div>

@@ -18,7 +18,7 @@ const PlaylistSchema = new mongoose.Schema({
         require:true,
     },
     IsPublic:{
-        type:String,
+        type:Boolean,
         require: true,
     },
     ListAudio:{

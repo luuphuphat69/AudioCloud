@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import NavbarLoggedIn from "../component/navbar/navbar_loggedin";
 import NavbarLoggedOut from "../component/navbar/navbar_loggedout";
+import Notification from "../component/notify/notify_comp";
+import Popup_Playlist from "../component/popup/add_to_playlist";
 import SidebarTop100 from "../component/sidebar/sidebar_top100";
 import jwt from "jwt-decode";
 import axios from 'axios';
@@ -14,6 +16,8 @@ const Details = () => {
     const [user, setUser] = useState(null);
     const [comment, setComment] = useState('');
     const [data, setData] = useState([]);
+    const [popup, setShowPopup] = useState(false);
+    const [showNotification, setShowNotification] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -53,6 +57,60 @@ const Details = () => {
             setIsLoggedIn(false);
         }
     };
+
+    useEffect(() => {
+        // Fetch audio details based on the audioId
+        axios.get(`http://localhost:8000/v1/audio/getAudioInfo/${audioId}`)
+            .then(response => {
+                setAudioDetails(response.data);
+            })
+            .catch(error => {
+                console.error("Error fetching audio details:", error);
+            });
+    }, [audioId]);
+
+    const handleSubmit = async () => {
+        const formData = new URLSearchParams();
+
+        formData.append('audioId', audioId);
+        formData.append('commentContent', comment); // Use the comment state
+        formData.append('photoURL', user.ProfilePic);
+        formData.append('userId', user.UserId);
+        formData.append('userDisplayname', user.Displayname);
+
+        await axios.post('http://localhost:8000/v1/comment/post', formData, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        });
+    }
+
+    const handlePlaylist = async () => {
+        setShowPopup(true);
+    }
+    const handleClosePopup = () => {
+        setShowPopup(false);
+    }
+
+    const handleLike = async (audioId, userId) => {
+        try {
+            await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            setShowNotification(true);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const handleDownload = (downloadURL, fileName) => {
+        const anchor = document.createElement('a');
+        anchor.href = downloadURL;
+        anchor.download = fileName; // Optional, set a custom filename
+        anchor.style.display = 'none';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+    }
 
     const audioContext = useRef();
     const audioElement = useRef();
@@ -142,34 +200,6 @@ const Details = () => {
         }
     };
 
-    useEffect(() => {
-        // Fetch audio details based on the audioId
-        axios.get(`http://localhost:8000/v1/audio/getAudioInfo/${audioId}`)
-            .then(response => {
-                setAudioDetails(response.data);
-            })
-            .catch(error => {
-                console.error("Error fetching audio details:", error);
-            });
-    }, [audioId]);
-
-    const handleSubmit = async () => {
-        const formData = new URLSearchParams();
-
-        formData.append('audioId', audioId);
-        formData.append('commentContent', comment); // Use the comment state
-        formData.append('photoURL', user.ProfilePic);
-        formData.append('userId', user.UserId);
-        formData.append('userDisplayname', user.Displayname);
-
-        await axios.post('http://localhost:8000/v1/comment/post', formData, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-            },
-        });
-    }
-
     return (
         <div className="container">
             {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
@@ -223,7 +253,7 @@ const Details = () => {
                     <div className='box'>
                         <img className='mr-3 horizontal-button' src='../src/assets/img/icon/heart.png' style={{ width: "20px", height: "20px" }} />
                     </div>
-                    <div className='box mt-3'>
+                    <div className='box mt-3' onClick={() => handleLike(audioId, user.UserId)}>
                         <p>Likes</p>
                     </div>
                 </button>
@@ -231,7 +261,7 @@ const Details = () => {
                     <div className='box'>
                         <img className='mr-3 horizontal-button' src='../src/assets/img/icon/playlist.png' style={{ width: "20px", height: "20px" }} />
                     </div>
-                    <div className='box mt-3'>
+                    <div className='box mt-3' onClick={handlePlaylist}>
                         <p>Add to playlist</p>
                     </div>
                 </button>
@@ -239,7 +269,7 @@ const Details = () => {
                     <div className='box'>
                         <img className='mr-3 horizontal-button' src='../src/assets/img/icon/download.png' style={{ width: "20px", height: "20px" }} />
                     </div>
-                    <div className='box mt-3'>
+                    <div className='box mt-3' onClick={() => handleDownload(audioDetails.AudioURL, audioDetails.AudioName)}>
                         <p>Download</p>
                     </div>
                 </button>
@@ -264,7 +294,14 @@ const Details = () => {
                     <SidebarTop100 />
                 </div>
             </div>
-
+            {popup ? <Popup_Playlist audioId={audioId} closePopup={handleClosePopup} /> : null}
+            {showNotification && (
+                <Notification
+                    message="You liked this item!"
+                    type="success" // Set the type of notification (success, info, warning, error)
+                    onClose={() => setShowNotification(false)} // Close the notification
+                />
+            )}
         </div>
     );
 }

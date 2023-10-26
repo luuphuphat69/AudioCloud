@@ -49,7 +49,7 @@ const Tab_CreatePlaylist = () => {
                     // Handle validation errors here
                     setShowNotification(true);
                 } else {
-                    window.alert('Success');
+                    window.alert('Tạo playlist thành công');
                 }
             }).catch((error) => {
                 console.log(error);
@@ -70,18 +70,18 @@ const Tab_CreatePlaylist = () => {
             <form method="POST">
                 <div className="container_upload">
                     {/* Title Input */}
-                <input type="text" id="title" className="form-control" placeholder="Title" required/>
+                <input type="text" id="title" className="form-control" placeholder="Tiêu đề" required/>
                 {/* Genre Input */}
-                <input type="text" id="genre" className="form-control mt-2" placeholder="Genre" />
+                <input type="text" id="genre" className="form-control mt-2" placeholder="Thể loại" />
                 {/* Access Input */}
-                <label className="mt-3 ml-1">Access:</label>
+                <label className="mt-3 ml-1">Riêng tư:</label>
                 <label className="radio-label mt-3 ml-3">
                     <input
                         type="radio"
                         name="access"
                         value="public"
                         onChange={() => handleRadioChange(true)} required />
-                    Public
+                    Công khai
                 </label>
                 <label className="radio-label ml-5 mt-3">
                     <input
@@ -89,7 +89,7 @@ const Tab_CreatePlaylist = () => {
                         name="access"
                         value="private"
                         onChange={() => handleRadioChange(false)} />
-                    Private
+                    Cá nhân
                 </label>
                 </div>
                 <div style={{display:'flex', justifyContent:'center'}}>
@@ -98,7 +98,7 @@ const Tab_CreatePlaylist = () => {
             </form>
             {showNotification && (
                 <Notification
-                    message="Playlist is exist. Try another name"
+                    message="Playlist đã tồn tại. Hãy thử bằng tên khác"
                     type="error" // Set the type of notification (success, info, warning, error)
                     onClose={() => setShowNotification(false)} // Close the notification
                 />

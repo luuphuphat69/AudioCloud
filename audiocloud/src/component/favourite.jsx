@@ -180,7 +180,7 @@ const Favourite = () => {
                 ))}
                 {showNotify && (
                 <Notification
-                    message="Remove successfully"
+                    message="Xóa thành công"
                     type="success" // Set the type of notification (success, info, warning, error)
                     onClose={() => setNotify(false)} // Close the notification
                 />

@@ -47,7 +47,7 @@ const SidebarFav = () => {
 
     return (
         <aside className="single_sidebar_widget popular_post_widget">
-            <h3 className="widget_title">Favourite</h3>
+            <h3 className="widget_title">Yêu thích</h3>
             {data.slice(0, 3).map((item) => (
                 <div className="media post_item" key={item.AudioId}>
                     <div className="image-container">
@@ -79,7 +79,7 @@ const SidebarFav = () => {
                 </div>
             ))}
             <div className='mt-4'>
-                <a href='#'>See more</a>
+                <a href='#'>Xem thêm</a>
             </div>
         </aside>
     );

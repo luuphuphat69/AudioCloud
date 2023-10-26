@@ -17,9 +17,14 @@ const NavbarLoggedIn = () => {
 
         try {
             const response = await axios.get(`http://localhost:8000/v1/audio/search?queries=${searchTerm}`);
+            const response2 = await axios.get(`http://localhost:8000/v1/playlist/search?queries=${searchTerm}`);
+            console.log(response2.data);
             // Redirect to the search page with search results as a URL parameter
             // Navigate to the /search page with response data as a prop
-            navigate('/search', { state: { searchResults: response.data } });
+            navigate('/search', {  state: {
+                searchResults: response.data,
+                playlistResults: response2.data,
+            }, });
         } catch (error) {
             console.error(error);
         }
@@ -31,15 +36,15 @@ const NavbarLoggedIn = () => {
                     <nav className="navbar navbar-expand-lg ftco-navbar-light bg-light" id="ftco-navbar">
                         <div className="container">
                             <div>
-                                <img src="../src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
+                                <img src="./src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
                                 <a className="navbar-brand" href="/home">Audio Cloud <span>spacespeaking.inc</span></a>
                             </div>
                             <div className="collapse navbar-collapse" id="ftco-nav">
                                 <ul className="navbar-nav m-auto">
-                                    <li className="nav-item"><a href="/home" className="nav-link">Home</a></li>
-                                    <li className="nav-item"><a href="#" className="nav-link">Library</a></li>
-                                    <li className="nav-item"><a href="#" className="nav-link">Subscription</a></li>
-                                    <li className="nav-item"><a href="/upload" className="nav-link">Upload</a></li>
+                                    <li className="nav-item"><a href="/home" className="nav-link">Trang chủ</a></li>
+                                    <li className="nav-item"><a href="#" className="nav-link">Thư viện</a></li>
+                                    <li className="nav-item"><a href="#" className="nav-link">Dịch vụ</a></li>
+                                    <li className="nav-item"><a href="/upload" className="nav-link">Đăng tải</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -49,7 +54,7 @@ const NavbarLoggedIn = () => {
                                     <input type="text"
                                         className="form-control pl-3"
                                         style={{ width: '300px' }}
-                                        placeholder="Search"
+                                        placeholder="Tìm kiếm"
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)} />
                                 </div>
@@ -63,9 +68,8 @@ const NavbarLoggedIn = () => {
                                         <img src="../src/assets/img/user.png" width="45px" height="45px" className="rounded-circle" alt="User" />
                                     </a>
                                     <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                        <a className="dropdown-item" href="/profile">Profile</a>
-                                        <a className="dropdown-item" href="#">My workspace</a>
-                                        <a className="dropdown-item" href="" onClick={handleLogOut}>Log Out</a>
+                                        <a className="dropdown-item" href="/profile">Tài khoản</a>
+                                        <a className="dropdown-item" href="" onClick={handleLogOut}>Đăng xuất</a>
                                     </div>
                                 </li>
                             </ul>

@@ -102,23 +102,15 @@ const Profile = () => {
                                         e.preventDefault();
                                         handleClick('Tracks');
                                     }} role="tab" aria-selected={ifClicked === 'Tracks' ? 'true' : 'false'}>
-                                        <span className="ms-1">Tracks</span>
+                                        <span className="ms-1">Bài hát</span>
                                     </a>
                                 </li>
-                                {/* <li className="nav-item1">
-                                    <a className={`nav-link1 mb-0 px-0 py-1 ${ifClicked === 'Albums' ? 'active' : ''}`} data-bs-toggle="tab" role="tab" href="" onClick={(e) => {
-                                        e.preventDefault();
-                                        handleClick('Albums');
-                                    }} aria-selected={ifClicked === 'Albums' ? 'true' : 'false'}>
-                                        <span className="ms-1">Albums</span>
-                                    </a>
-                                </li> */}
                                 <li className="nav-item1">
                                     <a className={`nav-link1 mb-0 px-0 py-1 ${ifClicked === 'Playlists' ? 'active' : ''}`} data-bs-toggle="tab" role="tab" href="" onClick={(e) => {
                                         e.preventDefault();
                                         handleClick('Playlists');
                                     }} aria-selected={ifClicked === 'Playlists' ? 'true' : 'false'}>
-                                        <span className="ms-1">Playlists</span>
+                                        <span className="ms-1">Danh sách phát</span>
                                     </a>
                                 </li>
                                 <li className="nav-item1">
@@ -126,7 +118,7 @@ const Profile = () => {
                                         e.preventDefault();
                                         handleClick('Favourites');
                                     }} aria-selected={ifClicked === 'Favourites' ? 'true' : 'false'}>
-                                        <span className="ms-1">Favourite</span>
+                                        <span className="ms-1">Yêu thích</span>
                                     </a>
                                 </li>
                             </ul>

@@ -57,13 +57,13 @@ const Playlists = () => {
         <div>
             <div className="playlist-grid mb-5">
                 {data.map((item) => (
-                    <div key={item.PlaylistId} className="playlist-item" onClick={() => handleItemClick(item.PlaylistId)}>
+                    <div key={item.PlaylistId} className="playlist-item">
                         <div className="button-container">
                             <button className="circle-button-1" type="button" onClick={() => handleRemove(item.PlaylistId)}>
                                 X
                             </button>
                         </div>
-                        <div className="image-container">
+                        <div className="image-container"  onClick={() => handleItemClick(item.PlaylistId)}>
                             <img src='../src/assets/img/playlist.jpeg' alt='playlist' />
                             <div className="center-button">
                                 <button className="btn-95 mb-4" onClick={(e) => {e.stopPropagation(); handleClick(item.PlaylistId)}}>
@@ -81,7 +81,7 @@ const Playlists = () => {
                 ))}
                 {showNotification && (
                     <Notification
-                        message="Remove successfully"
+                        message="Xóa thành công"
                         type="success" // Set the type of notification (success, info, warning, error)
                         onClose={() => setShowNotification(false)} // Close the notification
                     />

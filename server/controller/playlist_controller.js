@@ -130,7 +130,22 @@ const PlaylistController = {
         }catch(error){
             console.log(error);
         }
-    }
+    },
+    search: async (req, res) => {
+        try {
+          const filter = req.query.queries;
+          const playlist = await Playlist.find({
+            IsPublic: true,
+            $or: [
+              { Title: { $regex: filter, $options: 'i' } },
+            ],
+          });
+          res.status(200).json(playlist);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: "Server error" });
+        }
+      },
 }
 function generatePlaylistId() {
     // Generate an 8-digit random number

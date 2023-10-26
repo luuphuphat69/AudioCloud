@@ -35,7 +35,7 @@ const Popup_Playlist = ({audioId, closePopup }) => {
               aria-selected={activeTab === "add"}
               onClick={() => handleTabClick("add")}
             >
-              ADD TO PLAYLIST
+              THÊM VÀO PLAYLIST
             </a>
           </li>
           <li className="nav-item" role="presentation">
@@ -47,7 +47,7 @@ const Popup_Playlist = ({audioId, closePopup }) => {
               aria-selected={activeTab === "create"}
               onClick={() => handleTabClick("create")}
             >
-              CREATE A PLAYLIST
+              TẠO PLAYLIST MỚI
             </a>
           </li>
         </ul>

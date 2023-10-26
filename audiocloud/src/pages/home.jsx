@@ -104,8 +104,8 @@ const Home = () => {
                         <div className="row justify-content-center">
                             <div className="col-lg-12">
                                 <div className="section_tittle text-center">
-                                    <h2>Charts: Top 50</h2>
-                                    <span>The most played tracks on AudioCloud</span>
+                                    <h2>Xếp hạng: Top 50</h2>
+                                    <span>Những bài hát được nghe nhiều nhất trên AudioCloud</span>
                                 </div>
                                 <Slider {...sliderSettings}>
                                     {items.map((item) => (
@@ -136,8 +136,8 @@ const Home = () => {
                         <div className="row justify-content-center">
                             <div className="col-lg-12">
                                 <div className="section_tittle text-center mt-5">
-                                    <h2>Charts: New & HOT</h2>
-                                    <span>Up-and-coming tracks on AudioCloud</span>
+                                    <h2>Bảng xếp hạng: Mới & Hot</h2>
+                                    <span>Các bản nhạc đang nổi bật trên AudioCloud</span>
                                 </div>
                                 <Slider {...sliderSettings}>
                                     {items.map((item) => (
@@ -168,8 +168,8 @@ const Home = () => {
                         <div className="row justify-content-center">
                             <div className="col-lg-12">
                                 <div className="section_tittle text-center mt-5">
-                                    <h2>Artists you should know</h2>
-                                    <span>Top tracks from artists most people like</span>
+                                    <h2>Nghệ sĩ bạn nên biết</h2>
+                                    <span>Top những bài hát từ những nghệ sĩ nổi bật</span>
                                 </div>
                                 <Slider {...sliderSettings}>
                                     {items.map((item) => (

@@ -10,9 +10,9 @@ import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import Popup_Playlist from '../popup/add_to_playlist';
 
 const options = [
-  { label: 'Edit', icon: <EditIcon /> }, // Use icons for options
-  { label: 'Delete', icon: <DeleteIcon /> },
-  { label: 'Add to playlist', icon: <PlaylistAddIcon /> },
+  { label: 'Sửa', name:"Edit" ,icon: <EditIcon /> }, // Use icons for options
+  { label: 'Xóa', name:"Delete", icon: <DeleteIcon /> },
+  { label: 'Thêm vào playlist', name:"Add to playlist", icon: <PlaylistAddIcon /> },
 ];
 
 const ITEM_HEIGHT = 48;
@@ -67,7 +67,7 @@ export default function LongMenu({ audioId }) {
           <MenuItem
             key={option.label}
             onClick={() => {
-              if (option.label === 'Add to playlist') {
+              if (option.name === 'Add to playlist') {
                 handleAddToPlaylist();
               } else {
                 handleClose();

@@ -65,7 +65,7 @@ const Tab_AddToPlaylist = (audioId) => {
             <input
                 className="form-control"
                 type="search"
-                placeholder="Filter playlists"
+                placeholder="Lọc tìm kiếm"
                 aria-label="Search..."
                 value={inputValue} // Bind the input value
                 onChange={handleInputChange} // Handle input change
@@ -81,13 +81,13 @@ const Tab_AddToPlaylist = (audioId) => {
                             <h5>{item.Title}</h5>
                             <h6 className='font-weight-light'>{item.Genre}</h6>
                         </div>
-                        <button className='mt-2' onClick={() => handleClick(audioId, item.PlaylistId)} style={{ marginLeft: "auto", height: "50px", color: "#000" }}>Add to playlist</button>
+                        <button className='mt-2' onClick={() => handleClick(audioId, item.PlaylistId)} style={{ marginLeft: "auto", height: "50px", color: "#000" }}>Thêm vào playlist</button>
                     </div>
                 ))}
             </div>
             {showNotification && (
                 <Notification
-                    message="Added to playlist successful"
+                    message="Thêm vào playlist thành công"
                     type="success" // Set the type of notification (success, info, warning, error)
                     onClose={() => setShowNotification(false)} // Close the notification
                 />

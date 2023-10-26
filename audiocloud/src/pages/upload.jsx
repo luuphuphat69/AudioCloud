@@ -136,12 +136,12 @@ const Upload = () => {
                     e.preventDefault();
                 }}>
                     <div className="container_upload">
-                        <h1 className="h1_upload">Upload your audio</h1>
+                        <h2 className="h1_upload">Đăng tải bài hát của bạn</h2>
                         <div className="upload-container">
                             <div className="border-container">
-                                <input type="file" style={{color:"#000"}} id="Audio" name="Audio" accept=".mp3" onChange={handleFileInputChange} required />
+                                <input type="file" style={{color:"#000"}} id="Audio" name="Audio" accept=".mp3 .wav .flac" onChange={handleFileInputChange} required />
                                 <p>
-                                    Drag and drop files here, or <a href="#" id="file-browser">browse</a> your computer.
+                                    Hãy chọn file bài hát trước khi đăng tải.
                                 </p>
                             </div>
                         </div>
@@ -149,19 +149,19 @@ const Upload = () => {
 
                     <div className="form-row">
                         <div className="col-md-4 mb-3">
-                            <label>Title</label>
+                            <label>Tiêu đề</label>
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="Enter audio title" id="audioname" onChange={handleAudioNameChange} required />
+                                placeholder="Nhập tiêu đề bài hát" id="audioname" onChange={handleAudioNameChange} required />
                         </div>
                         <div className="col-md-4 mb-3">
-                            <label>Genre</label>
+                            <label>Thể loại</label>
                             <select
                                 className="form-control"
                                 id="genre" onChange={handleGenreChange}>
 
-                                <option value="">None</option>
+                                <option value="">Chưa chọn</option>
                                 <option value="Pop">Pop</option>
                                 <option value="Ballad">Ballad</option>
                                 <option value="Rock">Rock</option>
@@ -172,15 +172,15 @@ const Upload = () => {
                     </div>
                     <div className="form-row">
                         <div className="col-md-6 mb-3">
-                            <label>Description</label>
+                            <label>Mô tả</label>
                             <textarea
                                 className="form-control"
                                 id="description"
-                                placeholder="Add a description" onChange={handleDescriptionChange}></textarea>
+                                placeholder="Mô tả bài hát của bạn" onChange={handleDescriptionChange}></textarea>
                         </div>
                     </div>
                     <div className="form-row">
-                        <label className="mt-3 ml-1">Access:</label>
+                        <label className="mt-3 ml-1">Riêng tư:</label>
                         <div className="radio-group ml-5">
                             <label className="radio-label mt-3">
                                 <input
@@ -188,7 +188,7 @@ const Upload = () => {
                                     name="access"
                                     value="public"
                                     onChange={() => handleRadioChange(true)} required/>
-                                Public
+                                Công khai
                             </label>
                             <label className="radio-label ml-5 mt-3">
                                 <input
@@ -196,13 +196,13 @@ const Upload = () => {
                                     name="access"
                                     value="private"
                                     onChange={() => handleRadioChange(false)}/>
-                                Private
+                                Cá nhân
                             </label>
                         </div>
                     </div>
                     <div className="form-row">
                         <label className="mt-3 ml-1" htmlFor="photo">
-                            Track Artwork:
+                            Ảnh nền:
                         </label>
                         <input
                             className="form-control ml-1"
@@ -223,12 +223,12 @@ const Upload = () => {
                         <TailSpin type="TailSpin" color="#00BFFF" height={80} width={80} />
                     ) : (
                         <button className="btn btn-primary mt-3" type="submit" onClick={handleSubmit}>
-                            Save
+                            Đăng tải
                         </button>
                     )}
                 </form>
                 <div>
-                    <p>By uploading, you confirm that your sounds comply with our<a href=""> Terms of Use</a> and you don't infringe anyone else's rights.</p>
+                    <p>Bằng việc đăng nhạc, bạn đã xác nhận rằng bài hát của bạn đã phù hợp với<a href=""> Các điều khoản sử dụng</a> và bạn không vi phạm bản quyền của bất kỳ ai.</p>
                 </div>
             </div>
         </div>

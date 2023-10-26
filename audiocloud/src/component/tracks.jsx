@@ -154,7 +154,7 @@ const Tracks = () => {
                                  {item.UserDisplayname}
                             </h6>
                             <h6 className="font-weight-light mb-4 ml-3">
-                                <p> Plays: {item.Plays}</p>
+                                <p> Lượt nghe: {item.Plays}</p>
                             </h6>
                         </div>
                         <div className='ml-2' style={{ display: 'flex', width: "900px" }}>

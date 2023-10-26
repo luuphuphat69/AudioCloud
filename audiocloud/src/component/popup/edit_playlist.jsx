@@ -70,18 +70,18 @@ const EditPlaylist_Popup = ({ playlistId, closePopup }) => {
                     <form method="POST" onClick={(e) => e.stopPropagation()}>
                         <div className="container_upload">
                             {/* Title Input */}
-                            <input type="text" id="title" className="form-control" placeholder="Title" />
+                            <input type="text" id="title" className="form-control" placeholder="Tiêu đề" />
                             {/* Genre Input */}
-                            <input type="text" id="genre" className="form-control mt-2" placeholder="Genre" />
+                            <input type="text" id="genre" className="form-control mt-2" placeholder="Thể loại" />
                             {/* Access Input */}
-                            <label className="mt-3 ml-1">Access:</label>
+                            <label className="mt-3 ml-1">Riêng tư:</label>
                             <label className="radio-label mt-3 ml-3">
                                 <input
                                     type="radio"
                                     name="access"
                                     value="public"
                                     onChange={() => handleRadioChange(true)} />
-                                Public
+                                Công khai
                             </label>
                             <label className="radio-label ml-5 mt-3">
                                 <input
@@ -89,11 +89,11 @@ const EditPlaylist_Popup = ({ playlistId, closePopup }) => {
                                     name="access"
                                     value="private"
                                     onChange={() => handleRadioChange(false)} />
-                                Private
+                                Cá nhân
                             </label>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
-                            <button className="btn btn-primary mt-3" type="button" onClick={() => { handleEdit(playlistId) }}>Save</button>
+                            <button className="btn btn-primary mt-3" type="button" onClick={() => { handleEdit(playlistId) }}>Lưu</button>
                         </div>
                     </form>
                     <div style={{ maxHeight: '300px', overflowY: 'scroll' }}>
@@ -110,7 +110,7 @@ const EditPlaylist_Popup = ({ playlistId, closePopup }) => {
                                     </h5>
                                     <h6 className='font-weight-light'>{item.Genre}</h6>
                                 </div>
-                                <button className='mt-2' style={{ marginLeft: "auto", height: "50px", color: "#000" }} onClick={() => handleRemoveAudio(item.AudioId, playlistId)}>Remove</button>
+                                <button className='mt-2' style={{ marginLeft: "auto", height: "50px", color: "#000" }} onClick={() => handleRemoveAudio(item.AudioId, playlistId)}>Xóa</button>
                             </div>
                         ))}
                     </div>
