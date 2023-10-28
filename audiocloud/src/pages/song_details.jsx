@@ -22,7 +22,7 @@ const Details = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://3.106.60.118:8000/v1/comment/get-comments/${audioId}`);
+                const response = await axios.get(`http://3.106.53.25:8000/v1/comment/get-comments/${audioId}`);
                 setData(response.data);
             } catch (err) {
                 console.log(err);
@@ -35,13 +35,13 @@ const Details = () => {
         // Fetch the token when the component mounts
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://3.106.60.118:8000/getcookie', { withCredentials: true });
+                const response = await axios.get('http://3.106.53.25:8000/getcookie', { withCredentials: true });
                 const receivedToken = response.data;
                 setToken(receivedToken);
                 checkLoginStatus();
 
                 const _user = jwt(token);
-                const userDataResponse = await axios.get(`http://3.106.60.118:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
+                const userDataResponse = await axios.get(`http://3.106.53.25:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
                 setUser(userDataResponse.data);
             } catch (error) {
                 // console.error('Error fetching token:', error);
@@ -60,7 +60,7 @@ const Details = () => {
 
     useEffect(() => {
         // Fetch audio details based on the audioId
-        axios.get(`http://3.106.60.118:8000/v1/audio/getAudioInfo/${audioId}`)
+        axios.get(`http://3.106.53.25:8000/v1/audio/getAudioInfo/${audioId}`)
             .then(response => {
                 setAudioDetails(response.data);
             })
@@ -78,7 +78,7 @@ const Details = () => {
         formData.append('userId', user.UserId);
         formData.append('userDisplayname', user.Displayname);
 
-        await axios.post('http://3.106.60.118:8000/v1/comment/post', formData, {
+        await axios.post('http://3.106.53.25:8000/v1/comment/post', formData, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -95,7 +95,7 @@ const Details = () => {
 
     const handleLike = async (audioId, userId) => {
         try {
-            await axios.put(`http://3.106.60.118:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://3.106.53.25:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
             setShowNotification(true);
         } catch (err) {
             console.log(err);

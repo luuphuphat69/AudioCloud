@@ -42,7 +42,7 @@ const Search_Tracks = ({ searchResults }) => {
 
     useEffect(() => {
         const fectchUser = async () => {
-            const response = await axios.get('http://3.106.60.118:8000/getcookie', { withCredentials: true });
+            const response = await axios.get('http://3.106.53.25:8000/getcookie', { withCredentials: true });
             const receivedToken = response.data;
             const user = jwt(receivedToken);
             setUserId(user.userId);
@@ -52,7 +52,7 @@ const Search_Tracks = ({ searchResults }) => {
 
     const handleLike = async (audioId) => {
         try {
-            await axios.put(`http://3.106.60.118:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://3.106.53.25:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
             handleLikeClick();
         } catch (err) {
             console.log(err);
@@ -61,7 +61,7 @@ const Search_Tracks = ({ searchResults }) => {
 
     const updatePlays = async (audioId) => {
         try {
-            const response = await axios.put(`http://3.106.60.118:8000/v1/audio/update-plays/${audioId}`);
+            const response = await axios.put(`http://3.106.53.25:8000/v1/audio/update-plays/${audioId}`);
         } catch (error) {
             console.log(error);
         }
