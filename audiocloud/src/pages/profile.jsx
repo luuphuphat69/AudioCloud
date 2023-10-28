@@ -5,7 +5,6 @@ import Popup from 'reactjs-popup';
 import PopupForm from "../component/popup/edituser_popup";
 import Tracks from "../component/tracks";
 import Playlists from "../component/playlist";
-import Albums from "../component/albums";
 import Favourite from "../component/favourite";
 import axios from "axios";
 import jwt from 'jwt-decode';
@@ -30,13 +29,13 @@ const Profile = () => {
         // Fetch the token when the component mounts
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/getcookie', { withCredentials: true });
+                const response = await axios.get('http://3.106.60.118:8000/getcookie', { withCredentials: true });
                 const receivedToken = response.data;
                 setToken(receivedToken);
                 checkLoginStatus();
 
                 const _user = jwt(token);
-                const userDataResponse = await axios.get(`http://localhost:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
+                const userDataResponse = await axios.get(`http://3.106.60.118:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
                 setUser(userDataResponse.data);
             } catch (error) {
                 // console.error('Error fetching token:', error);

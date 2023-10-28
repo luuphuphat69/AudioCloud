@@ -12,7 +12,7 @@ const Login = () => {
 
         try {
             // Send a POST request to your login API
-            const apiData = await fetch("http://localhost:8000/v1/user/login", {
+            const apiData = await fetch("http://3.106.60.118:8000/v1/user/login", {
                 method: "POST",
                 body: JSON.stringify({ Account: account, Password: password }),
                 credentials: "include",

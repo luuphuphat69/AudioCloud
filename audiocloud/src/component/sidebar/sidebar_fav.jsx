@@ -18,11 +18,11 @@ const SidebarFav = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/getcookie', { withCredentials: true });
+                const response = await axios.get('http://3.106.60.118:8000/getcookie', { withCredentials: true });
                 const receivedToken = response.data;
                 const user = jwt(receivedToken);
                 setUserId(user.userId);
-                const _response = await axios.get(`http://localhost:8000/v1/fav/get-list-fav/${user.userId}`, { withCredentials: true });
+                const _response = await axios.get(`http://3.106.60.118:8000/v1/fav/get-list-fav/${user.userId}`, { withCredentials: true });
                 console.log("Res: ", _response.data);
                 setData(_response.data);
             } catch (error) {

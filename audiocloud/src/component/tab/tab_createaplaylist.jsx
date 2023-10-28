@@ -16,7 +16,7 @@ const Tab_CreatePlaylist = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/getcookie', { withCredentials: true });
+                const response = await axios.get('http://3.106.60.118:8000/getcookie', { withCredentials: true });
                 const token = jwt(response.data);
                 const userId = token.userId;
                 setUserId(userId);
@@ -38,7 +38,7 @@ const Tab_CreatePlaylist = () => {
             data.append('genre', genre);
             data.append('isPublic', isPublic);
     
-            await axios.post(`http://localhost:8000/v1/playlist/create/${userId}`, data, {
+            await axios.post(`http://3.106.60.118:8000/v1/playlist/create/${userId}`, data, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
