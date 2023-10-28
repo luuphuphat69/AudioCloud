@@ -10,19 +10,20 @@ const Login = () => {
         const account = document.getElementById('account').value;
         const password = document.getElementById('password').value;
 
+        
         try {
             // Send a POST request to your login API
-            const apiData = await fetch("http://3.106.60.118:8000/v1/user/login", {
+            const apiData = await fetch("http://3.106.53.25:8000/v1/user/login", {
                 method: "POST",
                 body: JSON.stringify({ Account: account, Password: password }),
-                credentials: "include",
+                credentials: 'include',
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
-
+            
             // Handle the API response
-            if (apiData.status === 200) {
+            if (apiData.status === 201) {
                 // Handle successful login here, e.g., store the token and redirect the user.
                 console.log('Login successfully');
                 window.alert('Login successfully'); // Display a success alert
