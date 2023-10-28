@@ -16,8 +16,8 @@ const NavbarLoggedIn = () => {
         e.preventDefault(); // Prevent the default form submission behavior
 
         try {
-            const response = await axios.get(`http://3.105.51.135:8000/v1/audio/search?queries=${searchTerm}`);
-            const response2 = await axios.get(`http://3.105.51.135:8000/v1/playlist/search?queries=${searchTerm}`);
+            const response = await axios.get(`http://localhost:8000/v1/audio/search?queries=${searchTerm}`);
+            const response2 = await axios.get(`http://localhost:8000/v1/playlist/search?queries=${searchTerm}`);
             console.log(response2.data);
             // Redirect to the search page with search results as a URL parameter
             // Navigate to the /search page with response data as a prop
@@ -36,7 +36,7 @@ const NavbarLoggedIn = () => {
                     <nav className="navbar navbar-expand-lg ftco-navbar-light bg-light" id="ftco-navbar">
                         <div className="container">
                             <div>
-                                <img src="./src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
+                                <img src="../src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
                                 <a className="navbar-brand" href="/home">Audio Cloud <span>spacespeaking.inc</span></a>
                             </div>
                             <div className="collapse navbar-collapse" id="ftco-nav">

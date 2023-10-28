@@ -64,7 +64,7 @@ app.use("/v1/playlist", playlistRoute);
 app.use("/v1/fav", favouriteRoute);
 app.use("/v1/comment", commentRoute);
 
-app.get('/getcookie', (req, res) =>{
+app.get('/get-cookies', (req, res) =>{
   res.send(req.cookies.token);
   console.log(req.cookies);
 });

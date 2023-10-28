@@ -13,7 +13,7 @@ const Tab_AddToPlaylist = (audioId) => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://3.105.51.135:8000/getcookie', { withCredentials: true });
+                const response = await axios.get('http://3.105.51.135:8000/get-cookies', { withCredentials: true });
                 const token = jwt(response.data);
                 const userId = token.userId;
                 setUserId(userId);

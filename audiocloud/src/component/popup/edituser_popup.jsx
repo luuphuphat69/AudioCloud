@@ -40,7 +40,7 @@ const PopupForm = ({ closePopup }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://3.105.51.135:8000/v1/user/get-info/${userId}`, { withCredentials: true });
+        const response = await axios.get(`http://localhost:8000/v1/user/get-info/${userId}`, { withCredentials: true });
         const _user = response.data;
         setUser(_user);
         console.log(user);
@@ -54,7 +54,7 @@ const PopupForm = ({ closePopup }) => {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const response = await axios.get('http://3.105.51.135:8000/getcookie', { withCredentials: true });
+        const response = await axios.get('http://localhost:8000/getcookie', { withCredentials: true });
         const receivedToken = response.data;
         const user = jwt(receivedToken);
         setToken(receivedToken);
@@ -75,7 +75,7 @@ const PopupForm = ({ closePopup }) => {
     formData.append("Bio", document.getElementById('bio')?.value);
     formData.append("Address", document.getElementById('address')?.value);
 
-    axios.put(`http://3.105.51.135:8000/v1/user/edit/${userId}`, formData, {
+    axios.put(`http://localhost:8000/v1/user/edit/${userId}`, formData, {
       method: "PUT",
       credentials: "include",
       headers: {

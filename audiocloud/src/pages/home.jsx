@@ -51,7 +51,7 @@ const Home = () => {
         // Fetch the token when the component mounts
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://3.105.51.135:8000/getcookie', { withCredentials: true }); // Get Cookies data
+                const response = await axios.get('http://localhost:8000/get-cookies', { withCredentials: true }); // Get Cookies data
                 const receivedToken = response.data;
                 setToken(receivedToken);
 
@@ -79,7 +79,7 @@ const Home = () => {
             if (genre) {
                 try {
                     console.log("UseEffeect", genre);
-                    const response = await axios.get(`http://3.105.51.135:8000/v1/audio/getTop50/${genre}`);
+                    const response = await axios.get(`http://localhost:8000/v1/audio/getTop50/${genre}`);
                     setData(response.data);
                 } catch (error) {
                     console.error('Error fetching data:', error);
