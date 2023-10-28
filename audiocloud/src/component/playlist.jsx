@@ -18,13 +18,13 @@ const Playlists = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://3.106.53.25:8000/getcookie', { withCredentials: true });
+                const response = await axios.get('http://3.105.51.135:8000/getcookie', { withCredentials: true });
                 const receivedToken = response.data;
                 setToken(receivedToken);
 
                 const _user = jwt(token);
 
-                const responseData = await axios.get(`http://3.106.53.25:8000/v1/playlist/get-user-playlist/${_user?.userId}`);
+                const responseData = await axios.get(`http://3.105.51.135:8000/v1/playlist/get-user-playlist/${_user?.userId}`);
                 setData(responseData.data);
             } catch (error) {
                 console.error('Error fetching token:', error);
@@ -34,13 +34,13 @@ const Playlists = () => {
     }, [token]);
 
     const handleClick = async (playlistId) => {
-        const response = await axios.get(`http://3.106.53.25:8000/v1/playlist/getInfo/${playlistId}`);
+        const response = await axios.get(`http://3.105.51.135:8000/v1/playlist/getInfo/${playlistId}`);
         const playlist = response.data;
         initializeAPlayer(playlist.ListAudio);
     }
 
     const handleRemove = async (playlistId) => {
-        await axios.delete(`http://3.106.53.25:8000/v1/playlist/delete/${playlistId}`);
+        await axios.delete(`http://3.105.51.135:8000/v1/playlist/delete/${playlistId}`);
         const updatedData = data.filter((item) => item.PlaylistId !== playlistId);
         setData(updatedData);
         setShowNotification(true);

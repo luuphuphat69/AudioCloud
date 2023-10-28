@@ -36,7 +36,7 @@ const Register = () => {
         const password = formData.password;
         const email = formData.email;
         try {
-            const response = await axios.post('http://3.106.53.25:8000/v1/user/register', {
+            const response = await axios.post('http://3.105.51.135:8000/v1/user/register', {
                 Account: account,
                 Password: password,
                 Email: email,

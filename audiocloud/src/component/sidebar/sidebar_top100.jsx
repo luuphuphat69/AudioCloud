@@ -5,7 +5,7 @@ import axios from 'axios';
 import LongMenu from '../menu/audio_menu';
 
 const SidebarTop100 = () => {
-    const apiEndpoint = 'http://3.106.53.25:8000/v1/audio/getTop100';
+    const apiEndpoint = 'http://3.105.51.135:8000/v1/audio/getTop100';
     const [data, setData] = useState([]);
     const [userId, setUserId] = useState('');
 
@@ -15,7 +15,7 @@ const SidebarTop100 = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://3.106.53.25:8000/getcookie', { withCredentials: true });
+                const response = await axios.get('http://3.105.51.135:8000/getcookie', { withCredentials: true });
                 const receivedToken = response.data;
                 const user = jwt(receivedToken);
                 setUserId(user.userId);
@@ -40,7 +40,7 @@ const SidebarTop100 = () => {
     const handleLike = async (audioId) => {
         try {
             console.log(userId);
-            await axios.put(`http://3.106.53.25:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://3.105.51.135:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
         } catch (err) {
             console.log(err);
         }

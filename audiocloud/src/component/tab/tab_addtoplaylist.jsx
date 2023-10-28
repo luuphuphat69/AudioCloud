@@ -13,7 +13,7 @@ const Tab_AddToPlaylist = (audioId) => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://3.106.53.25:8000/getcookie', { withCredentials: true });
+                const response = await axios.get('http://3.105.51.135:8000/getcookie', { withCredentials: true });
                 const token = jwt(response.data);
                 const userId = token.userId;
                 setUserId(userId);
@@ -29,7 +29,7 @@ const Tab_AddToPlaylist = (audioId) => {
         if (userId) {
             const fetchData = async () => {
                 try {
-                    const response = await axios.get(`http://3.106.53.25:8000/v1/playlist/get-user-playlist/${userId}`);
+                    const response = await axios.get(`http://3.105.51.135:8000/v1/playlist/get-user-playlist/${userId}`);
                     setData(response.data);
                 } catch (error) {
                     console.log(error);
@@ -42,7 +42,7 @@ const Tab_AddToPlaylist = (audioId) => {
     const handleClick = async (audioId, playlistId) => {
         console.log(audioId.audioId);
         setShowNotification(true);
-        await axios.put(`http://3.106.53.25:8000/v1/playlist/add-to-playlist/${audioId.audioId}/${playlistId}`);
+        await axios.put(`http://3.105.51.135:8000/v1/playlist/add-to-playlist/${audioId.audioId}/${playlistId}`);
         console.log("add success");
     }
 

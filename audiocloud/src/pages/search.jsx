@@ -22,7 +22,7 @@ const Search = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://3.106.53.25:8000/getcookie', { withCredentials: true });
+                const response = await axios.get('http://3.105.51.135:8000/getcookie', { withCredentials: true });
                 const receivedToken = response.data;
                 setToken(receivedToken);
                 // Check the login status once the token is available
