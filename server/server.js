@@ -69,6 +69,10 @@ app.get('/get-cookies', (req, res) =>{
   console.log(req.cookies);
 });
 
+app.get('/set-cookies', (req, res) => {
+  res.send('hello', 'this is test cookie');
+})
+
 app.listen(8000, () => {
    console.log("Server is running");
 });
