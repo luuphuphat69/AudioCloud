@@ -23,7 +23,7 @@ const Upload = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/get-cookies', { withCredentials: true });
+                const response = await axios.get('http://54.206.75.221:8000/get-cookies', { withCredentials: true });
                 const receivedToken = response.data;
                 const user = jwt(receivedToken);
                 setToken(receivedToken);
@@ -65,7 +65,7 @@ const Upload = () => {
             formData.append('description', document.getElementById('description').value);
             formData.append('isPublic', isPublic);
 
-            axios.post(`http://localhost:8000/v1/audio/postAudio/${userId}`, formData, {
+            axios.post(`http://54.206.75.221:8000/v1/audio/postAudio/${userId}`, formData, {
                 method: "POST",
                 credentials: "include",
                 headers: {

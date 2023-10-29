@@ -19,7 +19,7 @@ function App() {
     // Fetch the token when the component mounts
     const fetchToken = async () => {
       try {
-        const response = await axios.get('http:/localhost:8000/get-cookies', { withCredentials: true }); // Get Cookies data
+        const response = await axios.get('http:/54.206.75.221:8000/get-cookies', { withCredentials: true }); // Get Cookies data
         const receivedToken = response.data;
         setToken(receivedToken);
 

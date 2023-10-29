@@ -17,13 +17,13 @@ const Tracks = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/get-cookies', { withCredentials: true });
+                const response = await axios.get('http://54.206.75.221:8000/get-cookies', { withCredentials: true });
                 const receivedToken = response.data;
                 setToken(receivedToken);
 
                 const _user = jwt(token);
 
-                const responseData = await axios.get(`http://localhost:8000/v1/audio/getTracks/${_user?.userId}`);
+                const responseData = await axios.get(`http://54.206.75.221:8000/v1/audio/getTracks/${_user?.userId}`);
                 setData(responseData.data);
                 setUser(_user);
             } catch (error) {

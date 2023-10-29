@@ -29,13 +29,13 @@ const Profile = () => {
         // Fetch the token when the component mounts
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/get-cookies', { withCredentials: true });
+                const response = await axios.get('http://54.206.75.221:8000/get-cookies', { withCredentials: true });
                 const receivedToken = response.data;
                 setToken(receivedToken);
                 checkLoginStatus();
 
                 const _user = jwt(token);
-                const userDataResponse = await axios.get(`http://localhost:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
+                const userDataResponse = await axios.get(`http://54.206.75.221:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
                 setUser(userDataResponse.data);
             } catch (error) {
                 // console.error('Error fetching token:', error);

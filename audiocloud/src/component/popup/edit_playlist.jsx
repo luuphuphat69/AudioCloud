@@ -13,7 +13,7 @@ const EditPlaylist_Popup = ({ playlistId, closePopup }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8000/v1/playlist/getInfo/${playlistId}`);
+                const response = await axios.get(`http://54.206.75.221:8000/v1/playlist/getInfo/${playlistId}`);
                 setData(response.data.ListAudio); // Access ListAudio property in response.data
                 setPlaylist(response.data);
             } catch (err) {
@@ -34,7 +34,7 @@ const EditPlaylist_Popup = ({ playlistId, closePopup }) => {
             formData.append('genre', genre);
             formData.append('isPublic', isPublic);
 
-            await axios.put(`http://localhost:8000/v1/playlist/edit/${playlistId}`, formData, {
+            await axios.put(`http://54.206.75.221:8000/v1/playlist/edit/${playlistId}`, formData, {
                 method: "PUT",
                 credentials: 'include',
                 headers: {
@@ -48,9 +48,9 @@ const EditPlaylist_Popup = ({ playlistId, closePopup }) => {
     }
 
     const handleRemoveAudio = async (audioId, playlistId) => {
-        await axios.put(`http://localhost:8000/v1/playlist/remove-audio/${audioId}/${playlistId}`);
+        await axios.put(`http://54.206.75.221:8000/v1/playlist/remove-audio/${audioId}/${playlistId}`);
         setRemoveNotification(true);
-        const updatedResponse = await axios.get(`http://localhost:8000/v1/playlist/getInfo/${playlistId}`);
+        const updatedResponse = await axios.get(`http://54.206.75.221:8000/v1/playlist/getInfo/${playlistId}`);
         setData(updatedResponse.data.ListAudio);
     }
 
