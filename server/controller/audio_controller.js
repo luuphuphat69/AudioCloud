@@ -140,6 +140,41 @@ const audioController = {
       console.log(error);
     }
   },
+  editTrack: async(req, res) => {
+    try{
+      const photoFile = req.files['Photo'] ? req.files['Photo'][0] : null;
+      const audioId = req.params.AudioId;
+      const {audioName, isPublic, genre, description} = req.body;
+      const audio = await Audio.findOne({AudioId: audioId});
+
+      let audioPhotoUrl = null;
+      if (photoFile) {
+        audioPhotoUrl = await uploadAudioPhoto(photoFile);
+      }
+
+      if(audio !== null){
+        if(audioName != null){
+          audio.AudioName = audioName;
+        }
+        if(audioPhotoUrl != null){
+          audio.PhotoURL = audioPhotoUrl;
+        }
+        if(genre != null){
+          audio.Genre = genre;
+        }
+        if(description){
+          audio.Description = description;
+        }
+        if(isPublic != null){
+          audio.IsPublic = isPublic;
+        }
+        await audio.save();
+        return res.status(200).json({message:"Track Updated"});
+      }
+    }catch(error){
+      console.log(error);
+    }
+  },
   // Get Top 50 songs by their GERNE
   getTop50: async (req, res) => {
     try {
@@ -206,7 +241,7 @@ const audioController = {
       res.status(201).json(tracks);
     } catch (err) {
       console.log(err);
-      res.status(500).json({ message: "Server error" });
+      return res.status(500).json({ message: "Server error" });
     }
   }
 }

@@ -38,6 +38,7 @@ const Search_Tracks = ({ searchResults }) => {
         }]);
         setAudio(newAudio);
         updatePlays(audio[0].AudioId);
+        updateHistory(audio[0].AudioId);
     }
 
     useEffect(() => {
@@ -61,9 +62,16 @@ const Search_Tracks = ({ searchResults }) => {
 
     const updatePlays = async (audioId) => {
         try {
-            const response = await axios.put(`http://54.206.75.221:8000/v1/audio/update-plays/${audioId}`);
+            await axios.put(`http://54.206.75.221:8000/v1/audio/update-plays/${audioId}`);
         } catch (error) {
             console.log(error);
+        }
+    }
+    const updateHistory = async(audioId) => {
+        try{
+            await axios.put(`http://54.206.75.221:8000/v1/history/update-history/${audioId}/${userId}`);
+        }catch(err){
+            console.log(err);
         }
     }
 

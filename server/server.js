@@ -21,6 +21,7 @@ const audioRoute = require("./router/audio_router");
 const playlistRoute = require("./router/playlist_router");
 const favouriteRoute = require('./router/userfav_router');
 const commentRoute = require('./router/comment_router');
+const historyRoute = require('./router/history_router');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -63,6 +64,7 @@ app.use("/v1/audio", audioRoute);
 app.use("/v1/playlist", playlistRoute);
 app.use("/v1/fav", favouriteRoute);
 app.use("/v1/comment", commentRoute);
+app.use("/v1/history", historyRoute);
 
 app.get('/get-cookies', (req, res) =>{
   res.send(req.cookies.token);
