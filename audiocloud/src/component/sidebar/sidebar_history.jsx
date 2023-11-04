@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
-
-const SidebarHis = () =>{
+import { useAPlayer } from "../player_context";
+const SidebarHistory = () =>{
     const [data, setData] = useState([]);
     const [userId, setUserId] = useState('');
     // Init Player
@@ -85,4 +85,4 @@ const SidebarHis = () =>{
         </aside>
     );
 }
-export default SidebarHis;
+export default SidebarHistory;
