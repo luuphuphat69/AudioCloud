@@ -29,7 +29,7 @@ const SidebarHistory = () =>{
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
-    }, [apiEndpoint]);
+    }, [userId]);
 
     const handleLike = async (audioId) => {
         try {
