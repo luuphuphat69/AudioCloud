@@ -37,8 +37,8 @@ const Search_Tracks = ({ searchResults }) => {
             PhotoURL: coverImg
         }]);
         setAudio(newAudio);
-        updatePlays(audio[0].AudioId);
-        updateHistory(audio[0].AudioId);
+        await updatePlays(audio[0].AudioId);
+        await updateHistory(audio[0].AudioId);
     }
 
     useEffect(() => {
