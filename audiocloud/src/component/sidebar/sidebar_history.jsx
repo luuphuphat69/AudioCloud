@@ -1,5 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { useAPlayer } from "../player_context";
+import axios from "axios";
+import jwt from 'jwt-decode';
+import LongMenu from '../menu/audio_menu';
+
 const SidebarHistory = () =>{
     const [data, setData] = useState([]);
     const [userId, setUserId] = useState('');
