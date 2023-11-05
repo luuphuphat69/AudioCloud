@@ -43,7 +43,7 @@ const NavbarLoggedIn = () => {
                                 <ul className="navbar-nav m-auto">
                                     <li className="nav-item"><a href="/home" className="nav-link">Trang chủ</a></li>
                                     <li className="nav-item"><a href="#" className="nav-link">Thư viện</a></li>
-                                    <li className="nav-item"><a href="#" className="nav-link">Dịch vụ</a></li>
+                                    <li className="nav-item"><a href="/subcription" className="nav-link">Dịch vụ</a></li>
                                     <li className="nav-item"><a href="/upload" className="nav-link">Đăng tải</a></li>
                                 </ul>
                             </div>
