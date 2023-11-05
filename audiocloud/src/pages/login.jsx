@@ -52,16 +52,16 @@ const Login = () => {
             <Navbar />
             <div className="signup-content">
                 <form method="POST" id="login-form" className="signin-form">
-                    <h2 className="textH2">Sign In </h2>
+                    <h2 className="textH2">Đăng nhập</h2>
                     <div className="form-group">
-                        <input type="text" className="form-input" name="name" id="account" placeholder="Your Account" />
+                        <input type="text" className="form-input" name="name" id="account" placeholder="Tài khoản" />
                     </div>
                     <div className="form-group">
-                        <input type="text" className="form-input" name="password" id="password" placeholder="Password" />
+                        <input type="text" className="form-input" name="password" id="password" placeholder="Mật khẩu" />
                         <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
-                        <a className="forgot-password" href=''>Forgot password ?</a>
+                        <a className="forgot-password" href=''>Quên mật khẩu ?</a>
                     </div>
-                    <div className="separator textColor">Or</div>
+                    <div className="separator textColor">Hoặc</div>
                     <div style={{display: 'flex', justifyContent:"center"}}>
                         <img src='../src/assets/img/facebook.png' className='icon' />
                         <img src='../src/assets/img/google_pic.png' className='icon' />
@@ -74,9 +74,9 @@ const Login = () => {
                             id="submit"
                             value="Sign up"
                             className="btn-61">
-                            <span>Sign In</span>
+                            <span>Đăng nhập</span>
                         </button>
-                        <a href="/register" className="submit-link submit">Sign Up</a>
+                        <a href="/register" className="submit-link submit">Đăng ký</a>
                     </div>
                 </form>
             </div>

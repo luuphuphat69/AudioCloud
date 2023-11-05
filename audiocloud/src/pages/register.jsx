@@ -2,6 +2,14 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import Navbar from '../component/navbar/navbar';
 const Register = () => {
+
+    const validateInput = (input) => {
+        // Define a regular expression to allow only specific characters (e.g., A-Z, a-z, 0-9, and common symbols)
+        const regex = /^[A-Za-z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/ \-]+$/;
+      
+        return regex.test(input);
+      };
+
     const [formData, setFormData] = useState({
         name: '',
         password: '',
@@ -12,11 +20,16 @@ const Register = () => {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
+        const isValidInput = validateInput(value);
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: isValidInput ? value : '',
             passwordMatchError: false, // Reset the password matching error when inputs change
         });
+        if (!isValidInput) {
+            // Show an error message to the user (you can use state or a separate element for this)
+            window.alert('Phát hiện ký tự không hợp lệ. Xin nhập vào ký tự không có dấu');
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -42,12 +55,12 @@ const Register = () => {
                 Email: email,
             });
             if (response.status === 201) {
-                window.alert('Sign up account successfully');
+                window.alert('Đăng ký thành công');
             } else {
-                window.alert('Email or Account is available or invalid. Please try again');
+                window.alert('Email hoặc tài khoản đã tồn tại. Hãy thử lại');
             }
         } catch (error) {
-            window.alert('Email or Account is available or invalid. Please try again');
+            window.alert('Email hoặc tài khoản đã tồn tại. Hãy thử lại');
             console.error('An error occurred:', error);
         }
 
@@ -68,7 +81,7 @@ const Register = () => {
             </div>
                 <div className="signup-content">
                     <form method="POST" id="signup-form" className="signup-form" onSubmit={handleSubmit}>
-                        <h2 className="textH2">Sign Up</h2>
+                        <h2 className="textH2">Đăng ký</h2>
                         <div className="form-group">
                             <input
                                 id='account'
@@ -77,7 +90,7 @@ const Register = () => {
                                 name="name"
                                 value={formData.name}
                                 onChange={handleInputChange}
-                                placeholder="Your Account"
+                                placeholder="Tài khoản"
                             />
                         </div>
                         <div className="form-group">
@@ -88,7 +101,7 @@ const Register = () => {
                                 name="password"
                                 value={formData.password}
                                 onChange={handleInputChange}
-                                placeholder="Password"
+                                placeholder="Mật khẩu"
                             />
                             <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
@@ -99,7 +112,7 @@ const Register = () => {
                                 name="repassword"
                                 value={formData.repassword}
                                 onChange={handleInputChange}
-                                placeholder="Repassword"
+                                placeholder="Nhập lại mật khẩu"
                             />
                             <span toggle="#password" className="zmdi zmdi-eye field-icon toggle-password"></span>
                         </div>
@@ -117,7 +130,7 @@ const Register = () => {
                                 placeholder="Email"
                             />
                         </div>
-                        <div className="separator textColor">Or</div>
+                        <div className="separator textColor">Hoặc</div>
                         <div style={{display: 'flex', justifyContent:"center"}}>
                             <img src="../src/assets/img/facebook.png" className="icon" />
                             <img src="../src/assets/img/google_pic.png" className="icon" />
@@ -130,9 +143,9 @@ const Register = () => {
                                 id="submit"
                                 value="Sign up"
                                 className="btn-61">
-                                <span>Sign Up</span>
+                                <span>Đăng ký</span>
                             </button>
-                            <a href="login" class="submit-link submit">Sign In</a>
+                            <a href="login" class="submit-link submit">Đăng nhập</a>
                         </div>
                     </form>
                 </div>
