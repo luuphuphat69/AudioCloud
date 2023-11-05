@@ -37,6 +37,9 @@ const userSchema = new mongoose.Schema(
         },
         isPro:{
             type: Boolean, require: true
+        },
+        isArtist:{
+            type: Boolean, require: false
         }
     }
 );

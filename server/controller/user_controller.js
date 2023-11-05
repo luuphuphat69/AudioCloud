@@ -156,6 +156,30 @@ const userController = {
             res.status(500).json({ message: "Server error" });
             console.log(error);
         }
+    },
+    updatePro: async(req, res) => {
+        try{
+            const userId = req.params.UserId;
+            const user = await User.findOne({UserId: userId});
+            user.isPro = true;
+            await user.save();
+            return res.status(200).json({message: "Updated Pro"});
+        }catch(err){
+            console.log(err);
+            return res.status(500).json({message: "Server error"});
+        }
+    },
+    updateArtist: async (req, res) => {
+        try{
+            const userId = req.params.UserId;
+            const user = await User.findOne({UserId: userId});
+            user.isArtist = true;
+            await user.save();
+            return res.status(200).json({message: "Server error"});
+        }catch(err){
+            console.log(err);
+            return res.status(500).json({message: "Server error"});
+        }
     }
 }
 function generateUserId() {

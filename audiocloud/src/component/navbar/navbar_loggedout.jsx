@@ -30,9 +30,9 @@ const NavbarLoggedOut = () => {
                             </div>
                             <div className="collapse navbar-collapse" id="ftco-nav">
                                 <ul className="navbar-nav m-auto">
-                                    <li className="nav-item"><a href="/home" className="nav-link">Home</a></li>
-                                    <li className="nav-item"><a href="#" className="nav-link">Library</a></li>
-                                    <li className="nav-item"><a href="#" className="nav-link">Subscription</a></li>
+                                    <li className="nav-item"><a href="/home" className="nav-link">Trang Chủ</a></li>
+                                    <li className="nav-item"><a href="#" className="nav-link">Thư viện</a></li>
+                                    <li className="nav-item"><a href="/subcription" className="nav-link">Dịch vụ</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -51,10 +51,10 @@ const NavbarLoggedOut = () => {
                         <div className="collapse navbar-collapse" id="navbar-list-4" style={{ marginRight: '90px' }}>
                             <ul className="navbar-nav" id="navbar-links">
                                 <li className="nav-item" id="navbar-login">
-                                    <a className="nav-link" href="/login" role="button">Login</a>
+                                    <a className="nav-link" href="/login" role="button">Đăng nhập</a>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="/register" role="button">SignUp</a>
+                                    <a className="nav-link" href="/register" role="button">Đăng ký</a>
                                 </li>
                             </ul>
                         </div>

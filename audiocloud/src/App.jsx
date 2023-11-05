@@ -10,6 +10,7 @@ import Search from './pages/search';
 import Upload from './pages/upload';
 import Profile from './pages/profile';
 import Details from './pages/song_details';
+import Subcription from './pages/subcription';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -53,6 +54,7 @@ function App() {
           <Route path='/profile' element={isLoggedIn === false ? <Profile /> : <Navigate to="/login" />} />
           <Route path='/login' element={<Login />} />
           <Route path='/search' element={<Search />} />
+          <Route path='/subcription' element={<Subcription/>}/>
           <Route path='/upload' element={isLoggedIn === false ? <Upload /> : <Navigate to="/login" />} />
           <Route path='/register' element={<Register />} />
         </Routes>
