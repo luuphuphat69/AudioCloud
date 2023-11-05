@@ -54,7 +54,7 @@ const Subcription = () => {
       <section>
       {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
         <div class="content p-5">
-          <div class="basic box">
+          <div class="basic box1">
             <h2 class="title">Miễn phí</h2>
             <div class="view">
               <div class="icon">
@@ -74,7 +74,7 @@ const Subcription = () => {
             </div>
           </div>
 
-          <div class="standard box">
+          <div class="standard box1">
             <h2 class="title">Người nghe</h2>
             <div class="view">
               <div class="icon">
@@ -98,7 +98,7 @@ const Subcription = () => {
             {user?.isPro ? <button type="submit" style={{ color: "#000" }} disabled='true'>ĐÃ MUA</button> 
             : <button type="submit" style={{ color: "#000" }} onClick={() => handleSubmit('Listener')}>MUA NGAY</button>}
           </div>
-          <div class="business box" style={{height:"769px"}}>
+          <div class="business box1" style={{height:"769px"}}>
             <h2 class="title">Nghệ sĩ</h2>
             <div class="view">
               <div class="icon">

@@ -897,7 +897,7 @@ section{
     margin: 100px;
 }
 
-.box{
+.box1{
     display: flex;
     flex-direction: column;
     height: 586px;
