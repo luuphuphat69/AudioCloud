@@ -34,7 +34,7 @@ const userController = {
                         expiresIn: '1h',
                     });
                     // Save token into cookies
-                    res.cookie('token', token, { secure: false, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/', domain:".54.206.75.221" });
+                    res.cookie('token', token, { secure: false, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/', domain:".audiocloud.asia" });
                     return res.status(201).json(token);
                 } else {
                     console.log('Authentication failed');
