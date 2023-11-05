@@ -6,6 +6,7 @@ import ReactPaginate from 'react-paginate';
 import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons form react-icons
 import { IconContext } from "react-icons";
 import Popup_Playlist from '../component/popup/add_to_playlist'
+import Notification from './notify/notify_comp';
 
 const Search_Tracks = ({ searchResults }) => {
 
