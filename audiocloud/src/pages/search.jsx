@@ -22,7 +22,7 @@ const Search = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://54.206.75.221:8000/get-cookies', { withCredentials: true });
+                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
                 const receivedToken = response.data;
                 setToken(receivedToken);
                 // Check the login status once the token is available

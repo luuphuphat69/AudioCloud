@@ -35,7 +35,7 @@ const EditTrack = ({ audioId, closePopup }) => {
             formData.append('description', description);
             formData.append('isPublic', isPublic);
 
-            await axios.put(`http://54.206.75.221:8000/v1/audio/edit-track/${audioId}`, formData, {
+            await axios.put(`http://audiocloud.asia:8000/v1/audio/edit-track/${audioId}`, formData, {
                 method: 'PUT',
                 credentials: "include",
                 headers: {

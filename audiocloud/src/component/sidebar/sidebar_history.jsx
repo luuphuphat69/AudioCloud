@@ -13,7 +13,7 @@ const SidebarHistory = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://54.206.75.221:8000/get-cookies', { withCredentials: true });
+                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
                 const receivedToken = response.data;
                 const user = jwt(receivedToken);
                 setUserId(user.userId);
@@ -26,7 +26,7 @@ const SidebarHistory = () => {
 
     useEffect(() => {
         // Fetch data from the API endpoint
-        axios.get(`http://54.206.75.221:8000/v1/history/get-history/${userId}`)
+        axios.get(`http://audiocloud.asia:8000/v1/history/get-history/${userId}`)
             .then((response) => {
                 setData(response.data.ListAudio);
             })
@@ -38,7 +38,7 @@ const SidebarHistory = () => {
     const handleLike = async (audioId) => {
         try {
             console.log(userId);
-            await axios.put(`http://54.206.75.221:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
         } catch (err) {
             console.log(err);
         }

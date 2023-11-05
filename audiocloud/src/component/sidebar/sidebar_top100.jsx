@@ -5,7 +5,7 @@ import axios from 'axios';
 import LongMenu from '../menu/audio_menu';
 
 const SidebarTop100 = () => {
-    const apiEndpoint = 'http://54.206.75.221:8000/v1/audio/getTop100';
+    const apiEndpoint = 'http://audiocloud.asia:8000/v1/audio/getTop100';
     const [data, setData] = useState([]);
     const [userId, setUserId] = useState('');
 
@@ -15,7 +15,7 @@ const SidebarTop100 = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://54.206.75.221:8000/get-cookies', { withCredentials: true });
+                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
                 const receivedToken = response.data;
                 const user = jwt(receivedToken);
                 setUserId(user.userId);
@@ -39,7 +39,7 @@ const SidebarTop100 = () => {
 
     const handleLike = async (audioId) => {
         try {
-            await axios.put(`http://54.206.75.221:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
         } catch (err) {
             console.log(err);
         }
@@ -58,7 +58,7 @@ const SidebarTop100 = () => {
 
     const updateHistory = async (audioId, userId) => {
         try{
-            await axios.put(`http://54.206.75.221:8000/v1/history/update-history/${audioId}/${userId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/history/update-history/${audioId}/${userId}`);
         }catch(err){
             console.log(err);
         }

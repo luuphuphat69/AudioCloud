@@ -9,14 +9,14 @@ const PaymentComponent = ({type, amount, closePopup}) => {
 
   const handleUpdatePro = async () => {
     try {
-        const response = await axios.get('http://54.206.75.221:8000/get-cookies', { withCredentials: true });
+        const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
         const receivedToken = response.data;
         const user = jwt(receivedToken);
         if(type === 'Artist'){
-          await axios.put(`http://54.206.75.221:8000/v1/user/update-artist/${user.userId}`);
+          await axios.put(`http://audiocloud.asia:8000/v1/user/update-artist/${user.userId}`);
         }
         if(type === 'Listener'){
-          await axios.put(`http://54.206.75.221:8000/v1/user/update-pro/${user.userId}`);
+          await axios.put(`http://audiocloud.asia:8000/v1/user/update-pro/${user.userId}`);
         }
     } catch (err) {
       console.log(err);

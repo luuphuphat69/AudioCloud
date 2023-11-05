@@ -45,7 +45,7 @@ export default function LongMenu({ audioId }) {
     if (confirmed) {
       // User confirmed, proceed with the deletion
       try {
-        await axios.delete(`http://54.206.75.221:8000/v1/audio/removeAudio/${audioId}`);
+        await axios.delete(`http://audiocloud.asia:8000/v1/audio/removeAudio/${audioId}`);
         setNotify(true);
       } catch (error) {
         console.log(error);

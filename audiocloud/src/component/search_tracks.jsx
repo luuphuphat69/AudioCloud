@@ -44,7 +44,7 @@ const Search_Tracks = ({ searchResults }) => {
 
     useEffect(() => {
         const fectchUser = async () => {
-            const response = await axios.get('http://54.206.75.221:8000/get-cookies', { withCredentials: true });
+            const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
             const receivedToken = response.data;
             const user = jwt(receivedToken);
             setUserId(user.userId);
@@ -54,7 +54,7 @@ const Search_Tracks = ({ searchResults }) => {
 
     const handleLike = async (audioId) => {
         try {
-            await axios.put(`http://54.206.75.221:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
             handleLikeClick();
         } catch (err) {
             console.log(err);
@@ -63,14 +63,14 @@ const Search_Tracks = ({ searchResults }) => {
 
     const updatePlays = async (audioId) => {
         try {
-            await axios.put(`http://54.206.75.221:8000/v1/audio/update-plays/${audioId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/audio/update-plays/${audioId}`);
         } catch (error) {
             console.log(error);
         }
     }
     const updateHistory = async(audioId) => {
         try{
-            await axios.put(`http://54.206.75.221:8000/v1/history/update-history/${audioId}/${userId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/history/update-history/${audioId}/${userId}`);
         }catch(err){
             console.log(err);
         }
@@ -135,14 +135,14 @@ const Search_Tracks = ({ searchResults }) => {
                         <h5 class="font-weight-light mb-4 ml-3">
                             By: {item.UserDisplayname}
                         </h5>
-                        <p className='ml-3'>Plays: {item.Plays}</p>
+                        <p className='ml-3'>Lượt nghe: {item.Plays}</p>
                         <div className='ml-3' style={{ display: 'flex' }}>
                             <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleLike(item.AudioId)}>
                                 <div className='box'>
                                     <img className='mr-3 horizontal-button' src='../src/assets/img/icon/heart.png' style={{ width: "20px", height: "20px" }} />
                                 </div>
                                 <div className='box mt-3'>
-                                    <p>Likes</p>
+                                    <p>Yêu thích</p>
                                 </div>
                             </button>
 
@@ -151,7 +151,7 @@ const Search_Tracks = ({ searchResults }) => {
                                     <img className='mr-3 horizontal-button' src='../src/assets/img/icon/playlist.png' style={{ width: "20px", height: "20px" }} />
                                 </div>
                                 <div className='box mt-3'>
-                                    <p>Add to playlist</p>
+                                    <p>Thêm vào playlist</p>
                                 </div>
                             </button>
                             <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }} onClick={() => handleDownload(item.AudioURL, item.AudioName)}>
@@ -159,7 +159,7 @@ const Search_Tracks = ({ searchResults }) => {
                                     <img className='mr-3 horizontal-button' src='../src/assets/img/icon/download.png' style={{ width: "20px", height: "20px" }} />
                                 </div>
                                 <div className='box mt-3'>
-                                    <p>Download</p>
+                                    <p>Tải xuống</p>
                                 </div>
                             </button>
                         </div>
@@ -167,7 +167,7 @@ const Search_Tracks = ({ searchResults }) => {
                     {showPoppupPlaylist && <Popup_Playlist audioId={item.AudioId} closePopup={closePopup} />}
                     {showNotification && (
                         <Notification
-                            message="You liked this item!"
+                            message="Bạn đã thích bài hát này!"
                             type="success" // Set the type of notification (success, info, warning, error)
                             onClose={() => setShowNotification(false)} // Close the notification
                         />

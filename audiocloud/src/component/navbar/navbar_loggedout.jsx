@@ -10,7 +10,7 @@ const NavbarLoggedOut = () => {
         e.preventDefault(); // Prevent the default form submission behavior
 
         try {
-            const response = await axios.get(`http://54.206.75.221:8000/v1/audio/search?queries=${searchTerm}`);
+            const response = await axios.get(`http://audiocloud.asia:8000/v1/audio/search?queries=${searchTerm}`);
             // Redirect to the search page with search results as a URL parameter
             // Navigate to the /search page with response data as a prop
             navigate('/search', { state: { searchResults: response.data } });
