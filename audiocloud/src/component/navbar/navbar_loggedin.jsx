@@ -5,10 +5,10 @@ import axios from 'axios';
 const NavbarLoggedIn = () => {
     // Logout, delete cookie
     const handleLogOut = () => {
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.audiocloud.asia";
         navigate('/home');
     }
-
+    
     const [searchTerm, setSearchTerm] = useState('');
     const navigate = useNavigate(); // Create a history object for navigation
     // Function to handle the search
