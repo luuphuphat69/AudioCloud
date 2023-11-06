@@ -10,10 +10,10 @@ import Sidebar from '../component/sidebar/sidebar';
 import SidebarTop100 from '../component/sidebar/sidebar_top100';
 import { useAPlayer } from '../component/player_context';
 import MediaQuery from 'react-responsive'
-
 axios.defaults.withCredentials = true;
 
 const Home = () => {
+
     const sliderSettings = {
         dots: true,
         infinite: true,
