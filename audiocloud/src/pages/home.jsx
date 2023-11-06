@@ -9,6 +9,7 @@ import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import Sidebar from '../component/sidebar/sidebar';
 import SidebarTop100 from '../component/sidebar/sidebar_top100';
 import { useAPlayer } from '../component/player_context';
+import MediaQuery from 'react-responsive'
 
 axios.defaults.withCredentials = true;
 
@@ -40,9 +41,9 @@ const Home = () => {
     const { initializeAPlayer } = useAPlayer();
 
     const handleImageClick = (newGenre) => {
-        if(genre == null){
+        if (genre == null) {
             setGenre(newGenre); // Set the genre based on the clicked image
-        }else{
+        } else {
             setGenre(null);
         }
     };
@@ -198,12 +199,11 @@ const Home = () => {
                 </div>
                 <div className='col-lg-4'>
                     <div className="blog_right_sidebar">
-                    {isLoggedIn ? <Sidebar /> : <SidebarTop100 />}
+                        {isLoggedIn ? <Sidebar /> : <SidebarTop100 />}
                     </div>
                 </div>
             </div>
         </section>
     );
 }
-
 export default Home;
