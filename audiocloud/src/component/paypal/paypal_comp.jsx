@@ -12,6 +12,10 @@ const PaymentComponent = ({type, amount, closePopup}) => {
         const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
         const receivedToken = response.data;
         const user = jwt(receivedToken);
+        if(user === null){
+          window.alert("Xin vui lòng đăng nhập");
+          window.location.href = '/home';
+        }
         if(type === 'Artist'){
           await axios.put(`http://audiocloud.asia:8000/v1/user/update-artist/${user.userId}`);
         }
