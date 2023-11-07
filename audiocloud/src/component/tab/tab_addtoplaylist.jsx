@@ -2,8 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Notification from '../notify/notify_comp';
 import axios from 'axios';
 import jwt from 'jwt-decode';
+import { useMediaQuery } from 'react-responsive';
 
 const Tab_AddToPlaylist = (audioId) => {
+
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
+
     const [userId, setUserId] = useState(null);
     const [data, setData] = useState([]);
     const [inputValue, setInputValue] = useState(''); // State for input value
@@ -60,40 +65,77 @@ const Tab_AddToPlaylist = (audioId) => {
         height: '50vh',
     };
 
-    return (
-        <div className="popup-form p-2" style={popupFormStyle}>
-            <input
-                className="form-control"
-                type="search"
-                placeholder="Lọc tìm kiếm"
-                aria-label="Search..."
-                value={inputValue} // Bind the input value
-                onChange={handleInputChange} // Handle input change
-            />
-            <div className='mt-2'>
-                {filteredData.slice(0, 3).map((item) => (
-                    <div className='d-block d-md-flex podcast-entry mb-3'>
-                        <div className='image-container'>
-                            <img src='../src/assets/img/playlist.jpeg' style={{ width: "70px", height: "70px" }} />
-                        </div>
-
-                        <div className="text ml-2">
-                            <h5>{item.Title}</h5>
-                            <h6 className='font-weight-light'>{item.Genre}</h6>
-                        </div>
-                        <button className='mt-2' onClick={() => handleClick(audioId, item.PlaylistId)} style={{ marginLeft: "auto", height: "50px", color: "#000" }}>Thêm vào playlist</button>
-                    </div>
-                ))}
-            </div>
-            {showNotification && (
-                <Notification
-                    message="Thêm vào playlist thành công"
-                    type="success" // Set the type of notification (success, info, warning, error)
-                    onClose={() => setShowNotification(false)} // Close the notification
+    if(isDesktopOrLaptop){
+        return (
+            <div className="popup-form p-2" style={popupFormStyle}>
+                <input
+                    className="form-control"
+                    type="search"
+                    placeholder="Lọc tìm kiếm"
+                    aria-label="Search..."
+                    value={inputValue} // Bind the input value
+                    onChange={handleInputChange} // Handle input change
                 />
-            )}
-        </div>
-    );
+                <div className='mt-2'>
+                    {filteredData.slice(0, 3).map((item) => (
+                        <div className='d-block d-md-flex podcast-entry mb-3'>
+                            <div className='image-container'>
+                                <img src='../src/assets/img/playlist.jpeg' style={{ width: "70px", height: "70px" }} />
+                            </div>
+    
+                            <div className="text ml-2">
+                                <h5>{item.Title}</h5>
+                                <h6 className='font-weight-light'>{item.Genre}</h6>
+                            </div>
+                            <button className='mt-2' onClick={() => handleClick(audioId, item.PlaylistId)} style={{ marginLeft: "auto", height: "50px", color: "#000" }}>Thêm vào playlist</button>
+                        </div>
+                    ))}
+                </div>
+                {showNotification && (
+                    <Notification
+                        message="Thêm vào playlist thành công"
+                        type="success" // Set the type of notification (success, info, warning, error)
+                        onClose={() => setShowNotification(false)} // Close the notification
+                    />
+                )}
+            </div>
+        );
+    }else if(isTabletOrMobile){
+        return (
+            <div className="popup-form p-2 card-customeMobile" style={{height:'350px', background:'#f0f0f0', width:'17rem'}}>
+                <input
+                    className="form-control"
+                    type="search"
+                    placeholder="Lọc tìm kiếm"
+                    aria-label="Search..."
+                    value={inputValue} // Bind the input value
+                    onChange={handleInputChange} // Handle input change
+                />
+                <div className='mt-2'>
+                    {filteredData.slice(0, 3).map((item) => (
+                        <div className='d-block d-md-flex podcast-entry mb-3'>
+                            <div className='image-container'>
+                                <img src='../src/assets/img/playlist.jpeg' style={{ width: "70px", height: "70px" }} />
+                            </div>
+    
+                            <div className="text ml-2">
+                                <h5>{item.Title}</h5>
+                                <h6 className='font-weight-light'>{item.Genre}</h6>
+                            </div>
+                            <button className='mt-2' onClick={() => handleClick(audioId, item.PlaylistId)} style={{ marginLeft: "auto", height: "50px", color: "#000" }}>Thêm vào playlist</button>
+                        </div>
+                    ))}
+                </div>
+                {showNotification && (
+                    <Notification
+                        message="Thêm vào playlist thành công"
+                        type="success" // Set the type of notification (success, info, warning, error)
+                        onClose={() => setShowNotification(false)} // Close the notification
+                    />
+                )}
+            </div>
+        );
+    }
 }
 
 export default Tab_AddToPlaylist;

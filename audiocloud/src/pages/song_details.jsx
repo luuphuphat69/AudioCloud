@@ -7,8 +7,13 @@ import Popup_Playlist from "../component/popup/add_to_playlist";
 import SidebarTop100 from "../component/sidebar/sidebar_top100";
 import jwt from "jwt-decode";
 import axios from 'axios';
+import { useMediaQuery } from 'react-responsive';
 
 const Details = () => {
+
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
+
     const { audioId } = useParams();
     const [audioDetails, setAudioDetails] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -148,7 +153,11 @@ const Details = () => {
                 let x = 0;
 
                 for (let i = 0; i < dataArray.length; i++) {
-                    barHeight = dataArray[i] * 2;
+                    if (isDesktopOrLaptop) {
+                        barHeight = dataArray[i] * 2;
+                    } else if (isTabletOrMobile) {
+                        barHeight = dataArray[i] * 0.5;
+                    }
 
                     // Set canvas drawing styles here
                     // let gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
@@ -200,88 +209,178 @@ const Details = () => {
         }
     };
 
-    return (
-        <div className="container">
-            {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
-            <div className="hero" style={{ marginTop: "110px" }}>
-                <div className="container-fluid">
-                    <div className="row justify-content-between">
-                        <div className="col" style={{ top: "70px" }}>
-                            <div className="intro-excerpt">
-                                <div className="center-button" style={{ top: "55px", left: "45px" }}>
-                                    <button className="btn-95 mb-4" onClick={() => handleAudioPlay(audioDetails.AudioURL)}>
-                                        <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
-                                            <g>
-                                                <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
-                                            </g>
-                                        </svg>
-                                    </button>
-                                </div>
-                                <h3 style={{ color: "#000", marginLeft: "100px" }}>{audioDetails.AudioName}</h3>
-                                <h5 style={{ color: "#000", marginLeft: "100px" }}>{audioDetails.UserDisplayname}</h5>
-                                <div className='ml-2' style={{ display: 'flex', width: "900px" }}>
-                                    <canvas id="canvas" width={850} height={235} />
-                                    <audio ref={audioRef => (audioElement.current = audioRef)} />
+    if (isDesktopOrLaptop) {
+        return (
+            <div className="container">
+                {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
+                <div className="hero" style={{ marginTop: "110px" }}>
+                    <div className="container-fluid">
+                        <div className="row justify-content-between">
+                            <div className="col" style={{ top: "70px" }}>
+                                <div className="intro-excerpt">
+                                    <div className="center-button" style={{ top: "55px", left: "45px" }}>
+                                        <button className="btn-95 mb-4" onClick={() => handleAudioPlay(audioDetails.AudioURL)}>
+                                            <svg fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
+                                                <g>
+                                                    <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                                </g>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    <h3 style={{ color: "#000", marginLeft: "100px" }}>{audioDetails.AudioName}</h3>
+                                    <h5 style={{ color: "#000", marginLeft: "100px" }}>{audioDetails.UserDisplayname}</h5>
+                                    <div className='ml-2' style={{ display: 'flex', width: "900px" }}>
+                                        <canvas id="canvas" width={850} height={235} />
+                                        <audio ref={audioRef => (audioElement.current = audioRef)} />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-lg-7">
-                            <div className="hero-img-wrap">
-                                {audioDetails.PhotoURL ? (
-                                    <img src={audioDetails.PhotoURL} alt="" />
-                                ) : (
-                                    <img src="../src/assets/img/blur_img.png" alt="Default" />
-                                )}
+                            <div className="col-lg-7">
+                                <div className="hero-img-wrap">
+                                    {audioDetails.PhotoURL ? (
+                                        <img src={audioDetails.PhotoURL} alt="" />
+                                    ) : (
+                                        <img src="../src/assets/img/blur_img.png" alt="Default" />
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <form className="form" onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    value={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    className="form-control mt-5"
-                    placeholder="Write a comment"
-                />
+                <form className="form" onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                        className="form-control mt-5"
+                        placeholder="Write a comment"
+                    />
 
-            </form>
-
-            <div style={{ display: 'flex' }}>
-                <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
-                    <div className='box'>
-                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/heart.png' style={{ width: "20px", height: "20px" }} />
+                </form>
+                <div style={{ display: 'flex' }}>
+                    <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
+                        <div className='box'>
+                            <img className='mr-3 horizontal-button' src='../src/assets/img/icon/heart.png' style={{ width: "20px", height: "20px" }} />
+                        </div>
+                        <div className='box mt-3' onClick={() => handleLike(audioId, user.UserId)}>
+                            <p>Likes</p>
+                        </div>
+                    </button>
+                    <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
+                        <div className='box'>
+                            <img className='mr-3 horizontal-button' src='../src/assets/img/icon/playlist.png' style={{ width: "20px", height: "20px" }} />
+                        </div>
+                        <div className='box mt-3' onClick={handlePlaylist}>
+                            <p>Add to playlist</p>
+                        </div>
+                    </button>
+                    <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
+                        <div className='box'>
+                            <img className='mr-3 horizontal-button' src='../src/assets/img/icon/download.png' style={{ width: "20px", height: "20px" }} />
+                        </div>
+                        <div className='box mt-3' onClick={() => handleDownload(audioDetails.AudioURL, audioDetails.AudioName)}>
+                            <p>Download</p>
+                        </div>
+                    </button>
+                </div>
+                <div className="row">
+                    <div className="col-lg-8">
+                        {data && data.map((item) => (
+                            <div key={item.CommentId} className="comment-container">
+                                {item.PhotoURL !== 'undefined' ? (
+                                    <img src={item.PhotoURL} style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+                                ) : (
+                                    <img src="../src/assets/img/blur_img.png" style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+                                )}
+                                <div className="comment-details">
+                                    <p>{item.DateComment}</p>
+                                    <div>{item.CommentContent}</div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
-                    <div className='box mt-3' onClick={() => handleLike(audioId, user.UserId)}>
-                        <p>Likes</p>
+                    <div className="col">
+                        <SidebarTop100 />
                     </div>
-                </button>
-                <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
-                    <div className='box'>
-                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/playlist.png' style={{ width: "20px", height: "20px" }} />
-                    </div>
-                    <div className='box mt-3' onClick={handlePlaylist}>
-                        <p>Add to playlist</p>
-                    </div>
-                </button>
-                <button className='mr-3 mb-3' style={{ display: 'flex', alignItems: 'center' }}>
-                    <div className='box'>
-                        <img className='mr-3 horizontal-button' src='../src/assets/img/icon/download.png' style={{ width: "20px", height: "20px" }} />
-                    </div>
-                    <div className='box mt-3' onClick={() => handleDownload(audioDetails.AudioURL, audioDetails.AudioName)}>
-                        <p>Download</p>
-                    </div>
-                </button>
+                </div>
+                {popup ? <Popup_Playlist audioId={audioId} closePopup={handleClosePopup} /> : null}
+                {showNotification && (
+                    <Notification
+                        message="You liked this item!"
+                        type="success" // Set the type of notification (success, info, warning, error)
+                        onClose={() => setShowNotification(false)} // Close the notification
+                    />
+                )}
             </div>
-            <div className="row">
-                <div className="col-lg-8">
-                    {data && data.map((item) => (
+        );
+    } else if (isTabletOrMobile) {
+        return (
+            <div className="container">
+                {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
+                <div className="hero" style={{ marginTop: "200px"}}>
+                    <div className="container-fluid">
+                        <div className="row justify-content-center">
+                            <div style={{ top: "70px", height: '150px' }}>
+                                <div className="intro-excerpt">
+                                    <div className="audio-player" style={{ display: "flex", alignItems: "center", marginTop: "50px" }}>
+                                        <button className="btn-95" onClick={() => handleAudioPlay(audioDetails.AudioURL)}>
+                                            <svg fill="#000000" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="60" height="60" viewBox="0 0 60 60">
+                                                <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z" />
+                                            </svg>
+                                        </button>
+                                        <div style={{ marginLeft: "10px" }}>
+                                            <h3 style={{ color: "#000" }}>{audioDetails.AudioName}</h3>
+                                            <h5 style={{ color: "#000" }}>{audioDetails.UserDisplayname}</h5>
+                                        </div>
+                                        <div style={{ marginLeft: "auto" }}>
+                                            {audioDetails.PhotoURL ? (
+                                                <img src={audioDetails.PhotoURL} alt="" width='150px' />
+                                            ) : (
+                                                <img src="../src/assets/img/blur_img.png" width='100px' alt="Default" />
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="audio-player mt-3">
+                                        <canvas id="canvas" width={330} height={75} />
+                                        <audio ref={audioRef => (audioElement.current = audioRef)} />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form className="form" onSubmit={handleSubmit}>
+                    <input
+                        type="text"
+                        value={comment}
+                        onChange={e => setComment(e.target.value)}
+                        className="form-control mt-3"
+                        placeholder="Write a comment"
+                    />
+                </form>
+                <div className="actions" style={{ display: "flex" }}>
+                    <button className="mr-2" style={{ color: '#000' }} onClick={() => handleLike(audioId, user.UserId)}>
+                        <img src="../src/assets/img/icon/heart.png" width="20" height="20" alt="Like" />
+                        Thích
+                    </button>
+                    <button className="mr-2" onClick={handlePlaylist} style={{ color: '#000' }}>
+                        <img src="../src/assets/img/icon/playlist.png" width="20" height="20" alt="Add to playlist" />
+                        <br></br>
+                        Thêm vào Playlist
+                    </button>
+                    <button className="mr-2" onClick={() => handleDownload(audioDetails.AudioURL, audioDetails.AudioName)} style={{ color: '#000' }}>
+                        <img src="../src/assets/img/icon/download.png" width="20" height="20" alt="Download" />
+                        <br></br>
+                        Tải xuống
+                    </button>
+                </div>
+                <div className="comments mt-4" style={{ maxHeight: "200px", overflowY: "auto" }}>
+                    {data && data.map(item => (
                         <div key={item.CommentId} className="comment-container">
                             {item.PhotoURL !== 'undefined' ? (
-                                <img src={item.PhotoURL} style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+                                <img src={item.PhotoURL} width="50" height="50" style={{ borderRadius: "50%" }} alt="User" />
                             ) : (
-                                <img src="../src/assets/img/blur_img.png" style={{ width: "50px", height: "50px", borderRadius: "50%" }} />
+                                <img src="../src/assets/img/blur_img.png" width="50" height="50" style={{ borderRadius: "50%" }} alt="User" />
                             )}
                             <div className="comment-details">
                                 <p>{item.DateComment}</p>
@@ -290,19 +389,16 @@ const Details = () => {
                         </div>
                     ))}
                 </div>
-                <div className="col">
-                    <SidebarTop100 />
-                </div>
+                {popup ? <Popup_Playlist audioId={audioId} closePopup={handleClosePopup} /> : null}
+                {showNotification && (
+                    <Notification
+                        message="Bạn đã thích bài hát này!"
+                        type="success"
+                        onClose={() => setShowNotification(false)}
+                    />
+                )}
             </div>
-            {popup ? <Popup_Playlist audioId={audioId} closePopup={handleClosePopup} /> : null}
-            {showNotification && (
-                <Notification
-                    message="You liked this item!"
-                    type="success" // Set the type of notification (success, info, warning, error)
-                    onClose={() => setShowNotification(false)} // Close the notification
-                />
-            )}
-        </div>
-    );
+        );
+    }
 }
 export default Details;

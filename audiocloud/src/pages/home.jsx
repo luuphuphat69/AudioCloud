@@ -9,10 +9,14 @@ import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import Sidebar from '../component/sidebar/sidebar';
 import SidebarTop100 from '../component/sidebar/sidebar_top100';
 import { useAPlayer } from '../component/player_context';
-import MediaQuery from 'react-responsive'
+import { useMediaQuery } from 'react-responsive';
+
 axios.defaults.withCredentials = true;
 
 const Home = () => {
+
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
 
     const sliderSettings = {
         dots: true,
@@ -23,6 +27,19 @@ const Home = () => {
         autoplay: true,
         autoplaySpeed: 3000,
     };
+
+    const sliderSettingsMobile = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1, // Set to 1 to show one slide at a time on mobile
+        slidesToScroll: 1, // Set to 1 to scroll one slide at a time on mobile
+        autoplay: true,
+        autoplaySpeed: 3000,
+
+    };
+
+
     const items = [
         { id: 'Pop', text: 'https://images.pexels.com/photos/1370545/pexels-photo-1370545.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
         { id: 'Ballad', text: 'https://images.pexels.com/photos/838696/pexels-photo-838696.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
@@ -95,115 +112,230 @@ const Home = () => {
         console.log(data);
         initializeAPlayer(data);
     }, [data]);
-    return (
-
-        <section className="product_list best_seller section_padding">
-            {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
-            <div className='row'>
-                <div className='col-lg-8 mb-5 mb-lg-0'>
-                    <div className="container">
-                        <div className="row justify-content-center">
-                            <div className="col-lg-12">
-                                <div className="section_tittle text-center">
-                                    <h2>Xếp hạng: Top 50</h2>
-                                    <span>Những bài hát được nghe nhiều nhất trên AudioCloud</span>
-                                </div>
-                                <Slider {...sliderSettings}>
-                                    {items.map((item) => (
-                                        <div className="col-md-3" key={item.id}>
-                                            <a className="album-poster" onClick={() => handleImageClick(item.id)}>
-                                                <div className="image-container slider-item">
-                                                    <img src={item.text} alt="" />
-                                                    <div className="center-button">
-                                                        <button className="btn-95">
-                                                            <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
-                                                                <g>
-                                                                    <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
-                                                                </g>
-                                                            </svg>
-                                                        </button>
+    if (isDesktopOrLaptop) {
+        return (
+            <section className="product_list best_seller section_padding">
+                {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
+                <div className='row'>
+                    <div className='col-lg-8 mb-5 mb-lg-0'>
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-12">
+                                    <div className="section_tittle text-center">
+                                        <h2>Xếp hạng: Top 50</h2>
+                                        <span>Những bài hát được nghe nhiều nhất trên AudioCloud</span>
+                                    </div>
+                                    <Slider {...sliderSettings}>
+                                        {items.map((item) => (
+                                            <div className="col-md-3" key={item.id}>
+                                                <a className="album-poster" onClick={() => handleImageClick(item.id)}>
+                                                    <div className="image-container slider-item">
+                                                        <img src={item.text} alt="" />
+                                                        <div className="center-button">
+                                                            <button className="btn-95">
+                                                                <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
+                                                                    <g>
+                                                                        <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </a>
-                                            <h4>TOP50 <span>{item.id}</span></h4>
-                                        </div>
-                                    ))}
-                                </Slider>
+                                                </a>
+                                                <h4>TOP50 <span>{item.id}</span></h4>
+                                            </div>
+                                        ))}
+                                    </Slider>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="container mt-5">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-12">
+                                    <div className="section_tittle text-center mt-5">
+                                        <h2>Bảng xếp hạng: Mới & Hot</h2>
+                                        <span>Các bản nhạc đang nổi bật trên AudioCloud</span>
+                                    </div>
+                                    <Slider {...sliderSettings}>
+                                        {items.map((item) => (
+                                            <div className="col-md-3" key={item.id}>
+                                                <a className="album-poster" onClick={() => handleImageClick(item.id)}>
+                                                    <div className="image-container slider-item">
+                                                        <img src={item.text} alt="" />
+                                                        <div className="center-button">
+                                                            <button className="btn-95">
+                                                                <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
+                                                                    <g>
+                                                                        <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <h4>TOP50 <span>{item.id}</span></h4>
+                                            </div>
+                                        ))}
+                                    </Slider>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="container mt-5">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-12">
+                                    <div className="section_tittle text-center mt-5">
+                                        <h2>Nghệ sĩ bạn nên biết</h2>
+                                        <span>Top những bài hát từ những nghệ sĩ nổi bật</span>
+                                    </div>
+                                    <Slider {...sliderSettings}>
+                                        {items.map((item) => (
+                                            <div className="col-md-3" key={item.id}>
+                                                <a className="album-poster">
+                                                    <div className="image-container slider-item">
+                                                        <img src={item.text} alt="" />
+                                                        <div className="center-button">
+                                                            <button className="btn-95" onClick={() => handleImageClick(item.id)}>
+                                                                <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
+                                                                    <g>
+                                                                        <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                                                    </g>
+                                                                </svg>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <h4>TOP50 <span>{item.id}</span></h4>
+                                            </div>
+                                        ))}
+                                    </Slider>
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div className="container mt-5">
-                        <div className="row justify-content-center">
-                            <div className="col-lg-12">
-                                <div className="section_tittle text-center mt-5">
-                                    <h2>Bảng xếp hạng: Mới & Hot</h2>
-                                    <span>Các bản nhạc đang nổi bật trên AudioCloud</span>
-                                </div>
-                                <Slider {...sliderSettings}>
-                                    {items.map((item) => (
-                                        <div className="col-md-3" key={item.id}>
-                                            <a className="album-poster" onClick={() => handleImageClick(item.id)}>
-                                                <div className="image-container slider-item">
-                                                    <img src={item.text} alt="" />
-                                                    <div className="center-button">
-                                                        <button className="btn-95">
-                                                            <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
-                                                                <g>
-                                                                    <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
-                                                                </g>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <h4>TOP50 <span>{item.id}</span></h4>
-                                        </div>
-                                    ))}
-                                </Slider>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="container mt-5">
-                        <div className="row justify-content-center">
-                            <div className="col-lg-12">
-                                <div className="section_tittle text-center mt-5">
-                                    <h2>Nghệ sĩ bạn nên biết</h2>
-                                    <span>Top những bài hát từ những nghệ sĩ nổi bật</span>
-                                </div>
-                                <Slider {...sliderSettings}>
-                                    {items.map((item) => (
-                                        <div className="col-md-3" key={item.id}>
-                                            <a className="album-poster">
-                                                <div className="image-container slider-item">
-                                                    <img src={item.text} alt="" />
-                                                    <div className="center-button">
-                                                        <button className="btn-95" onClick={() => handleImageClick(item.id)}>
-                                                            <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
-                                                                <g>
-                                                                    <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
-                                                                </g>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <h4>TOP50 <span>{item.id}</span></h4>
-                                        </div>
-                                    ))}
-                                </Slider>
-                            </div>
+                    <div className='col-lg-4'>
+                        <div className="blog_right_sidebar">
+                            {isLoggedIn ? <Sidebar /> : <SidebarTop100 />}
                         </div>
                     </div>
                 </div>
-                <div className='col-lg-4'>
-                    <div className="blog_right_sidebar">
-                        {isLoggedIn ? <Sidebar /> : <SidebarTop100 />}
+            </section>
+        );
+    } else if (isTabletOrMobile) {
+        return (
+            <section className="product_list best_seller section_padding">
+                {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
+                <div className="row" style={{ paddingTop: "110px" }}>
+                    <div className="col-lg-8 mb-5 mb-lg-0">
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-12">
+                                    <div className="text-center mt-3">
+                                        <h4>Xếp hạng: Top 50</h4>
+                                        <span style={{ fontSize: '12px' }}>Các bản nhạc đang nổi bật trên AudioCloud</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="grid-container" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
+                            {items.map((item, index) => (
+                                <div className="grid-item p-3" key={item.id}>
+                                    <a className="album-poster" onClick={() => handleImageClick(item.id)}>
+                                        <div className="image-container grid-item">
+                                            <img src={item.text} alt="" />
+                                            <div className="center-button">
+                                                <button className="btn-95">
+                                                    <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
+                                                        <g>
+                                                            <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                                        </g>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <h4>TOP50 <span>{item.id}</span></h4>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="col-lg-8 mb-5 mb-lg-0">
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-12">
+                                    <div className="text-center mt-3">
+                                        <h4>Nghệ sĩ bạn nên biết</h4>
+                                        <span style={{ fontSize: '12px' }}>Top những bài hát từ những nghệ sĩ nổi bật</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="grid-container" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
+                            {items.map((item, index) => (
+                                <div className="grid-item p-3" key={item.id}>
+                                    <a className="album-poster" onClick={() => handleImageClick(item.id)}>
+                                        <div className="image-container grid-item">
+                                            <img src={item.text} alt="" />
+                                            <div className="center-button">
+                                                <button className="btn-95">
+                                                    <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
+                                                        <g>
+                                                            <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                                        </g>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <h4>TOP50 <span>{item.id}</span></h4>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    <div className="col-lg-8 mb-5 mb-lg-0">
+                        <div className="container">
+                            <div className="row justify-content-center">
+                                <div className="col-lg-12">
+                                    <div className="text-center mt-3">
+                                        <h4>Bảng xếp hạng: Mới & Hot</h4>
+                                        <span style={{ fontSize: '12px' }}>Những bài hát được nghe nhiều nhất trên AudioCloud</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="grid-container" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
+                            {items.map((item, index) => (
+                                <div className="grid-item p-3" key={item.id}>
+                                    <a className="album-poster" onClick={() => handleImageClick(item.id)}>
+                                        <div className="image-container grid-item">
+                                            <img src={item.text} alt="" />
+                                            <div className="center-button">
+                                                <button className="btn-95">
+                                                    <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlSpace="http://www.w3.org/2000/svg" xmlspace: xlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
+                                                        <g>
+                                                            <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                                        </g>
+                                                    </svg>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <h4>TOP50 <span>{item.id}</span></h4>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className='col-lg-4'>
+                        <div className="blog_right_sidebar">
+                            {isLoggedIn ? <Sidebar /> : <SidebarTop100 />}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    );
+            </section>
+        );
+    }
 }
 export default Home;

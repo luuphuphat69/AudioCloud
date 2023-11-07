@@ -648,6 +648,19 @@
   align-items: center;
 }
 
+.containerMobile.card-customeMobile {
+  width: 90%; /* Adjust the width as needed for your design */
+  max-width: 400px; /* Set a maximum width for small screens */
+  margin: 0 auto; /* Center the container horizontally */
+  padding: 20px; /* Add some padding for spacing */
+}
+
+@media (max-width: 768px) {
+  .containerMobile.card-customeMobile {
+    width: 90%; /* Reduce width for smaller screens */
+  }
+}
+
 .card-custome {
   max-width: 41rem;
   padding: 0;
