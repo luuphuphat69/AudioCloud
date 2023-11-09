@@ -4,8 +4,13 @@ import jwt from 'jwt-decode';
 import axios from 'axios';
 import LongMenu from '../menu/audio_menu';
 import { useMediaQuery } from 'react-responsive';
+import {Link} from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 const SidebarTop100 = () => {
+
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
 
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
@@ -20,9 +25,7 @@ const SidebarTop100 = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const receivedToken = response.data;
-                const user = jwt(receivedToken);
+                const user = jwt(CookiesToken);
                 setUserId(user.userId);
             } catch (error) {
                 console.error('Error fetching token:', error);
@@ -93,7 +96,7 @@ const SidebarTop100 = () => {
                                 </div>
                             </div>
                             <div class="text">
-                                <h5 className="font-weight-light ml-3"><a href={`/details/${item.AudioId}`}>{item.AudioName}</a></h5>
+                                <h5 className="font-weight-light ml-3"><Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link></h5>
                                 <p className='ml-3'>{item.UserDisplayname}</p>
                             </div>
                             <div className='ml-auto mr-2'>
@@ -128,7 +131,7 @@ const SidebarTop100 = () => {
                       </div>
                     </div>
                     <div class="text-center">
-                      <h5 class="font-weight-light ml-3"><a href={`/details/${item.AudioId}`}>{item.AudioName}</a></h5>
+                      <h5 class="font-weight-light ml-3"><Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link></h5>
                       <p>{item.UserDisplayname}</p>
                     </div>
                     <div style={{ position: 'absolute', top: '0', right: '0' }}>

@@ -2,8 +2,12 @@ import React, {useState, useEffect, useRef} from "react";
 import axios from "axios";
 import jwt from 'jwt-decode';
 import Notification from "./notify/notify_comp";
+import {Link} from 'react-router-dom';
+import Cookies from "universal-cookie";
 
 const Favourite = () => {
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
 
     const [data, setData] = useState(null);
     const [userId, setUserId] = useState(null);
@@ -19,13 +23,9 @@ const Favourite = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const receivedToken = response.data;
-                setToken(receivedToken);
-
+                setToken(CookiesToken);
                 const _user = jwt(token);
                 setUserId(_user.userId);
-
                 const responseData = await axios.get(`http://audiocloud.asia:8000/v1/fav/get-list-fav/${_user?.userId}`);
                 setData(responseData.data);
             } catch (error) {
@@ -161,7 +161,7 @@ const Favourite = () => {
                             </div>
                         </div>
                         <div className="text" style={{ width: "140px" }}>
-                            <h5 className="font-weight-light p-3" style={{color: "#000"}}><a href={`/details/${item.AudioId}`}>{item.AudioName}</a></h5>
+                            <h5 className="font-weight-light p-3" style={{color: "#000"}}><Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link></h5>
                             <h6 className="font-weight-light mb-4 ml-3" style={{color:"#000"}}>
                                {item.UserDisplayname}
                             </h6>

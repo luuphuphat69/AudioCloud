@@ -4,8 +4,12 @@ import jwt from 'jwt-decode';
 import { useAPlayer } from '../component/player_context';
 import Notification from '../component/notify/notify_comp';
 import EditPlaylist_Popup from "./popup/edit_playlist";
+import Cookies from 'universal-cookie';
 
 const Playlists = () => {
+
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
 
     const [token, setToken] = useState(null);
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
@@ -18,10 +22,7 @@ const Playlists = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const receivedToken = response.data;
-                setToken(receivedToken);
-
+                setToken(CookiesToken);
                 const _user = jwt(token);
 
                 const responseData = await axios.get(`http://audiocloud.asia:8000/v1/playlist/get-user-playlist/${_user?.userId}`);

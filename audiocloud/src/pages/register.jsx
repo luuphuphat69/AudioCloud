@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../component/navbar/navbar';
 const Register = () => {
 
+    const navigate = useNavigate();
     const validateInput = (input) => {
         // Define a regular expression to allow only specific characters (e.g., A-Z, a-z, 0-9, and common symbols)
         const regex = /^[A-Za-z0-9!@#$%^&*()_+{}\[\]:;<>,.?~\\/ \-]+$/;
@@ -56,6 +58,7 @@ const Register = () => {
             });
             if (response.status === 201) {
                 window.alert('Đăng ký thành công');
+                navigate('/login');
             } else {
                 window.alert('Email hoặc tài khoản đã tồn tại. Hãy thử lại');
             }
@@ -145,7 +148,7 @@ const Register = () => {
                                 className="btn-61">
                                 <span>Đăng ký</span>
                             </button>
-                            <a href="login" class="submit-link submit">Đăng nhập</a>
+                            <Link to="/login" class="submit-link submit">Đăng nhập</Link>
                         </div>
                     </form>
                 </div>

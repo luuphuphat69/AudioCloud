@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import axios for API requests
-import jwt from 'jwt-decode';
 import { useLocation } from 'react-router-dom';
 import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import NavbarLoggedOut from '../component/navbar/navbar_loggedout';

@@ -5,7 +5,7 @@ import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
 import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import axios from "axios";
 import jwt from 'jwt-decode';
-
+import Cookies from 'universal-cookie';
 const Subcription = () => {
 
   const [showPayment, setShowPayment] = useState(false);
@@ -14,13 +14,14 @@ const Subcription = () => {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState(null);
 
+  const cookies = new Cookies();
+  const CookiesToken = cookies.get('token');
+
   useEffect(() => {
     // Fetch the token when the component mounts
     const fetchToken = async () => {
         try {
-            const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-            const receivedToken = response.data;
-            setToken(receivedToken);
+            setToken(CookiesToken);
             checkLoginStatus();
 
             const _user = jwt(token);

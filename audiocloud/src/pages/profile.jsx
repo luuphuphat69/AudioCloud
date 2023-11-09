@@ -8,6 +8,7 @@ import Playlists from "../component/playlist";
 import Favourite from "../component/favourite";
 import axios from "axios";
 import jwt from 'jwt-decode';
+import Cookies from 'universal-cookie'
 
 const Profile = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
@@ -16,6 +17,9 @@ const Profile = () => {
     const [userPhoto, setUserPhoto] = useState(null);
     const [ifClicked, setIfClicked] = useState('Tracks');
     const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
 
     const togglePopup = () => {
         setIsPopupVisible(!isPopupVisible);
@@ -29,9 +33,7 @@ const Profile = () => {
         // Fetch the token when the component mounts
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const receivedToken = response.data;
-                setToken(receivedToken);
+                setToken(CookiesToken);
                 checkLoginStatus();
 
                 const _user = jwt(token);

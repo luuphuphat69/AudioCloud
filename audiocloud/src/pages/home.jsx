@@ -10,10 +10,13 @@ import Sidebar from '../component/sidebar/sidebar';
 import SidebarTop100 from '../component/sidebar/sidebar_top100';
 import { useAPlayer } from '../component/player_context';
 import { useMediaQuery } from 'react-responsive';
-
+import Cookies from 'universal-cookie';
 axios.defaults.withCredentials = true;
 
 const Home = () => {
+
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
 
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
@@ -69,10 +72,7 @@ const Home = () => {
         // Fetch the token when the component mounts
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true }); // Get Cookies data
-                const receivedToken = response.data;
-                setToken(receivedToken);
-
+                setToken(CookiesToken);
                 // Check the login status once the token is available
                 checkLoginStatus();
             } catch (error) {
@@ -109,7 +109,6 @@ const Home = () => {
 
     useEffect(() => {
         // Initialize APlayer when data is available
-        console.log(data);
         initializeAPlayer(data);
     }, [data]);
     if (isDesktopOrLaptop) {

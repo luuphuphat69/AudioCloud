@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import Notification from '../notify/notify_comp';
+import {Link} from 'react-router-dom';
 
 const EditPlaylist_Popup = ({ playlistId, closePopup }) => {
 
@@ -106,7 +107,7 @@ const EditPlaylist_Popup = ({ playlistId, closePopup }) => {
 
                                 <div className="text ml-2">
                                     <h5>
-                                        <a href={`/details/${item.AudioId}`}>{item.AudioName}</a>
+                                        <Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link>
                                     </h5>
                                     <h6 className='font-weight-light'>{item.Genre}</h6>
                                 </div>

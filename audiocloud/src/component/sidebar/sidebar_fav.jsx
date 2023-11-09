@@ -2,9 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useAPlayer } from '../player_context';
 import axios from "axios";
 import jwt from 'jwt-decode';
-
+import {Link} from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 const SidebarFav = () => {
+
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
+
     const [userId, setUserId] = useState('');
     const [data, setData] = useState([]);
     const [audio, setAudio] = useState([]);
@@ -18,12 +23,9 @@ const SidebarFav = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const receivedToken = response.data;
-                const user = jwt(receivedToken);
+                const user = jwt(CookiesToken);
                 setUserId(user.userId);
                 const _response = await axios.get(`http://audiocloud.asia:8000/v1/fav/get-list-fav/${user.userId}`, { withCredentials: true });
-                console.log("Res: ", _response.data);
                 setData(_response.data);
             } catch (error) {
                 console.error('Error fetching token:', error);
@@ -67,19 +69,17 @@ const SidebarFav = () => {
                         </div>
                     </div>
                     <div className="media-body">
-                        <a href={`/details/${item.AudioId}`}>
+                        <Link to={`/details/${item.AudioId}`}>
                             <h3>{item.AudioName}</h3>
-                        </a>
+                        </Link>
                         <div>
-                            <a href="single-blog.html">
-                                <p>{item.UserDisplayname}</p>
-                            </a>
+                            <p>{item.UserDisplayname}</p>
                         </div>
                     </div>
                 </div>
             ))}
             <div className='mt-4'>
-                <a href='#'>Xem thêm</a>
+                <Link to='/profile'>Xem thêm</Link>
             </div>
         </aside>
     );

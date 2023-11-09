@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import jwt from 'jwt-decode';
 import axios from 'axios';
 import { TailSpin } from "react-loader-spinner";
+import Cookies from 'universal-cookie';
 
 const popupFormStyle = {
   background: '#F0F0F0',
@@ -26,6 +27,8 @@ const PopupForm = ({ closePopup }) => {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const cookies = new Cookies();
+  const CookiesToken = cookies.get('token');
 
   const handlePhotoChange = (e) => {
     const selectedPhoto = e.target.files[0];
@@ -54,9 +57,7 @@ const PopupForm = ({ closePopup }) => {
   useEffect(() => {
     const fetchToken = async () => {
       try {
-        const response = await axios.get('http://audiocloud.asia:8000/getcookie', { withCredentials: true });
-        const receivedToken = response.data;
-        const user = jwt(receivedToken);
+        const user = jwt(CookiesToken);
         setToken(receivedToken);
         // Check the login status once the token is available
         setUserId(user.userId);

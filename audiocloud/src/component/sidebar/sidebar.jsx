@@ -5,11 +5,11 @@ import SidebarHistory from './sidebar_history';
 
 const Sidebar = () => {
     return (
-            <div className="blog_right_sidebar">
-                <SidebarTop100/>
-                <SidebarHistory/>
-                <SidebarFav/>               
-            </div>
+        <div className="blog_right_sidebar">
+            <SidebarTop100 />
+            <SidebarHistory />
+            <SidebarFav />
+        </div>
     );
 }
 export default Sidebar;

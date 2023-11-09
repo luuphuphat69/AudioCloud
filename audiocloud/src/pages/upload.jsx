@@ -3,8 +3,9 @@ import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
 import axios from "axios";
 import jwt from 'jwt-decode';
+import {Link} from 'react-router-dom';
 import {TailSpin} from "react-loader-spinner";
-
+import Cookies from "universal-cookie";
 const Upload = () => {
 
     const [audioName, setAudioName] = useState(null);
@@ -19,14 +20,14 @@ const Upload = () => {
     const [token, setToken] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
 
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const receivedToken = response.data;
-                const user = jwt(receivedToken);
-                setToken(receivedToken);
+                const user = jwt(CookiesToken);
+                setToken(CookiesToken);
                 // Check the login status once the token is available
                 checkLoginStatus();
                 setUserId(user.userId);
@@ -228,7 +229,7 @@ const Upload = () => {
                     )}
                 </form>
                 <div>
-                    <p>Bằng việc đăng nhạc, bạn đã xác nhận rằng bài hát của bạn đã phù hợp với<a href=""> Các điều khoản sử dụng</a> và bạn không vi phạm bản quyền của bất kỳ ai.</p>
+                    <p>Bằng việc đăng nhạc, bạn đã xác nhận rằng bài hát của bạn đã phù hợp với<Link to=""> Các điều khoản sử dụng</Link> và bạn không vi phạm bản quyền của bất kỳ ai.</p>
                 </div>
             </div>
         </div>

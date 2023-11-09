@@ -2,8 +2,13 @@ import React, { useState, useEffect } from "react";
 import jwt from 'jwt-decode';
 import axios from "axios";
 import Notification from '../notify/notify_comp';
+import Cookies from "universal-cookie";
 
 const Tab_CreatePlaylist = () => {
+
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
+
     const popupFormStyle = {
         background: '#F0F0F0',
         width: '35rem',
@@ -16,8 +21,7 @@ const Tab_CreatePlaylist = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const token = jwt(response.data);
+                const token = jwt(CookiesToken);
                 const userId = token.userId;
                 setUserId(userId);
             } catch (error) {

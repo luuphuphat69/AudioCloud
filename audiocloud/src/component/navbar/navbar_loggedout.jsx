@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useHistory from React Router
+import { useNavigate, Link } from 'react-router-dom'; // Import useHistory from React Router
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 
@@ -13,17 +13,24 @@ const NavbarLoggedOut = () => {
     // Function to handle the search
     const handleSearch = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
-
         try {
             const response = await axios.get(`http://audiocloud.asia:8000/v1/audio/search?queries=${searchTerm}`);
-            // Redirect to the search page with search results as a URL parameter
-            // Navigate to the /search page with response data as a prop
-            navigate('/search', { state: { searchResults: response.data } });
+            const response2 = await axios.get(`http://audiocloud.asia:8000/v1/playlist/search?queries=${searchTerm}`);
+            console.log('response.data:', response.data);
+            console.log('response2.data:', response2.data);
+        
+            navigate('/search', {
+                state: {
+                    searchResults: response.data,
+                    playlistResults: response2.data,
+                },
+            });
         } catch (error) {
             console.error(error);
         }
+        
     }
-    if(isDesktopOrLaptop){
+    if (isDesktopOrLaptop) {
         return (
             <header>
                 <div className="header-area header-transparent">
@@ -32,18 +39,24 @@ const NavbarLoggedOut = () => {
                             <div className="container">
                                 <div>
                                     <img src="./src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
-                                    <a className="navbar-brand" href="/home">Audio Cloud <span>spacespeaking.inc</span></a>
+                                    <Link className="navbar-brand" to="/home">Audio Cloud <span>spacespeaking.inc</span></Link>
                                 </div>
                                 <div className="collapse navbar-collapse" id="ftco-nav">
                                     <ul className="navbar-nav m-auto">
-                                        <li className="nav-item"><a href="/home" className="nav-link">Trang Chủ</a></li>
-                                        <li className="nav-item"><a href="#" className="nav-link">Thư viện</a></li>
-                                        <li className="nav-item"><a href="/subcription" className="nav-link">Dịch vụ</a></li>
+                                        <li className="nav-item">
+                                            <Link to="/home" className="nav-link">Trang chủ</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link className="nav-link">Thư viện</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to="/subcription" className="nav-link">Dịch vụ</Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
                             <div>
-                            <form className="searchform order-sm-start order-lg-last" onSubmit={handleSearch}>
+                                <form className="searchform order-sm-start order-lg-last" onSubmit={handleSearch}>
                                     <div className="form-group d-flex">
                                         <input type="text"
                                             className="form-control pl-3"
@@ -57,10 +70,10 @@ const NavbarLoggedOut = () => {
                             <div className="collapse navbar-collapse" id="navbar-list-4" style={{ marginRight: '90px' }}>
                                 <ul className="navbar-nav" id="navbar-links">
                                     <li className="nav-item" id="navbar-login">
-                                        <a className="nav-link" href="/login" role="button">Đăng nhập</a>
+                                        <Link className="nav-link" to='/login'>Đăng nhập</Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a className="nav-link" href="/register" role="button">Đăng ký</a>
+                                        <Link className="nav-link" to='/register'>Đăng ký</Link>
                                     </li>
                                 </ul>
                             </div>
@@ -69,7 +82,7 @@ const NavbarLoggedOut = () => {
                 </div>
             </header>
         );
-    }else if (isTabletOrMobile){
+    } else if (isTabletOrMobile) {
         return (
             <header>
                 <div className="header-area header-transparent">
@@ -78,7 +91,7 @@ const NavbarLoggedOut = () => {
                             <div className="container">
                                 <div>
                                     <img src="../src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
-                                    <a className="navbar-brand" href="/home">Audio Cloud <span>spacespeaking.inc</span></a>
+                                    <Link className="navbar-brand" to="/home">Audio Cloud <span>spacespeaking.inc</span></Link>
                                 </div>
                                 <button
                                     className="navbar-toggler"
@@ -107,12 +120,12 @@ const NavbarLoggedOut = () => {
                                         </button>
                                     </div>
                                 </form>
-                                <div className="collapse navbar-collapse" id="user-menu" style={{top:"0px", marginTop:"15px"}}>
+                                <div className="collapse navbar-collapse" id="user-menu" style={{ top: "0px", marginTop: "15px" }}>
                                     <ul className="navbar-nav" id="navbar-links">
                                         <li className="nav-item dropdown">
                                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                            <a className="dropdown-item" href="/login" role="button">Đăng nhập</a>
-                                            <a className="dropdown-item" href="/register" role="button">Đăng ký</a>
+                                                <Link className="dropdown-item" to="/login" role="button">Đăng nhập</Link>
+                                                <Link className="dropdown-item" to="/register" role="button">Đăng ký</Link>
                                             </div>
                                         </li>
                                     </ul>

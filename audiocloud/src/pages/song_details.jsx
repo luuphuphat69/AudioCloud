@@ -8,6 +8,7 @@ import SidebarTop100 from "../component/sidebar/sidebar_top100";
 import jwt from "jwt-decode";
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
+import Cookies from 'universal-cookie';
 
 const Details = () => {
 
@@ -23,6 +24,9 @@ const Details = () => {
     const [data, setData] = useState([]);
     const [popup, setShowPopup] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
+
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,9 +44,7 @@ const Details = () => {
         // Fetch the token when the component mounts
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const receivedToken = response.data;
-                setToken(receivedToken);
+                setToken(CookiesToken);
                 checkLoginStatus();
 
                 const _user = jwt(token);

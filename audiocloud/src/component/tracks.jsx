@@ -2,8 +2,13 @@ import React, { useState, useEffect, useRef } from "react";
 import jwt from 'jwt-decode';
 import axios from "axios";
 import LongMenu from "./menu/track_menu";
+import {Link} from 'react-router-dom';
+import Cookies from "universal-cookie";
 
 const Tracks = () => {
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
+
     const [data, setData] = useState(null);
     const [token, setToken] = useState(null);
     const [user, setUser] = useState(null);
@@ -17,12 +22,8 @@ const Tracks = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const receivedToken = response.data;
-                setToken(receivedToken);
-
-                const _user = jwt(token);
-
+                setToken(CookiesToken);
+                const _user = jwt(CookiesToken);
                 const responseData = await axios.get(`http://audiocloud.asia:8000/v1/audio/getTracks/${_user?.userId}`);
                 setData(responseData.data);
                 setUser(_user);
@@ -149,7 +150,7 @@ const Tracks = () => {
                             </div>
                         </div>
                         <div className="text" style={{width:"140px"}}>
-                            <h5 className="font-weight-light p-3" style={{color:"#000"}}><a href={`/details/${item.AudioId}`}>{item.AudioName}</a></h5>
+                            <h5 className="font-weight-light p-3" style={{color:"#000"}}><Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link></h5>
                             <h6 className="font-weight-light mb-4 ml-3" style={{color:"#000"}}>
                                  {item.UserDisplayname}
                             </h6>

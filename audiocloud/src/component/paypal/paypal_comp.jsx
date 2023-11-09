@@ -3,18 +3,22 @@ import { useState, useEffect } from 'react';
 import Notification from '../notify/notify_comp';
 import axios from 'axios';
 import jwt from 'jwt-decode';
+import {useNavigate} from 'react-router-dom';
+import Cookies from 'universal-cookie';
 const PaymentComponent = ({type, amount, closePopup}) => {
 
   const [notify, setNotify] = useState(false);
+  const navigate = useNavigate();
+
+  const cookies = new Cookies();
+  const CookiesToken = cookies.get('token');
 
   const handleUpdatePro = async () => {
     try {
-        const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-        const receivedToken = response.data;
-        const user = jwt(receivedToken);
+        const user = jwt(CookiesToken);
         if(user === null){
           window.alert("Xin vui lòng đăng nhập");
-          window.location.href = '/home';
+          navigate('/home');
         }
         if(type === 'Artist'){
           await axios.put(`http://audiocloud.asia:8000/v1/user/update-artist/${user.userId}`);

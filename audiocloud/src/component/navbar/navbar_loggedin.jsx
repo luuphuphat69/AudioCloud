@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useHistory from React Router
+import { useNavigate, Link } from 'react-router-dom'; // Import useHistory from React Router
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 
@@ -7,6 +7,9 @@ const NavbarLoggedIn = () => {
 
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
+    
+    const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate(); // Create a history object for navigation
 
     // Logout, delete cookie
     const handleLogOut = () => {
@@ -14,8 +17,6 @@ const NavbarLoggedIn = () => {
         navigate('/home');
     }
     
-    const [searchTerm, setSearchTerm] = useState('');
-    const navigate = useNavigate(); // Create a history object for navigation
     // Function to handle the search
     const handleSearch = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
@@ -43,14 +44,22 @@ const NavbarLoggedIn = () => {
                             <div className="container">
                                 <div>
                                     <img src="../src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
-                                    <a className="navbar-brand" href="/home">Audio Cloud <span>spacespeaking.inc</span></a>
+                                    <Link className="navbar-brand" to="/home">Audio Cloud <span>spacespeaking.inc</span></Link>
                                 </div>
                                 <div className="collapse navbar-collapse" id="ftco-nav">
                                     <ul className="navbar-nav m-auto">
-                                        <li className="nav-item"><a href="/home" className="nav-link">Trang chủ</a></li>
-                                        <li className="nav-item"><a href="#" className="nav-link">Thư viện</a></li>
-                                        <li className="nav-item"><a href="/subcription" className="nav-link">Dịch vụ</a></li>
-                                        <li className="nav-item"><a href="/upload" className="nav-link">Đăng tải</a></li>
+                                    <li className="nav-item">
+                                            <Link to="/home" className="nav-link">Trang chủ</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link className="nav-link">Thư viện</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to="/subcription" className="nav-link">Dịch vụ</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to="/upload" className="nav-link">Đăng tải</Link>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -74,8 +83,8 @@ const NavbarLoggedIn = () => {
                                             <img src="../src/assets/img/user.png" width="45px" height="45px" className="rounded-circle" alt="User" />
                                         </a>
                                         <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                            <a className="dropdown-item" href="/profile">Tài khoản</a>
-                                            <a className="dropdown-item" href="" onClick={handleLogOut}>Đăng xuất</a>
+                                            <Link className="dropdown-item" to="/profile">Tài khoản</Link>
+                                            <Link className="dropdown-item" onClick={handleLogOut}>Đăng xuất</Link>
                                         </div>
                                     </li>
                                 </ul>
@@ -94,7 +103,7 @@ const NavbarLoggedIn = () => {
                             <div className="container">
                                 <div>
                                     <img src="../src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
-                                    <a className="navbar-brand" href="/home">Audio Cloud <span>spacespeaking.inc</span></a>
+                                    <Link className="navbar-brand" to="/home">Audio Cloud <span>spacespeaking.inc</span></Link>
                                 </div>
                                 <button
                                     className="navbar-toggler"
@@ -127,12 +136,12 @@ const NavbarLoggedIn = () => {
                                     <ul className="navbar-nav" id="navbar-links">
                                         <li className="nav-item dropdown">
                                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <a className="dropdown-item" href="/profile">
+                                                <Link className="dropdown-item" to="/profile">
                                                     Tài khoản
-                                                </a>
-                                                <a className="dropdown-item" href="" onClick={handleLogOut}>
+                                                </Link>
+                                                <Link className="dropdown-item" onClick={handleLogOut}>
                                                     Đăng xuất
-                                                </a>
+                                                </Link>
                                             </div>
                                         </li>
                                     </ul>

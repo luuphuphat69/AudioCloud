@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { Link, useNavigate} from 'react-router-dom';
 import Navbar from '../component/navbar/navbar';
 axios.defaults.withCredentials = true;
 
 
 const Login = () => {
+
+    const navigate = useNavigate(); 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const account = document.getElementById('account').value;
         const password = document.getElementById('password').value;
-
         
         try {
             // Send a POST request to your login API
-            const apiData = await fetch("http://audiocloud.asia:8000/v1/user/login", {
+            const apiData = await fetch("http://localhost:8000/v1/user/login", {
                 method: "POST",
                 body: JSON.stringify({ Account: account, Password: password }),
                 credentials: 'include',
@@ -27,7 +29,7 @@ const Login = () => {
                 // Handle successful login here, e.g., store the token and redirect the user.
                 console.log('Login successfully');
                 window.alert('Login successfully'); // Display a success alert
-                window.location.href = '/home';
+                navigate('/home');
             } else if (apiData.status === 401) {
                 const errorMessage = await apiData.json();
                 window.alert(errorMessage.message); // Display an error alert
@@ -76,7 +78,7 @@ const Login = () => {
                             className="btn-61">
                             <span>Đăng nhập</span>
                         </button>
-                        <a href="/register" className="submit-link submit">Đăng ký</a>
+                        <Link to="/register" className="submit-link submit">Đăng ký</Link>
                     </div>
                 </form>
             </div>

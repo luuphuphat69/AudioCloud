@@ -3,9 +3,13 @@ import Notification from '../notify/notify_comp';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 import { useMediaQuery } from 'react-responsive';
+import Cookies from 'universal-cookie'
 
 const Tab_AddToPlaylist = (audioId) => {
 
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
+    
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
 
@@ -18,8 +22,7 @@ const Tab_AddToPlaylist = (audioId) => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const token = jwt(response.data);
+                const token = jwt(CookiesToken);
                 const userId = token.userId;
                 setUserId(userId);
             } catch (error) {

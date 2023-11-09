@@ -7,8 +7,13 @@ import { AiFillLeftCircle, AiFillRightCircle } from "react-icons/ai"; // icons f
 import { IconContext } from "react-icons";
 import Popup_Playlist from '../component/popup/add_to_playlist'
 import Notification from './notify/notify_comp';
+import {Link} from 'react-router-dom';
+import Cookies from 'universal-cookie';
 
 const Search_Tracks = ({ searchResults }) => {
+
+    const cookies = new Cookies();
+    const token = cookies.get('token');
 
     // Paging
     const [currentPage, setCurrentPage] = useState(0);
@@ -44,9 +49,7 @@ const Search_Tracks = ({ searchResults }) => {
 
     useEffect(() => {
         const fectchUser = async () => {
-            const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-            const receivedToken = response.data;
-            const user = jwt(receivedToken);
+            const user = jwt(token);
             setUserId(user.userId);
         }
         fectchUser();
@@ -130,7 +133,7 @@ const Search_Tracks = ({ searchResults }) => {
                     </div>
                     <div class="text">
                         <h3 class="font-weight-light p-3">
-                            <a href={`/details/${item.AudioId}`}>{item.AudioName}</a>
+                            <Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link>
                         </h3>
                         <h5 class="font-weight-light mb-4 ml-3">
                             By: {item.UserDisplayname}
