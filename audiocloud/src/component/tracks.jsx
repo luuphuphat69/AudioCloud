@@ -147,7 +147,7 @@ const Tracks = () => {
                 {item.PhotoURL ? (
                   <img src={item.PhotoURL} style={{ width: '170px', height: '160px' }} alt="" />
                 ) : (
-                  <img style={{ width: '170px', height: '160px' }} src="./src/assets/img/blur_img.png" alt="Default" />
+                  <img style={{ width: '170px', height: '160px' }} src="../src/assets/img/blur_img.png" alt="Default" />
                 )}
                 <div className="center-button">
                   <button className="btn-95 mb-4" onClick={() => handleAudioPlay(item.AudioURL, index)}>
@@ -188,7 +188,7 @@ const Tracks = () => {
                 {item.PhotoURL ? (
                   <img src={item.PhotoURL} style={{ width: '100%', height: '150px' }} alt="" />
                 ) : (
-                  <img style={{ width: '100%', height: '150px' }} src="./src/assets/img/blur_img.png" alt="Default" />
+                  <img style={{ width: '100%', height: '150px' }} src="../src/assets/img/blur_img.png" alt="Default" />
                 )}
                 <div className="center-button">
                   <button className="btn-95" onClick={() => handleAudioPlay(item.AudioURL, index)}>
