@@ -37,7 +37,7 @@ const Tab_AddToPlaylist = (audioId) => {
         if (userId) {
             const fetchData = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:8000/v1/playlist/get-user-playlist/${userId}`);
+                    const response = await axios.get(`http://audiocloud.asia:8000/v1/playlist/get-user-playlist/${userId}`);
                     setData(response.data);
                 } catch (error) {
                     console.log(error);

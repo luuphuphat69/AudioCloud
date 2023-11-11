@@ -30,7 +30,7 @@ const Favourite = () => {
                 setToken(CookiesToken);
                 const _user = jwt(token);
                 setUserId(_user.userId);
-                const responseData = await axios.get(`http://localhost:8000/v1/fav/get-list-fav/${_user?.userId}`);
+                const responseData = await axios.get(`http://audiocloud.asia:8000/v1/fav/get-list-fav/${_user?.userId}`);
                 setData(responseData.data);
             } catch (error) {
                 console.error('Error fetching token:', error);
@@ -40,7 +40,7 @@ const Favourite = () => {
     }, [token]);
 
     const handleRemove = async (audioId, userId) => {
-        await axios.put(`http://localhost:8000/v1/fav/remove/${audioId}/${userId}`);
+        await axios.put(`http://audiocloud.asia:8000/v1/fav/remove/${audioId}/${userId}`);
         removeItem(audioId);
         setNotify(true);
     }

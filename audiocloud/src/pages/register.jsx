@@ -64,7 +64,7 @@ const Register = () => {
         formData.append('Email', email);
         
         try {
-            const response = await axios.post('http://localhost:8000/v1/user/register', formData, {
+            const response = await axios.post('http://audiocloud.asia:8000/v1/user/register', formData, {
                 method:'POST',
                 credentials: "include",
                 headers: {
