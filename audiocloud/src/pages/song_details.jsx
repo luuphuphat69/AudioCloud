@@ -22,6 +22,7 @@ const Details = () => {
     const [user, setUser] = useState(null);
     const [comment, setComment] = useState('');
     const [data, setData] = useState([]);
+    
     const [popup, setShowPopup] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
 
@@ -31,7 +32,7 @@ const Details = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://audiocloud.asia:8000/v1/comment/get-comments/${audioId}`);
+                const response = await axios.get(`http://localhost:8000/v1/comment/get-comments/${audioId}`);
                 setData(response.data);
             } catch (err) {
                 console.log(err);
@@ -48,7 +49,7 @@ const Details = () => {
                 checkLoginStatus();
 
                 const _user = jwt(token);
-                const userDataResponse = await axios.get(`http://audiocloud.asia:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
+                const userDataResponse = await axios.get(`http://localhost:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
                 setUser(userDataResponse.data);
             } catch (error) {
                 // console.error('Error fetching token:', error);
@@ -67,7 +68,7 @@ const Details = () => {
 
     useEffect(() => {
         // Fetch audio details based on the audioId
-        axios.get(`http://audiocloud.asia:8000/v1/audio/getAudioInfo/${audioId}`)
+        axios.get(`http://localhost:8000/v1/audio/getAudioInfo/${audioId}`)
             .then(response => {
                 setAudioDetails(response.data);
             })
@@ -76,7 +77,8 @@ const Details = () => {
             });
     }, [audioId]);
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e) => {
+         e.preventDefault();
         const formData = new URLSearchParams();
 
         formData.append('audioId', audioId);
@@ -85,12 +87,18 @@ const Details = () => {
         formData.append('userId', user.UserId);
         formData.append('userDisplayname', user.Displayname);
 
-        await axios.post('http://audiocloud.asia:8000/v1/comment/post', formData, {
+        await axios.post('http://localhost:8000/v1/comment/post', formData, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
+
+        const response = await axios.get(`http://localhost:8000/v1/comment/get-comments/${audioId}`);;
+        const newComment = response.data[0];
+        // Update the data state to include the new comment
+        setData((prevData) => [newComment, ...prevData]);
+        setComment('');
     }
 
     const handlePlaylist = async () => {
@@ -102,7 +110,7 @@ const Details = () => {
 
     const handleLike = async (audioId, userId) => {
         try {
-            await axios.put(`http://audiocloud.asia:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://localhost:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
             setShowNotification(true);
         } catch (err) {
             console.log(err);

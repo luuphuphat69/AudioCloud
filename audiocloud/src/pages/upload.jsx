@@ -3,8 +3,9 @@ import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
 import axios from "axios";
 import jwt from 'jwt-decode';
-import {Link} from 'react-router-dom';
-import {TailSpin} from "react-loader-spinner";
+import { Link } from 'react-router-dom';
+import { TailSpin } from "react-loader-spinner";
+import Notification from "../component/notify/notify_comp";
 import Cookies from "universal-cookie";
 const Upload = () => {
 
@@ -16,9 +17,13 @@ const Upload = () => {
     const [selectedFile, setSelectedFile] = useState(null);
     const [selectedImage, setSelectedImage] = useState(null);
     const [userId, setUserId] = useState('');
+    const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(null);
     const [token, setToken] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [notify, setNotify] = useState(false);
+    const [errorNotify, setErrorNotify] = useState(false);
+    const [fileValidationError, setFileValidationError] = useState('');
 
     const cookies = new Cookies();
     const CookiesToken = cookies.get('token');
@@ -28,10 +33,11 @@ const Upload = () => {
             try {
                 const user = jwt(CookiesToken);
                 setToken(CookiesToken);
+                const User = await axios.get(`http://localhost:8000/v1/user/get-info/${user.userId}`);
+                setUser(User.data);
                 // Check the login status once the token is available
                 checkLoginStatus();
                 setUserId(user.userId);
-                console.log("User ID: ", userId);
             } catch (error) {
                 console.error('Error fetching token:', error);
             }
@@ -42,50 +48,76 @@ const Upload = () => {
     const checkLoginStatus = () => {
         if (token) {
             setIsLoggedIn(true);
-            console.log(isLoggedIn);
         } else {
             setIsLoggedIn(false);
-            console.log(isLoggedIn);
+        }
+    };
+    
+    const isValidFile = (file) => {
+        if (user.isPro) {
+            return file && (file.type === 'audio/mpeg' || file.type === 'audio/wav' || file.type === 'audio/flac' || file.type === 'audio/aiff');
+        }
+        return file && file.type === 'audio/mpeg' && file.size <= 5000000;
+    };
+
+    const handleFileInputChange = (e) => {
+        if (!isValidFile(e.target.files[0]) && !user.isPro) {
+            setFileValidationError('Hãy chọn một file âm thanh (.mp3) < 5 MB');
+        } else if(!isValidFile(e.target.files[0]) && user.isPro){
+            setFileValidationError('Hãy chọn một file âm thanh');
+        }else{
+            setFileValidationError('');
+            setSelectedFile(e.target.files[0]);
         }
     };
 
-
-    const handleFileInputChange = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
+    const getTracks = async () => {
+        const response = await axios.get(`http://localhost:8000/v1/audio/getTracks/${userId}`);
+        const tracks = response.data;
+        return tracks.length;        
+    }
 
     const handleFileUpload = async () => {
-        if (selectedFile) {
-            setIsLoading(true);
-            // Implement the backend route to handle the file upload.
-            const formData = new FormData();
-            formData.append('Audio', selectedFile);
-            formData.append('Photo', photo);
-            formData.append('audioName', document.getElementById('audioname').value);
-            formData.append('audioGenre', genre);
-            formData.append('description', document.getElementById('description').value);
-            formData.append('isPublic', isPublic);
-
-            axios.post(`http://audiocloud.asia:8000/v1/audio/postAudio/${userId}`, formData, {
-                method: "POST",
-                credentials: "include",
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                }
-            }).then((response) => {
-                console.log(response.data);
-                window.alert('File uploaded successfully.');
-            }).catch((error) => {
-                console.log('Error uploading file:', error);
-                window.alert('File upload failed.');
-            }).finally(() => {
-                setIsLoading(false); // Hide loading spinner
-            });;
-
-            console.log('Uploading file:', selectedFile);
-        } else {
-            alert('Please select a file before uploading.');
-        }
+        getTracks().then((result) => {
+            console.log(result); // The length of the tracks
+            console.log(user.isPro);
+            
+            if (!user.isPro && result >= 10) {
+                window.alert('Đã đạt tới giới hạn đăng nhạc');
+                return;
+            }
+            else if (selectedFile && !fileValidationError) {
+                setIsLoading(true);
+                // Implement the backend route to handle the file upload.
+                const formData = new FormData();
+                formData.append('Audio', selectedFile);
+                formData.append('Photo', photo);
+                formData.append('audioName', document.getElementById('audioname').value);
+                formData.append('audioGenre', genre);
+                formData.append('description', document.getElementById('description').value);
+                formData.append('isPublic', isPublic);
+    
+                axios.post(`http://localhost:8000/v1/audio/postAudio/${userId}`, formData, {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    }
+                }).then((response) => {
+                    setNotify(true);
+                }).catch((error) => {
+                    console.log('Error uploading file:', error);
+                    setErrorNotify(true);
+                }).finally(() => {
+                    setIsLoading(false); // Hide loading spinner
+                    setNotify(true);
+                });;
+            } else {
+                alert('Lỗi khi đăng tải. Hãy thử lại');
+            }
+        }).catch((error) => {
+            console.error('An error occurred:', error);
+        }); 
     };
 
     const handleRadioChange = (e) => {
@@ -95,15 +127,12 @@ const Upload = () => {
 
     const handleAudioNameChange = (e) => {
         setAudioName(e.target.value);
-        console.log(audioName);
     };
     const handleDescriptionChange = (e) => {
         setDescription(e.target.value);
-        console.log(description);
     };
     const handleGenreChange = (e) => {
         setGenre(e.target.value);
-        console.log(genre);
     };
 
     const handlePhotoChange = (e) => {
@@ -137,10 +166,13 @@ const Upload = () => {
                     e.preventDefault();
                 }}>
                     <div className="container_upload">
-                        <h2 className="h1_upload">Đăng tải bài hát của bạn</h2>
+                        <h2 className="h1_upload mt-3">Đăng tải bài hát của bạn</h2>
                         <div className="upload-container">
                             <div className="border-container">
-                                <input type="file" style={{color:"#000"}} id="Audio" name="Audio" accept=".mp3" onChange={handleFileInputChange} required />
+                                <input type="file" style={{ color: "#000" }} id="Audio" name="Audio"
+                                    accept={user?.isPro ? ".mp3, .flac, .wav, .alac, .aiff" : ".mp3"}
+                                    onChange={handleFileInputChange} required />
+                                <p style={{ color: 'red' }}>{fileValidationError}</p>
                                 <p>
                                     Hãy chọn file bài hát trước khi đăng tải.
                                 </p>
@@ -188,7 +220,7 @@ const Upload = () => {
                                     type="radio"
                                     name="access"
                                     value="public"
-                                    onChange={() => handleRadioChange(true)} required/>
+                                    onChange={() => handleRadioChange(true)} required />
                                 Công khai
                             </label>
                             <label className="radio-label ml-5 mt-3">
@@ -196,7 +228,7 @@ const Upload = () => {
                                     type="radio"
                                     name="access"
                                     value="private"
-                                    onChange={() => handleRadioChange(false)}/>
+                                    onChange={() => handleRadioChange(false)} />
                                 Cá nhân
                             </label>
                         </div>
@@ -229,8 +261,20 @@ const Upload = () => {
                     )}
                 </form>
                 <div>
-                    <p>Bằng việc đăng nhạc, bạn đã xác nhận rằng bài hát của bạn đã phù hợp với<Link to=""> Các điều khoản sử dụng</Link> và bạn không vi phạm bản quyền của bất kỳ ai.</p>
+                    <p>Bằng việc đăng nhạc, bạn đã xác nhận rằng bài hát của bạn đã phù hợp với<Link to="/terms-of-use"> Các điều khoản sử dụng</Link> và bạn không vi phạm bản quyền của bất kỳ ai.</p>
                 </div>
+                {notify && (
+                    <Notification
+                        message="Đăng bài nhạc thành công"
+                        type="success" // Set the type of notification (success, info, warning, error)
+                        onClose={() => setNotify(false)} // Close the notification
+                    />)}
+                {errorNotify && (
+                    <Notification
+                        message="Lỗi khi đăng tải. Hãy thử lại"
+                        type="error" // Set the type of notification (success, info, warning, error)
+                        onClose={() => setErrorNotify(false)} // Close the notification
+                    />)}
             </div>
         </div>
     );

@@ -9,7 +9,7 @@ const Tab_AddToPlaylist = (audioId) => {
 
     const cookies = new Cookies();
     const CookiesToken = cookies.get('token');
-    
+
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
 
@@ -37,7 +37,7 @@ const Tab_AddToPlaylist = (audioId) => {
         if (userId) {
             const fetchData = async () => {
                 try {
-                    const response = await axios.get(`http://audiocloud.asia:8000/v1/playlist/get-user-playlist/${userId}`);
+                    const response = await axios.get(`http://localhost:8000/v1/playlist/get-user-playlist/${userId}`);
                     setData(response.data);
                 } catch (error) {
                     console.log(error);
@@ -64,11 +64,11 @@ const Tab_AddToPlaylist = (audioId) => {
 
     const popupFormStyle = {
         background: '#F0F0F0',
-        width: '35rem',
+        width: '37rem',
         height: '50vh',
     };
 
-    if(isDesktopOrLaptop){
+    if (isDesktopOrLaptop) {
         return (
             <div className="popup-form p-2" style={popupFormStyle}>
                 <input
@@ -85,7 +85,7 @@ const Tab_AddToPlaylist = (audioId) => {
                             <div className='image-container'>
                                 <img src='../src/assets/img/playlist.jpeg' style={{ width: "70px", height: "70px" }} />
                             </div>
-    
+
                             <div className="text ml-2">
                                 <h5>{item.Title}</h5>
                                 <h6 className='font-weight-light'>{item.Genre}</h6>
@@ -103,37 +103,42 @@ const Tab_AddToPlaylist = (audioId) => {
                 )}
             </div>
         );
-    }else if(isTabletOrMobile){
+    } else if (isTabletOrMobile) {
         return (
-            <div className="popup-form p-2 card-customeMobile" style={{height:'350px', background:'#f0f0f0', width:'17rem'}}>
+            <div className="popup-form p-2 card-customeMobile" style={{ height: '350px', background: '#f0f0f0', width: '17rem', overflowY: 'auto' }}>
                 <input
                     className="form-control"
                     type="search"
                     placeholder="Lọc tìm kiếm"
                     aria-label="Search..."
-                    value={inputValue} // Bind the input value
-                    onChange={handleInputChange} // Handle input change
+                    value={inputValue}
+                    onChange={handleInputChange}
                 />
                 <div className='mt-2'>
                     {filteredData.slice(0, 3).map((item) => (
-                        <div className='d-block d-md-flex podcast-entry mb-3'>
+                        <div className='d-flex podcast-entry mb-3'>
                             <div className='image-container'>
-                                <img src='../src/assets/img/playlist.jpeg' style={{ width: "70px", height: "70px" }} />
+                                <img src='../src/assets/img/playlist.jpeg' style={{ width: "50px", height: "50px" }} />
                             </div>
-    
                             <div className="text ml-2">
                                 <h5>{item.Title}</h5>
                                 <h6 className='font-weight-light'>{item.Genre}</h6>
                             </div>
-                            <button className='mt-2' onClick={() => handleClick(audioId, item.PlaylistId)} style={{ marginLeft: "auto", height: "50px", color: "#000" }}>Thêm vào playlist</button>
+                            <img
+                                className='mt-3'
+                                src="../src/assets/img/icon/playlist.png"
+                                alt=""
+                                onClick={() => handleClick(audioId, item.PlaylistId)}
+                                style={{ cursor: "pointer", marginLeft: "auto", width: "20px", height: "20px" }}
+                            />
                         </div>
                     ))}
                 </div>
                 {showNotification && (
                     <Notification
                         message="Thêm vào playlist thành công"
-                        type="success" // Set the type of notification (success, info, warning, error)
-                        onClose={() => setShowNotification(false)} // Close the notification
+                        type="success"
+                        onClose={() => setShowNotification(false)}
                     />
                 )}
             </div>

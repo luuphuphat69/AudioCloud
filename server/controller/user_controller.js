@@ -30,11 +30,11 @@ const userController = {
                     // Passwords match, authentication is successful
                     console.log('Authentication successful');
                     // Create JWT
-                    const token = jwt.sign({ userId: user.UserId, role: user.Role, userDisplayname: user.Displayname }, process.env.SECRET_KEY, {
+                    const token = jwt.sign({ userId: user.UserId, role: user.Role, userDisplayname: user.Displayname, isPro: user.isPro}, process.env.SECRET_KEY, {
                         expiresIn: '1h',
                     });
                     // Save token into cookies
-                    res.cookie('token', token, { secure: false, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/', domain:".audiocloud.asia" });
+                    res.cookie('token', token, { secure: false, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/', domain:".localhost" });
                     return res.status(201).json(token);
                 } else {
                     console.log('Authentication failed');
@@ -72,7 +72,7 @@ const userController = {
                     }
                     if (existingUser) {
                         // If an account with the same Account or Email exists, return an error
-                        return res.status(400).json({ message: 'Account or Email already exists' });
+                        return res.status(401).json({ message: 'Account or Email already exists' });
                     }
                     const newUser = new User({
                         UserId,

@@ -97,38 +97,38 @@ const PopupForm = ({ closePopup }) => {
     <div className="overlay" onClick={closePopup}>
       <div className="popup-form" style={popupFormStyle}>
         <div className="wrapper" style={wrapperStyle}>
-          <h2>Edit your profile</h2>
+          <h2>Chỉnh sửa thông tin</h2>
           <form className="mt-3 border border-3 mb-5 p-4" method="POST" onClick={(e) => {
               e.stopPropagation(); // Prevent click event from propagating to the outer div
             }}>
             <div className="form-row">
               <div className="col-md-4 mb-3">
-                <label>Displayname</label>
+                <label>Tên hiển thị</label>
                 <input
                   type="text"
                   id='displayname'
                   className="form-control"
                   defaultValue={user?.Displayname}
-                  placeholder="Enter your displayname" required />
+                  placeholder="Nhập vào Tên hiển thị" required />
               </div>
               <div className="col-md-4 mb-3">
-                <label>Address</label>
+                <label>Địa chỉ</label>
                 <input
                   type="text"
                   id='address'
                   className="form-control"
                   defaultValue={user?.Address}
-                  placeholder='Your address' required />
+                  placeholder='Địa chỉ của bạn' required />
               </div>
             </div>
             <div className="form-row">
               <div className="col-lg-5 mb-3">
-                <label>Bio</label>
+                <label>Tiểu sử</label>
                 <textarea
                   className="form-control"
                   id="bio"
                   defaultValue={user?.Bio}
-                  placeholder="Tell the world a little bit about yourself. The shorter the better"></textarea>
+                  placeholder="Hãy kể cho thế giới một ít về bạn. Càng ngắn càng tốt"></textarea>
               </div>
             </div>
             <div className='form-row'>
@@ -145,7 +145,7 @@ const PopupForm = ({ closePopup }) => {
             </div>
             <div className="form-row">
               <label className="mt-3 ml-1" htmlFor="photo">
-                Update image:
+                Thay ảnh đại diện:
               </label>
               <input
                 className="form-control ml-1"

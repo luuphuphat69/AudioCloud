@@ -198,20 +198,22 @@ const audioController = {
   },
   search: async (req, res) => {
     try {
-      const filter = req.query.queries;
-      const audio = await Audio.find({
-        IsPublic: true,
-        $or: [
-          { AudioName: { $regex: filter, $options: 'i' } }, // Case-insensitive search for AudioName
-          { UserDisplayname: { $regex: filter, $options: 'i' } }, // Case-insensitive search for UserDisplayname
-        ],
-      }).sort({ Plays: -1 }).limit(100);
-      res.status(200).json(audio);
+        const filter = req.query.queries;
+        const audio = await Audio.find({
+            IsPublic: true,
+            $or: [
+                { AudioName: { $regex: `.*${filter}.*`, $options: 'i' } }, // Case-insensitive search for AudioName
+                { UserDisplayname: { $regex: `.*${filter}.*`, $options: 'i' } }, // Case-insensitive search for UserDisplayname
+            ],
+        }).sort({ Plays: -1 }).limit(100);
+
+        res.status(200).json(audio);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
     }
-  },
+},
+
   updatePlays: async (req, res) => {
     try {
       const audioId = req.params.audioId;

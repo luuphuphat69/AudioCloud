@@ -14,8 +14,8 @@ const NavbarLoggedOut = () => {
     const handleSearch = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
         try {
-            const response = await axios.get(`http://audiocloud.asia:8000/v1/audio/search?queries=${searchTerm}`);
-            const response2 = await axios.get(`http://audiocloud.asia:8000/v1/playlist/search?queries=${searchTerm}`);
+            const response = await axios.get(`http://localhost:8000/v1/audio/search?queries=${searchTerm}`);
+            const response2 = await axios.get(`http://localhost:8000/v1/playlist/search?queries=${searchTerm}`);
             console.log('response.data:', response.data);
             console.log('response2.data:', response2.data);
         
@@ -38,16 +38,13 @@ const NavbarLoggedOut = () => {
                         <nav className="navbar navbar-expand-lg ftco-navbar-light bg-light" id="ftco-navbar">
                             <div className="container">
                                 <div>
-                                    <img src="./src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
-                                    <Link className="navbar-brand" to="/home">Audio Cloud <span>spacespeaking.inc</span></Link>
+                                    <img src="../src/assets/img/logo_main.png" style={{ width: '25%', height: '25%' }} alt="Logo" />
+                                    <Link className="navbar-brand" href="/home">Audio Cloud <span>spacespeaking.inc</span></Link>
                                 </div>
                                 <div className="collapse navbar-collapse" id="ftco-nav">
                                     <ul className="navbar-nav m-auto">
                                         <li className="nav-item">
                                             <Link to="/home" className="nav-link">Trang chủ</Link>
-                                        </li>
-                                        <li className="nav-item">
-                                            <Link className="nav-link">Thư viện</Link>
                                         </li>
                                         <li className="nav-item">
                                             <Link to="/subcription" className="nav-link">Dịch vụ</Link>

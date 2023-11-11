@@ -5,11 +5,19 @@ import NavbarLoggedIn from '../component/navbar/navbar_loggedin';
 import NavbarLoggedOut from '../component/navbar/navbar_loggedout';
 import Search_Tracks from '../component/search_tracks';
 import Search_Playlists from '../component/search_playlists';
-
+import { useMediaQuery } from 'react-responsive';
+import Cookies from 'universal-cookie';
 const Search = () => {
+
+    const cookies = new Cookies();
+    const CookiesToken = cookies.get('token');
+
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
+
     const location = useLocation();
     const { searchResults } = location.state || { searchResults: [] };
-    const {playlistResults} = location.state || {playlistResults: []};
+    const { playlistResults } = location.state || { playlistResults: [] };
 
     const [selectedOption, setSelectedOption] = useState('tracks');
     const handleOptionClick = (option) => {
@@ -21,9 +29,7 @@ const Search = () => {
     useEffect(() => {
         const fetchToken = async () => {
             try {
-                const response = await axios.get('http://audiocloud.asia:8000/get-cookies', { withCredentials: true });
-                const receivedToken = response.data;
-                setToken(receivedToken);
+                setToken(CookiesToken);
                 // Check the login status once the token is available
                 checkLoginStatus();
             } catch (error) {
@@ -42,12 +48,56 @@ const Search = () => {
         }
     };
 
-    return (
-        <section className="cart_area padding_top">
-            {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
-            <div className="container">
-                <div className='row'>
-                    <div className='col-lg-2' style={{ right: "100px" }}>
+    if (isDesktopOrLaptop) {
+        return (
+            <section className="cart_area padding_top">
+                {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
+                <div className="container">
+                    <div className='row'>
+                        <div className='col-lg-2' style={{ right: "100px" }}>
+                            <div className="sidebar">
+                                <h5>Kết quả tìm kiếm:</h5>
+                                <ul>
+                                    <li>
+                                        <div
+                                            style={{
+                                                backgroundColor: selectedOption === 'tracks' ? "#000" : "transparent",
+                                                color: selectedOption === 'tracks' ? "#FFF" : "#000",
+                                                cursor: "pointer"
+                                            }}
+                                            onClick={() => handleOptionClick('tracks')}
+                                        >
+                                            Bài hát
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div
+                                            style={{
+                                                backgroundColor: selectedOption === 'playlists' ? "#000" : "transparent",
+                                                color: selectedOption === 'playlists' ? "#FFF" : "#000",
+                                                cursor: "pointer"
+                                            }}
+                                            onClick={() => handleOptionClick('playlists')}
+                                        >
+                                            Playlist
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className='col'>
+                            {selectedOption === 'tracks' ? <Search_Tracks searchResults={searchResults} /> : <Search_Playlists playlistResults={playlistResults} />}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        );
+    } else if (isTabletOrMobile) {
+        return (
+            <section className="cart_area padding_top" style={{marginTop:'120px'}}>
+                {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
+                <div className="container">
+                    <div style={{ right: "100px" }}>
                         <div className="sidebar">
                             <h5>Kết quả tìm kiếm:</h5>
                             <ul>
@@ -79,12 +129,12 @@ const Search = () => {
                         </div>
                     </div>
                     <div className='col'>
-                       {selectedOption === 'tracks' ? <Search_Tracks searchResults={searchResults} /> : <Search_Playlists playlistResults={playlistResults}/>}
+                        {selectedOption === 'tracks' ? <Search_Tracks searchResults={searchResults} /> : <Search_Playlists playlistResults={playlistResults} />}
                     </div>
                 </div>
-            </div>
-        </section>
-    );
+            </section>
+        );
+    }
 };
 
 export default Search;

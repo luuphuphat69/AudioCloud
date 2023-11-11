@@ -1,9 +1,10 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import jwt from 'jwt-decode';
 import Notification from "./notify/notify_comp";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Cookies from "universal-cookie";
+import { useMediaQuery } from 'react-responsive';
 
 const Favourite = () => {
     const cookies = new Cookies();
@@ -20,13 +21,16 @@ const Favourite = () => {
     const sourceNodes = useRef([]);
     const currentPlayingIndex = useRef(null);
 
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
+
     useEffect(() => {
         const fetchToken = async () => {
             try {
                 setToken(CookiesToken);
                 const _user = jwt(token);
                 setUserId(_user.userId);
-                const responseData = await axios.get(`http://audiocloud.asia:8000/v1/fav/get-list-fav/${_user?.userId}`);
+                const responseData = await axios.get(`http://localhost:8000/v1/fav/get-list-fav/${_user?.userId}`);
                 setData(responseData.data);
             } catch (error) {
                 console.error('Error fetching token:', error);
@@ -36,7 +40,7 @@ const Favourite = () => {
     }, [token]);
 
     const handleRemove = async (audioId, userId) => {
-        await axios.put(`http://audiocloud.asia:8000/v1/fav/remove/${audioId}/${userId}`);
+        await axios.put(`http://localhost:8000/v1/fav/remove/${audioId}/${userId}`);
         removeItem(audioId);
         setNotify(true);
     }
@@ -75,8 +79,11 @@ const Favourite = () => {
                 let x = 0;
 
                 for (let i = 0; i < dataArray.length; i++) {
-                    barHeight = dataArray[i] * 2;
-
+                    if(isDesktopOrLaptop){
+                        barHeight = dataArray[i] * 2;
+                    }else if(isTabletOrMobile){
+                        barHeight = dataArray[i] * 0.5;
+                    }
                     // ctx.fillStyle = `rgb(${barHeight + 100},50,50)`;
                     ctx.fillRect(x, canvas.height - barHeight / 2, barWidth, barHeight);
 
@@ -139,54 +146,107 @@ const Favourite = () => {
         }
     };
 
-    return (
-        <section className="cart_area padding_top">
-            <div className="container">
-                {data?.map((item, index) => (
-                    <div key={item.AudioId} className="d-block d-md-flex podcast-entry mb-5" style={{ backgroundColor: "#FFA33C" }}>
-                        <div className="image-container p-3 mt-4">
-                            {item.PhotoURL ? (
-                                <img src={item.PhotoURL} style={{ width: '170px', height: '160px' }} alt="" />
-                            ) : (
-                                <img style={{ width: '170px', height: '160px' }} src="./src/assets/img/blur_img.png" alt="Default" />
-                            )}
-                            <div className="center-button">
-                                <button className="btn-95 mb-4" onClick={() => handleAudioPlay(item.AudioURL, index)}>
-                                    <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
-                                        <g>
-                                            <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
-                                        </g>
-                                    </svg>
-                                </button>
+    if (isDesktopOrLaptop) {
+        return (
+            <section className="cart_area padding_top">
+                <div className="container">
+                    {data?.map((item, index) => (
+                        <div key={item.AudioId} className="d-block d-md-flex podcast-entry mb-5" style={{ backgroundColor: "#FFA33C" }}>
+                            <div className="image-container p-3 mt-4">
+                                {item.PhotoURL ? (
+                                    <img src={item.PhotoURL} style={{ width: '170px', height: '160px' }} alt="" />
+                                ) : (
+                                    <img style={{ width: '170px', height: '160px' }} src="./src/assets/img/blur_img.png" alt="Default" />
+                                )}
+                                <div className="center-button">
+                                    <button className="btn-95 mb-4" onClick={() => handleAudioPlay(item.AudioURL, index)}>
+                                        <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
+                                            <g>
+                                                <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                            </g>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="text" style={{ width: "140px" }}>
+                                <h5 className="font-weight-light p-3" style={{ color: "#000" }}><Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link></h5>
+                                <h6 className="font-weight-light mb-4 ml-3" style={{ color: "#000" }}>
+                                    {item.UserDisplayname}
+                                </h6>
+                                <h6 className="font-weight-light mb-4 ml-3">
+                                    <p> Plays: {item.Plays}</p>
+                                </h6>
+                            </div>
+                            <div className='ml-2' style={{ display: 'flex', width: "900px" }}>
+                                <canvas id={`canvas-${index}`} width={900} height={250} />
+                                <audio ref={audioRef => (audioElements.current[index] = audioRef)} />
+                            </div>
+                            <button className="circle-button" type="button" onClick={() => handleRemove(item.AudioId, userId)}>
+                                X
+                            </button>
+                        </div>
+                    ))}
+                    {showNotify && (
+                        <Notification
+                            message="Xóa thành công"
+                            type="success" // Set the type of notification (success, info, warning, error)
+                            onClose={() => setNotify(false)} // Close the notification
+                        />
+                    )}
+                </div>
+            </section>
+        );
+    } else if (isTabletOrMobile) {
+        return (
+            <section className="cart_area">
+                <div className="container">
+                    {data?.map((item, index) => (
+                        <div key={item.AudioId} className="d-block d-md-flex podcast-entry mb-5" style={{ backgroundColor: "#FFA33C", position: 'relative' }}>
+                            <button className="circle-button" type="button" onClick={() => handleRemove(item.AudioId, userId)} style={{backgroundColor:'#FFA33C', position: 'absolute', top: '-3px', right: '0px', zIndex: 1 }}>
+                                X
+                            </button>
+                            <div className="image-container">
+                                {item.PhotoURL ? (
+                                    <img src={item.PhotoURL} style={{ width: '100%', height: '150px' }} alt="" />
+                                ) : (
+                                    <img style={{ width: '100%', height: '150px' }} src="./src/assets/img/blur_img.png" alt="Default" />
+                                )}
+                                <div className="center-button">
+                                    <button className="btn-95 mb-4" onClick={() => handleAudioPlay(item.AudioURL, index)}>
+                                        <svg fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 60 60">
+                                            <g>
+                                                <path d="M45.563,29.174l-22-15c-0.307-0.208-0.703-0.231-1.031-0.058C22.205,14.289,22,14.629,22,15v30 c0,0.371,0.205,0.711,0.533,0.884C22.679,45.962,22.84,46,23,46c0.197,0,0.394-0.059,0.563-0.174l22-15 C45.836,30.64,46,30.331,46,30S45.836,29.36,45.563,29.174z M24,43.107V16.893L43.225,30L24,43.107z" />
+                                            </g>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="text" style={{ width: "140px" }}>
+                                <h5 className="font-weight-light ml-3 mt-3" style={{ color: "#000" }}><Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link></h5>
+                                <h6 className="font-weight-light ml-3" style={{ color: "#000" }}>
+                                    {item.UserDisplayname}
+                                </h6>
+                                <h6 className="font-weight-light ml-3">
+                                    <p> Plays: {item.Plays}</p>
+                                </h6>
+                            </div>
+                            <div style={{ display: 'flex', width: "100%" }}>
+                                <canvas id={`canvas-${index}`} width={240} height={50} />
+                                <audio ref={audioRef => (audioElements.current[index] = audioRef)} />
                             </div>
                         </div>
-                        <div className="text" style={{ width: "140px" }}>
-                            <h5 className="font-weight-light p-3" style={{color: "#000"}}><Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link></h5>
-                            <h6 className="font-weight-light mb-4 ml-3" style={{color:"#000"}}>
-                               {item.UserDisplayname}
-                            </h6>
-                            <h6 className="font-weight-light mb-4 ml-3">
-                                <p> Plays: {item.Plays}</p>
-                            </h6>
-                        </div>
-                        <div className='ml-2' style={{ display: 'flex', width: "900px" }}>
-                            <canvas id={`canvas-${index}`} width={900} height={250} />
-                            <audio ref={audioRef => (audioElements.current[index] = audioRef)} />
-                        </div>
-                        <button className="circle-button" type="button" onClick={() => handleRemove(item.AudioId, userId)}>
-                            X
-                        </button>
-                    </div>
-                ))}
-                {showNotify && (
-                <Notification
-                    message="Xóa thành công"
-                    type="success" // Set the type of notification (success, info, warning, error)
-                    onClose={() => setNotify(false)} // Close the notification
-                />
-            )}
-            </div>
-        </section>
-    );
+                    ))}
+                    {showNotify && (
+                        <Notification
+                            message="Xóa thành công"
+                            type="success"
+                            onClose={() => setNotify(false)}
+                        />
+                    )}
+                </div>
+            </section>
+
+        );
+    }
 }
 export default Favourite;

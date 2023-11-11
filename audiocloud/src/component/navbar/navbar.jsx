@@ -13,9 +13,12 @@ const Navbar = () => {
                             </div>
                             <div className="collapse navbar-collapse" id="ftco-nav">
                                 <ul className="navbar-nav m-auto">
-                                    <li className="nav-item"><Link to="/home" className="nav-link">Home</Link></li>
-                                    <li className="nav-item"><Link className="nav-link">Library</Link></li>
-                                    <li className="nav-item"><Link to="/subcription" className="nav-link">Subscription</Link></li>
+                                    <li className="nav-item"><Link to="/home" className="nav-link">Trang chủ</Link></li>
+                                    <li className="nav-item"><Link to="/subcription" className="nav-link">Dịch vụ</Link></li>
+                                </ul>
+                                <ul className="navbar-nav">
+                                    <li className="nav-item"><Link to="/login" className="nav-link">Đăng nhập</Link></li>
+                                    <li className="nav-item"><Link to="/register" className="nav-link">Đăng ký</Link></li>
                                 </ul>
                             </div>
                         </div>

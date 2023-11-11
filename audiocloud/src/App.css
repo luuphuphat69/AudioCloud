@@ -78,7 +78,7 @@
   padding: 0;
   font-weight: bold;
   color: #fff;
-  font-family: 'Poppins';
+  font-family: 'Open Sans', sans-serif; /* Specify 'Roboto' and fallback to a generic sans-serif font */
   font-size: 36px;
   margin-bottom: 10px;
 }
@@ -775,7 +775,14 @@
   /* Ensure the button is above other content */
   /* You can adjust the top and right values to position the button as needed */
 }
-
+.button-container1 {
+  position: absolute;
+  top: -15px;
+  right: 20px;
+  z-index: 1;
+  /* Ensure the button is above other content */
+  /* You can adjust the top and right values to position the button as needed */
+}
 .playlist-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -905,7 +912,6 @@ section{
 
 .content{
     display: flex;
-    justify-content: space-between;
     width: 1200px;
     margin: 100px;
 }
@@ -913,7 +919,7 @@ section{
 .box1{
     display: flex;
     flex-direction: column;
-    height: 586px;
+    height: 480px;
     width: 300px;
     border-radius: 20px;
     margin-left: 10px;

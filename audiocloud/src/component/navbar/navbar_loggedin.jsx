@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom'; // Import useHistory from React Router
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useMediaQuery } from 'react-responsive';
 
@@ -13,8 +13,8 @@ const NavbarLoggedIn = () => {
 
     // Logout, delete cookie
     const handleLogOut = () => {
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.audiocloud.asia";
-        navigate('/home');
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.localhost";
+        window.location.href = '/home';
     }
     
     // Function to handle the search
@@ -22,8 +22,8 @@ const NavbarLoggedIn = () => {
         e.preventDefault(); // Prevent the default form submission behavior
 
         try {
-            const response = await axios.get(`http://audiocloud.asia:8000/v1/audio/search?queries=${searchTerm}`);
-            const response2 = await axios.get(`http://audiocloud.asia:8000/v1/playlist/search?queries=${searchTerm}`);
+            const response = await axios.get(`http://localhost:8000/v1/audio/search?queries=${searchTerm}`);
+            const response2 = await axios.get(`http://localhost:8000/v1/playlist/search?queries=${searchTerm}`);
             console.log(response2.data);
             // Redirect to the search page with search results as a URL parameter
             // Navigate to the /search page with response data as a prop
@@ -48,11 +48,11 @@ const NavbarLoggedIn = () => {
                                 </div>
                                 <div className="collapse navbar-collapse" id="ftco-nav">
                                     <ul className="navbar-nav m-auto">
-                                    <li className="nav-item">
+                                        <li className="nav-item">
                                             <Link to="/home" className="nav-link">Trang chủ</Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link className="nav-link">Thư viện</Link>
+                                            <Link to="/profile" className="nav-link">Thư viện</Link>
                                         </li>
                                         <li className="nav-item">
                                             <Link to="/subcription" className="nav-link">Dịch vụ</Link>
@@ -136,12 +136,10 @@ const NavbarLoggedIn = () => {
                                     <ul className="navbar-nav" id="navbar-links">
                                         <li className="nav-item dropdown">
                                             <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                <Link className="dropdown-item" to="/profile">
-                                                    Tài khoản
-                                                </Link>
-                                                <Link className="dropdown-item" onClick={handleLogOut}>
-                                                    Đăng xuất
-                                                </Link>
+                                                <Link className="dropdown-item" to="/profile">Tài khoản</Link>
+                                                <Link to="/subcription" className="dropdown-item">Dịch vụ</Link>
+                                                <Link to="/upload" className="dropdown-item">Đăng tải</Link>
+                                                <Link className="dropdown-item" onClick={handleLogOut}>Đăng xuất</Link>
                                             </div>
                                         </li>
                                     </ul>
