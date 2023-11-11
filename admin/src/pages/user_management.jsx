@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios'
 
 const Users = () => {
-  const apiEndpoint = 'http://localhost:8000/v1/user/getAll';
+  const apiEndpoint = 'http://audiocloud.asia:8000/v1/user/getAll';
   const [data, setData] = useState([]);
   useEffect(() => {
     // Fetch data from the API endpoint
@@ -18,7 +18,7 @@ const Users = () => {
   const handleDeleteUser = async (userId) => {
     try {
       // Make an API request to delete the user with the provided userId
-      await axios.delete(`http://localhost:8000/v1/user/remove/${userId}`); // params
+      await axios.delete(`http://audiocloud.asia:8000/v1/user/remove/${userId}`); // params
       window.alert('User deleted successfully');
     } catch (error) {
       console.error('Error deleting user:', error);
