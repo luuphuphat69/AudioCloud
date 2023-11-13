@@ -5,6 +5,7 @@ const admin = require("firebase-admin");
 
 const storage = admin.storage();
 const storageBucket = storage.bucket();
+
 const userController = {
     getAllUser: async (req, res) => {
         try {
@@ -30,11 +31,11 @@ const userController = {
                     // Passwords match, authentication is successful
                     console.log('Authentication successful');
                     // Create JWT
-                    const token = jwt.sign({ userId: user.UserId, role: user.Role, userDisplayname: user.Displayname, isPro: user.isPro}, process.env.SECRET_KEY, {
+                    const token = jwt.sign({ userId: user.UserId, role: user.Role, userDisplayname: user.Displayname, isPro: user.isPro }, process.env.SECRET_KEY, {
                         expiresIn: '1h',
                     });
                     // Save token into cookies
-                    res.cookie('token', token, { secure: false, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/', domain:".audiocloud.asia" });
+                    res.cookie('token', token, { secure: false, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/', domain: ".audiocloud.asia" });
                     return res.status(201).json(token);
                 } else {
                     console.log('Authentication failed');
@@ -97,28 +98,17 @@ const userController = {
     deleteUser: async (req, res) => {
 
         const userId = req.params.userId;
-        const filter = { UserId: userId };
         // Use the filter object in the findOne method
-        const user = await User.findOne(filter);
+        const user = await User.findOne({ UserId: userId });
 
         try {
-            const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-            const userRole = decodedToken.role;
-
-            if (decodedToken) {
-                if (userRole == "Admin") {
-                    if (user.Role == "Admin") {
-                        return res.status(403).json({ message: "You can not delete an admin" });
-                    }
-                    await User.deleteOne(user);
-                    res.status(200).json({ message: 'User deleted successfully.' });
-                } else {
-                    res.status(403).json({ message: "You're not the admin" });
-                }
-            } else {
-                res.status(500).json({ message: "You haven't login yet!!" });
+            if (user.Role == "Admin") {
+                return res.status(403).json({ message: "You can not delete an admin" });
             }
-        } catch (error) {
+            await User.deleteOne(user);
+            res.status(200).json({ message: 'User deleted successfully.' });
+        }
+        catch (error) {
             res.status(500).json({ message: "You haven't login yet!!" });
             console.log(error);
         }
@@ -157,28 +147,50 @@ const userController = {
             console.log(error);
         }
     },
-    updatePro: async(req, res) => {
-        try{
+    updatePro: async (req, res) => {
+        try {
             const userId = req.params.UserId;
-            const user = await User.findOne({UserId: userId});
+            const user = await User.findOne({ UserId: userId });
             user.isPro = true;
             await user.save();
-            return res.status(200).json({message: "Updated Pro"});
-        }catch(err){
+            return res.status(200).json({ message: "Updated Pro" });
+        } catch (err) {
             console.log(err);
-            return res.status(500).json({message: "Server error"});
+            return res.status(500).json({ message: "Server error" });
         }
     },
     updateArtist: async (req, res) => {
-        try{
+        try {
             const userId = req.params.UserId;
-            const user = await User.findOne({UserId: userId});
+            const user = await User.findOne({ UserId: userId });
             user.isArtist = true;
             await user.save();
-            return res.status(200).json({message: "Server error"});
-        }catch(err){
+            return res.status(200).json({ message: "Server error" });
+        } catch (err) {
             console.log(err);
-            return res.status(500).json({message: "Server error"});
+            return res.status(500).json({ message: "Server error" });
+        }
+    },
+    // For admin
+    searchUser: async (req, res) => {
+        try {
+            const query = req.query.queries;
+            // Use a regular expression to perform a case-insensitive search
+            const searchRegex = new RegExp(query, 'i');
+
+            // Search for users based on UserId, userDisplayname, email, and account
+            const users = await User.find({
+                $or: [
+                    { UserId: searchRegex },
+                    { Displayname: searchRegex },
+                    { Email: searchRegex },
+                    { Account: searchRegex }
+                ]
+            });
+            res.status(200).json({ users });
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Server error' });
         }
     }
 }

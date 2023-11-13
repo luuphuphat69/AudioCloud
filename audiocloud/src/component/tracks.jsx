@@ -172,7 +172,7 @@ const Tracks = () => {
                 <canvas id={`canvas-${index}`} width={900} height={250} />
                 <audio ref={audioRef => (audioElements.current[index] = audioRef)} />
               </div>
-              <LongMenu audioId={item.AudioId} />
+              <LongMenu audioId={item.AudioId} userId={item.UserId}/>
             </div>
           ))}
         </div>
@@ -205,7 +205,7 @@ const Tracks = () => {
                   <h5 className="font-weight-light" style={{ color: "#000" }}>
                     <Link to={`/details/${item.AudioId}`}>{item.AudioName}</Link>
                   </h5>
-                  <LongMenu audioId={item.AudioId} />
+                  <LongMenu audioId={item.AudioId} userId={item.UserId}/>
                 </div>
                 <h6 className="font-weight-light" style={{ color: "#000" }}>
                   {item.UserDisplayname}

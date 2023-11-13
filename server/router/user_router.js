@@ -17,4 +17,5 @@ router.get("/get-info/:UserId", userController.getUserInfo);
 router.put("/edit/:UserId", upload.fields([{name: "UserPhoto", maxCount: 1}]), userController.editUserInfo);
 router.put("/update-pro/:UserId", userController.updatePro);
 router.put("/update-artist/:UserId", userController.updateArtist);
+router.get("/search-user", userController.searchUser);
 module.exports = router;

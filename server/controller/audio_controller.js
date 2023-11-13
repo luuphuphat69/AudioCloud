@@ -87,11 +87,22 @@ const audioController = {
   removeAudio: async (req, res) => {
     try {
       const audioId = req.params.audioId;
-      const filter = { AudioId: audioId };
-      const audio = await Audio.findOne(filter);
+      const userId = req.params.userId;
 
-      await Audio.deleteOne(audio);
-      res.status(201).json({ message: "Delete successfully" });
+      const user = await User.findOne({UserId: userId});
+      const audio = await Audio.findOne({AudioId: audioId});
+
+      if(user.Role === 'User'){
+        if(user.UserId === audio.UserId){
+          await Audio.deleteOne(audio);
+          res.status(201).json({ message: "Delete successfully" });
+        }else{
+          return res.status(500).json({ message: "Server error" });
+        }
+      }else if(user.Role === 'Admin'){
+        await Audio.deleteOne(audio);
+        res.status(201).json({ message: "Delete successfully" });
+      }
     } catch (error) {
       console.log(error);
       res.status(500).json({ message: "Server error" });
@@ -203,7 +214,9 @@ const audioController = {
             IsPublic: true,
             $or: [
                 { AudioName: { $regex: `.*${filter}.*`, $options: 'i' } }, // Case-insensitive search for AudioName
-                { UserDisplayname: { $regex: `.*${filter}.*`, $options: 'i' } }, // Case-insensitive search for UserDisplayname
+                { UserDisplayname: { $regex: `.*${filter}.*`, $options: 'i' } }, 
+                {AudioId: { $regex: `.*${filter}.*`, $options: 'i' } },
+                {UserDisplayname: { $regex: `.*${filter}.*`, $options: 'i' } }
             ],
         }).sort({ Plays: -1 }).limit(100);
 

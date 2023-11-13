@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
-
+import SideBar from '../components/sidebar';
 const Login = () => {
     const navigate = useNavigate();
     const handleSubmit = async (e) => {
@@ -14,11 +15,14 @@ const Login = () => {
                 Account: account,
                 Password: password,
             });
-            if (response.status === 200) {
+            const token = response.data;
+            const  user = jwtDecode(token);
+            if (response.status === 201 && user.role === 'Admin') {
                 // Handle successful login here, e.g., store the token and redirect the user.
-                console.log('Login successfully');
-                window.alert('Login successfully'); // Display a success alert
-                navigate('/usermanagement');
+                window.alert('Đăng nhập thành công'); // Display a success alert
+                navigate('/user-management');
+            }else if(response.status === 201 && user.role === 'User'){
+                window.alert("Không thể đăng nhập bằng tài khoảng người dùng");
             } else if (response.status === 401) {
                 const errorMessage = response.data.message
                 window.alert(errorMessage); // Display an error alert
@@ -43,6 +47,7 @@ const Login = () => {
             <div  className="page-header align-items-start min-vh-100 background">
                 <span  className="mask bg-gradient-dark opacity-6"></span>
                 <div  className="container my-auto">
+                <SideBar/>
                     <div  className="row">
                         <div  className="col-lg-4 col-md-8 col-12 mx-auto">
                             <div  className="card z-index-0 fadeIn3 fadeInBottom">
@@ -62,10 +67,6 @@ const Login = () => {
                                         <div  className="text-center">
                                             <button type="submit" id="submit" className="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
                                         </div>
-                                        <p  className="mt-4 text-sm text-center">
-                                            Don't have an account?
-                                            <a href="../pages/sign-up.html"  className="text-primary text-gradient font-weight-bold">Sign up</a>
-                                        </p>
                                     </form>
                                 </div>
                             </div>
