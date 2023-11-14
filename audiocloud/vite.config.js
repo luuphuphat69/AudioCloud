@@ -8,7 +8,7 @@ dns.setDefaultResultOrder('verbatim')
 export default defineConfig({
     plugins: [react()],
     server: {
-        host: "54.206.75.221",
+        host: "audiocloud.asia",
         port: "8080",
     },
 }); 

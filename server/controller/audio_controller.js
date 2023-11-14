@@ -117,6 +117,15 @@ const audioController = {
       res.status(500).json({ message: "Server error" });
     }
   },
+  // For admin
+  getAudios: async (req, res) => {
+    try {
+      const listAudio = await Audio.find();
+      res.status(200).json(listAudio);
+    } catch (error) {
+      res.status(500).json({ message: "Server error" });
+    }
+  },
 
   getAudioInfo: async (req, res) => {
     try {
@@ -162,26 +171,23 @@ const audioController = {
       if (photoFile) {
         audioPhotoUrl = await uploadAudioPhoto(photoFile);
       }
-
-      if(audio !== null){
-        if(audioName != null){
+        if(audioName !== undefined && audioName !== null && audioName.trim() !== ""){
           audio.AudioName = audioName;
         }
-        if(audioPhotoUrl != null){
+        if( audioPhotoUrl!== undefined &&  audioPhotoUrl !== null &&  audioPhotoUrl.trim() !== ""){
           audio.PhotoURL = audioPhotoUrl;
         }
-        if(genre != null){
+        if(genre !== undefined && genre !== null && genre.trim() !== ""){
           audio.Genre = genre;
         }
-        if(description){
+        if(description !== undefined && description !== null && description.trim() !== ""){
           audio.Description = description;
         }
-        if(isPublic != null){
+        if (isPublic !== undefined && isPublic !== null) {
           audio.IsPublic = isPublic;
         }
         await audio.save();
         return res.status(200).json({message:"Track Updated"});
-      }
     }catch(error){
       console.log(error);
     }

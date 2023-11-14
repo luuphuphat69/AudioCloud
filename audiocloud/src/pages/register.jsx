@@ -14,7 +14,6 @@ const Register = () => {
     const [EmailValidation, setEmailValidation] = useState('');
     const [RepassValidation, setRepassValidation] = useState('');
     const [PassValidation, setPassValidation] = useState('');   
-    const [Error, setError] = useState('');
 
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })

@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'
 import SideBar from "../components/sidebar";
+import EditAccount from "../components/popup/edit_account";
+import CreateAccount from "../components/popup/create_account";
+import {Pagination} from 'react-bootstrap';
+
 const Users = () => {
 
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [showPopup, setShowPopup] = useState(false);
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [userId, setUserId] = useState('');
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10; 
 
   useEffect(() => {
-    axios.get('http://localhost:8000/v1/user/getAll')
+    axios.get('http://audiocloud.asia:8000/v1/user/getAll')
       .then((response) => {
         setData(response.data);
       })
@@ -16,7 +26,7 @@ const Users = () => {
         console.error('Error fetching default data:', error);
       });
   }, []);
-  
+
   useEffect(() => {
     if (searchQuery.trim() === '') {
       // If the search query is empty, do not make the API call
@@ -24,7 +34,7 @@ const Users = () => {
     }
 
     // If there's a search query, perform the search
-    axios.get(`http://localhost:8000/v1/user/search-user?queries=${searchQuery}`)
+    axios.get(`http://audiocloud.asia:8000/v1/user/search-user?queries=${searchQuery}`)
       .then((response) => {
         console.log(response.data.users);
         setData(response.data.users);
@@ -33,30 +43,59 @@ const Users = () => {
         console.error('Error searching users:', error);
       });
   }, [searchQuery]);
-  
+
   const handleDeleteUser = async (userId) => {
     try {
       // Ask for user confirmation
       const isConfirmed = window.confirm('Xác nhận xóa người dùng này');
-  
+
       // If the user confirms, proceed with the deletion
       if (isConfirmed) {
         // Make an API request to delete the user with the provided userId
-        await axios.delete(`http://localhost:8000/v1/user/remove/${userId}`);
+        await axios.delete(`http://audiocloud.asia:8000/v1/user/remove/${userId}`);
         window.alert('Xóa người dùng thành công');
       } else {
         window.alert('Đã hủy xóa thành công');
       }
     } catch (error) {
-      console.error('Error deleting user:', error);
+      if (error.response) {
+        const errorMessage = error.response.data.message;
+        if (errorMessage.includes('You can not delete an admin')) {
+          window.alert('Không thể xóa quản trị viên.');
+        }
+      }
       window.alert('Đã xảy ra lỗi khi xóa. Hãy thử lại');
     }
   };
-  
+
+  const handleEditAccount = (userId, role) => {
+    if(role === 'Admin'){
+      setShowPopup(false);
+      window.alert("Không thể chỉnh sửa tài khoản quản trị viên");
+    } else {
+      setUserId(userId);
+      setShowPopup(!showPopup);
+    }
+  }
+
+  const handleCreateAccount = () => {
+    setShowAddPopup(!showAddPopup);
+  }
+
+  // Get current items based on pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  }
 
   return (
-    <div>
-      <SideBar/>
+    <div className="container">
+      {showAddPopup ? <CreateAccount closePopup={handleCreateAccount} /> : null}
+      <SideBar />
       <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
         <div class="container-fluid py-1 px-3">
           <nav aria-label="breadcrumb">
@@ -73,9 +112,12 @@ const Users = () => {
                   className="form-control"
                   placeholder="Tìm kiếm..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}/>
+                  onChange={(e) => setSearchQuery(e.target.value)} />
               </div>
             </div>
+          </div>
+          <div className="mt-3">
+            <button className="btn btn-primary" onClick={handleCreateAccount}>Tạo tài khoản</button>
           </div>
         </div>
       </nav>
@@ -89,6 +131,8 @@ const Users = () => {
                 </div>
               </div>
               <div className="card-body px-0 pb-2">
+                <div>
+                </div>
                 <div className="table-responsive p-0">
                   <table className="table align-items-center mb-0">
                     <thead>
@@ -97,12 +141,13 @@ const Users = () => {
                         <th className="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Tài khoản</th>
                         <th className="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Tên hiển thị</th>
                         <th className="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Email</th>
+                        <th className="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Vai trò</th>
                         <th className="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Sửa</th>
                         <th className="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Xóa</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {data.map((item) => (
+                      {currentItems.map((item) => (
                         <tr>
                           <td>
                             <p className="text-x text-secondary mb-0" key={item._id}>{item.UserId}</p>
@@ -116,20 +161,37 @@ const Users = () => {
                           <td className="align-middle text-center">
                             <span className="text-secondary text-x font-weight-bold" key={item._id}>{item.Email}</span>
                           </td>
+                          <td className="align-middle text-center">
+                            <span className="text-secondary text-x font-weight-bold" key={item._id}>{item.Role}</span>
+                          </td>
                           <td className="align-middle">
-                            <a href="" class="btn-1" data-toggle="tooltip" data-original-title="Edit user">
+                            <button href="" class="btn-1" data-toggle="tooltip" data-original-title="Remove user" onClick={() => handleEditAccount(item.UserId, item.Role)}>
                               Sửa
-                            </a>
+                            </button>
                           </td>
                           <td className="align-middle">
                             <button href="" class="btn-1" data-toggle="tooltip" data-original-title="Remove user" onClick={() => handleDeleteUser(item.UserId)}>
                               Xóa
                             </button>
                           </td>
+                          {showPopup ? <EditAccount userId={userId} closePopup={handleEditAccount} /> : null}
                         </tr>
                       ))}
                     </tbody>
                   </table>
+                </div>
+                <div className="mt-3 justify-content-end">
+                  <Pagination>
+                    {[...Array(Math.ceil(data.length / itemsPerPage)).keys()].map((page) => (
+                      <Pagination.Item
+                        key={page + 1}
+                        active={page + 1 === currentPage}
+                        onClick={() => handlePageChange(page + 1)}
+                      >
+                        {page + 1}
+                      </Pagination.Item>
+                    ))}
+                  </Pagination>
                 </div>
               </div>
             </div>

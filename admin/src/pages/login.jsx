@@ -11,7 +11,7 @@ const Login = () => {
         const password = document.getElementById('password').value;
 
         try {
-            const response = await axios.post('http://localhost:8000/v1/user/login', {
+            const response = await axios.post('http://audiocloud.asia:8000/v1/user/login', {
                 Account: account,
                 Password: password,
             });

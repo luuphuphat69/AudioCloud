@@ -9,6 +9,7 @@ router.put("/add/:audioId/:playlistId", audioController.addToPlaylist);
 router.delete("/removeAudio/:userId/:audioId", audioController.removeAudio);
 router.put("/edit-track/:AudioId", upload.fields([{name: 'Photo', maxCount: 1}]) ,audioController.editTrack);
 router.get("/getAudios", audioController.getAllAudio);
+router.get("/get-all-audio", audioController.getAudios);
 router.get("/getTop50/:type", audioController.getTop50);
 router.get("/getTop100", audioController.getTop100);
 router.get("/search", audioController.search);

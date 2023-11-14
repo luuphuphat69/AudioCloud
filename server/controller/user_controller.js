@@ -1,4 +1,5 @@
 const User = require('../model/user');
+const Audio = require('../model/audio');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const admin = require("firebase-admin");
@@ -91,6 +92,50 @@ const userController = {
             res.status(500).json({ message: error });
         }
     },
+    createAccount: async (req, res) => {
+        try {
+            const { Account, Password, Email, Role} = req.body
+            const UserId = generateUserId();
+            const existingUser = await User.findOne({ $or: [{ Account }, { Email }] });
+
+            // Check if Account or Password is null or empty
+            if (!Account || !Password) {
+                return res.status(400).json({ message: 'Account or Password cannot be empty' });
+            }
+
+            // Generate a salt (a random value used for hashing)
+            const saltRounds = 10; // Recommended number of salt rounds
+            bcrypt.genSalt(saltRounds, (err, salt) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                // Hash the password with the generated salt
+                bcrypt.hash(Password, salt, async (err, hash) => {
+                    if (err) {
+                        console.error(err);
+                        return;
+                    }
+                    if (existingUser) {
+                        // If an account with the same Account or Email exists, return an error
+                        return res.status(401).json({ message: 'Account or Email already exists' });
+                    }
+                    const newUser = new User({
+                        UserId,
+                        Account,
+                        Displayname: Account,
+                        Password: hash,
+                        Role: Role,
+                        Email,
+                    });
+                    await newUser.save();
+                    res.status(201).json({ message: 'Registration successful', Account, Password, Email });
+                });
+            });
+        } catch (error) {
+            res.status(500).json({ message: error });
+        }
+    },
     logout: async (req, res) => {
         res.clearCookie('token');
         res.clearCookie('user');
@@ -100,12 +145,13 @@ const userController = {
         const userId = req.params.userId;
         // Use the filter object in the findOne method
         const user = await User.findOne({ UserId: userId });
-
+        
         try {
             if (user.Role == "Admin") {
                 return res.status(403).json({ message: "You can not delete an admin" });
             }
             await User.deleteOne(user);
+            await Audio.deleteMany({UserId: userId});
             res.status(200).json({ message: 'User deleted successfully.' });
         }
         catch (error) {
@@ -136,9 +182,15 @@ const userController = {
                 PhotoUrl = await uploadUserPhoto(photoFile);
                 user.ProfilePic = PhotoUrl;
             }
-            user.Displayname = Displayname;
-            user.Address = Address;
-            user.Bio = Bio;
+            if (Displayname !== undefined && Displayname !== null && Displayname.trim() !== "") {
+                user.Displayname = Displayname;
+            }
+            if (Address !== undefined && Address !== null && Address.trim() !== "") {
+                user.Address = Address;
+            }
+            if (Bio !== undefined && Bio !== null && Bio.trim() !== "") {
+                user.Bio = Bio;
+            }
 
             await user.save();
             return res.status(201).json({ message: "Change user info success" });
@@ -147,6 +199,46 @@ const userController = {
             console.log(error);
         }
     },
+    // Admin edit profile
+    updateUserInfo: async (req, res) => {
+        try {
+          const { Displayname, Address, Bio, Role } = req.body;
+          const userId = req.params.UserId;
+          const photoFile = req.files['UserPhoto'] ? req.files['UserPhoto'][0] : null;
+          let PhotoUrl = null;
+      
+          const user = await User.findOne({ UserId: userId });
+      
+          if (!user) {
+            return res.status(404).json({ message: "User not found" });
+          }
+      
+          if (photoFile) {
+            PhotoUrl = await uploadUserPhoto(photoFile);
+            user.ProfilePic = PhotoUrl;
+          }
+      
+          if (Displayname !== undefined && Displayname !== null && Displayname.trim() !== "") {
+            user.Displayname = Displayname;
+          }
+          if (Address !== undefined && Address !== null && Address.trim() !== "") {
+            user.Address = Address;
+          }
+          if (Bio !== undefined && Bio !== null && Bio.trim() !== "") {
+            user.Bio = Bio;
+          }
+          if (Role !== undefined && Role !== null && Role.trim() !== "") {
+            user.Role = Role;
+          }          
+          
+          await user.save();
+          return res.status(201).json({ message: "Change user info success" });
+        } catch (error) {
+          res.status(500).json({ message: "Server error" });
+          console.log(error);
+        }
+      },
+      
     updatePro: async (req, res) => {
         try {
             const userId = req.params.UserId;
