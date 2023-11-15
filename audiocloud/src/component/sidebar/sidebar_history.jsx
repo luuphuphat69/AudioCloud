@@ -6,6 +6,7 @@ import LongMenu from '../menu/audio_menu';
 import { useMediaQuery } from 'react-responsive';
 import { Link } from 'react-router-dom';
 import Cookies from "universal-cookie";
+import Notification from "../notify/notify_comp";
 
 const SidebarHistory = () => {
 
@@ -17,8 +18,13 @@ const SidebarHistory = () => {
 
     const [data, setData] = useState([]);
     const [userId, setUserId] = useState('');
+    const [showNotify, setShowNotify] = useState(false);
     // Init Player
     const { initializeAPlayer } = useAPlayer();
+
+    const handleClose = () => {
+        setShowNotify(false);
+    }
 
     useEffect(() => {
         const fetchToken = async () => {
@@ -55,7 +61,8 @@ const SidebarHistory = () => {
     const handleClearHistory = async () => {
         try {
             console.log(userId);
-            await axios.put(`http://audiocloud.asia:8000/v1/history/clear-history/${userId}`);
+            await axios.delete(`http://audiocloud.asia:8000/v1/history/clear-history/${userId}`);
+            setShowNotify(true);
         } catch (err) {
             console.log(err);
         }
@@ -74,6 +81,7 @@ const SidebarHistory = () => {
     if (isDesktopOrLaptop) {
         return (
             <aside className="single_sidebar_widget popular_post_widget">
+                {showNotify ? <Notification type='success' message='Xóa lịch sử thành công' onClose={handleClose}/> : null}
                 <h3 className="widget_title">Lịch sử</h3>
                 <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
                     {console.log(data)}
@@ -115,6 +123,7 @@ const SidebarHistory = () => {
     } else if (isTabletOrMobile) {
         return (
             <aside className="single_sidebar_widget popular_post_widget">
+                {showNotify ? <Notification type='success' message='Xóa lịch sử thành công' onClose={handleClose}/> : null}
                 <h3 className="widget_title">Lịch sử</h3>
                 <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
                     {data.map((item) => (
