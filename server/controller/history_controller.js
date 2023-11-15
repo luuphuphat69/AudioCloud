@@ -30,11 +30,25 @@ const HistoryController = {
     },
     getHistory: async (req, res) => {
         const userId = req.params.userId;
-        const history = await History.findOne({UserId: userId});
-        if(history){
+        const history = await History.findOne({ UserId: userId });
+        if (history) {
             return res.status(200).json(history);
-        }else{
-            return res.status(500).json({message:"Server error"});
+        } else {
+            return res.status(500).json({ message: "Server error" });
+        }
+    },
+    clearHistory: async (req, res) => {
+        const userId = req.params.userId;
+        try {
+            const result = await History.findOneAndDelete({ UserId: userId });
+
+            if (result) {
+                return res.status(200).json({ message: 'History cleared successfully' });
+            } else {
+                return res.status(404).json({ message: 'History not found for the given user ID' });
+            }
+        } catch (error) {
+            return res.status(500).json({ message: 'Server error' });
         }
     }
 }
