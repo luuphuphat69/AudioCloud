@@ -107,6 +107,9 @@ const SidebarHistory = () => {
                         ))}
                     </div>
                 </div>
+                <div className='mt-4'>
+                    <Link to='' onClick={handleClearHistory}>Xóa lịch sử</Link>
+                </div>
             </aside>
         );
     } else if (isTabletOrMobile) {
