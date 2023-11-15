@@ -100,7 +100,7 @@ const SidebarTop100 = () => {
                                 <p className='ml-3'>{item.UserDisplayname}</p>
                             </div>
                             <div className='ml-auto mr-2'>
-                                <LongMenu audioId={item.AudioId} handleLike={handleLike} />
+                                {userId !== '' ? <LongMenu audioId={item.AudioId} handleLike={handleLike} /> : null}
                             </div>
                         </div>
                     ))}
@@ -135,7 +135,8 @@ const SidebarTop100 = () => {
                       <p>{item.UserDisplayname}</p>
                     </div>
                     <div style={{ position: 'absolute', top: '0', right: '0' }}>
-                      <LongMenu audioId={item.AudioId} handleLike={handleLike} />
+                        {console.log(userId)}
+                     {userId !== '' ? <LongMenu audioId={item.AudioId} handleLike={handleLike} /> : null}
                     </div>
                   </div>
                 ))}
