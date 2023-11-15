@@ -46,7 +46,7 @@ const Login = () => {
             // Handle the API response
             if (apiData.status === 201) {
                 // Handle successful login here, e.g., store the token and redirect the user.
-                window.alert('Login successfully'); // Display a success alert
+                window.alert('Đăng nhập thành công'); // Display a success alert
                 navigate('/home');
             } else if (apiData.status === 401) {
                 const errorMessage = await apiData.json();
@@ -54,7 +54,7 @@ const Login = () => {
             }
         } catch (error) {
             console.error('An error occurred:', error);
-            window.alert('An error occurred. Please try again later.'); // Display an error alert
+            window.alert('Đã có lỗi xảy ra. Vui lòng thử lại sau.'); // Display an error alert
         }
     };
 

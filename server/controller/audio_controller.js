@@ -1,7 +1,6 @@
 const Audio = require("../model/audio");
 const User = require("../model/user");
 const Playlist = require("../model/playlist");
-const jwt = require("jsonwebtoken");
 const admin = require("firebase-admin");
 
 const storage = admin.storage();

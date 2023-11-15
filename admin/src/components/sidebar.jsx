@@ -8,9 +8,8 @@ const SideBar = () => {
         <div class="sidenav-header">
           <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 end-0 top-0 d-none d-xl-none"
             aria-hidden="true" id="iconSidenav"></i>
-          <Link class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard "
-            target="_blank">
-            <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo"/>
+          <Link class="navbar-brand m-0" to='/user-management'>
+            <img src="../src/assets/img/logo-ct.png" alt="main_logo"/>
             <span class="ms-1 font-weight-bold text-white">AudioCloud Dashboard</span>
           </Link>
         </div>
@@ -37,7 +36,7 @@ const SideBar = () => {
               </Link>
             </li>
             <li class="nav-item">
-              <Link class="nav-link text-white " to="../pages/billing.html">
+              <Link class="nav-link text-white " to="/billing">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">receipt_long</i>
                 </div>
@@ -48,27 +47,11 @@ const SideBar = () => {
               <h6 class="text-uppercase text-xs text-white font-weight-bolder">tài khoản cá nhân</h6>
             </li>
             <li class="nav-item">
-              <Link class="nav-link text-white " href="/profile">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <i class="material-icons opacity-10">person</i>
-                </div>
-                <span class="nav-link-text ms-1">Tài khoản</span>
-              </Link>
-            </li>
-            <li class="nav-item">
-              <Link class="nav-link text-white " href="../pages/sign-in.html">
+              <Link class="nav-link text-white " to="/login">
                 <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                   <i class="material-icons opacity-10">login</i>
                 </div>
                 <span class="nav-link-text ms-1">Đăng nhập</span>
-              </Link>
-            </li>
-            <li class="nav-item">
-              <Link class="nav-link text-white " to="/sign-up">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                  <i class="material-icons opacity-10">assignment</i>
-                </div>
-                <span class="nav-link-text ms-1">Đăng ký</span>
               </Link>
             </li>
           </ul>

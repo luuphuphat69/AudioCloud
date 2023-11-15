@@ -50,10 +50,10 @@ const Subcription = () => {
   };
 
   const handleSubmit = (type) => {
-    if(token != null){
+    if (token != null) {
       setShowPayment(true);
       setType(type);
-    }else{
+    } else {
       window.alert('Chưa đăng nhập. Hãy đăng nhập lại!');
       navigate('/login')
     }
@@ -99,7 +99,7 @@ const Subcription = () => {
               </div>
               <div class="description">
                 <ul className="ul1">
-                <li className="li1">Đăng nhạc không giới hạn</li>
+                  <li className="li1">Đăng nhạc không giới hạn</li>
                   <li className="li1">Nghe nhạc chất lượng cao.</li>
                   <li className="li1">Tải nhạc chất lượng cao.</li>
                   <li></li>
@@ -107,7 +107,7 @@ const Subcription = () => {
                   <li></li>
                 </ul>
               </div>
-              {user?.isPro ? <button type="submit" style={{ color: "#000"}} disabled='true'>ĐÃ MUA</button>
+              {user?.isPro ? <button type="submit" style={{ color: "#000" }} disabled='true'>ĐÃ MUA</button>
                 : <button type="submit" style={{ color: "#000" }} onClick={() => handleSubmit('Listener')}>MUA NGAY</button>}
             </div>
             {/* <div class="business box1" style={{height:"769px"}}>
@@ -139,8 +139,8 @@ const Subcription = () => {
               :<button type="submit" onClick={() => handleSubmit('Artist')} style={{ color: "#000" }}>MUA NGAY</button>}
             </div> */}
           </div>
-          {showPayment && type === 'Artist' ? <PaymentComponent type='Artist' amount='199.00' closePopup={handleClose} />
-            : showPayment && type === 'Listener' ? <PaymentComponent type='Listener' amount='50.00' closePopup={handleClose} /> : null}
+          {showPayment && type === 'Artist' ? <PaymentComponent userId='' type='Artist' amount='199.00' closePopup={handleClose} />
+            : showPayment && type === 'Listener' ? <PaymentComponent userId={user.UserId} type='Listener' amount='30.00' closePopup={handleClose} /> : null}
         </section>
       </PayPalProviderComponent>
     );
@@ -149,7 +149,7 @@ const Subcription = () => {
       <PayPalProviderComponent>
         <section>
           {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
-          <div class="content p-5 justify-content-center align-items-center" style={{marginTop:'150px'}}>
+          <div class="content p-5 justify-content-center align-items-center" style={{ marginTop: '150px' }}>
             <div class="basic box1">
               <h2 class="title">Miễn phí</h2>
               <div class="view">
@@ -222,8 +222,8 @@ const Subcription = () => {
               :<button type="submit" onClick={() => handleSubmit('Artist')} style={{ color: "#000" }}>MUA NGAY</button>}
             </div> */}
           </div>
-          {showPayment && type === 'Artist' ? <PaymentComponent type='Artist' amount='199.00' closePopup={handleClose} />
-            : showPayment && type === 'Listener' ? <PaymentComponent type='Listener' amount='50.00' closePopup={handleClose} /> : null}
+          {showPayment && type === 'Artist' ? <PaymentComponent userId='' type='Artist' amount='199.00' closePopup={handleClose} />
+            : showPayment && type === 'Listener' ? <PaymentComponent userId={user.UserId} type='Listener' amount='30.00' closePopup={handleClose} /> : null}
         </section>
       </PayPalProviderComponent>
     );
