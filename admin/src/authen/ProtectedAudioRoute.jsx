@@ -1,10 +1,8 @@
 import { Link, Navigate } from 'react-router-dom';
-import Cookies from 'universal-cookie';
 import Audios from '../pages/audio_management';
 const ProtectedAudioRoute = () => {
 
-    const cookies = new Cookies();
-    const token = cookies.get('token');
+  const token = localStorage.getItem('token');
   
     if (token) {
       // User is authenticated, allow access to the "/upload" route
