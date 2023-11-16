@@ -2,7 +2,7 @@ import { Link, Navigate } from 'react-router-dom';
 import Audios from '../pages/audio_management';
 const ProtectedAudioRoute = () => {
 
-  const token = localStorage.getItem('token');
+  const token = sessionStorage.getItem('token');
   
     if (token) {
       // User is authenticated, allow access to the "/upload" route

@@ -20,7 +20,7 @@ const Login = () => {
             if (response.status === 201 && user.role === 'Admin') {
                 // Handle successful login here, e.g., store the token and redirect the user.
                 window.alert('Đăng nhập thành công'); // Display a success alert
-                localStorage.setItem('token', token);
+                sessionStorage.setItem('token', token);
                 navigate('/user-management');
             }else if(response.status === 201 && user.role === 'User'){
                 window.alert("Không thể đăng nhập bằng tài khoảng người dùng");
