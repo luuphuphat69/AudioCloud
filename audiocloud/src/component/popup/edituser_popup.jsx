@@ -83,11 +83,10 @@ const PopupForm = ({ closePopup }) => {
         'Content-Type': 'multipart/form-data',
       }
     }).then((response) => {
-      console.log(response.data);
-      window.alert('Update successfully.');
+      window.alert('Cập nhật thông tin thành công');
     }).catch((error) => {
       console.log('Error uploading file:', error);
-      window.alert('File upload failed.');
+      window.alert('Cập nhật thông tin thất bại. Hãy thử lại');
     }).finally(() => {
       setIsLoading(false); // Hide loading spinner
     });;
