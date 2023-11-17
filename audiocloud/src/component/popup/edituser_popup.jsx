@@ -41,6 +41,21 @@ const PopupForm = ({ closePopup }) => {
   };
 
   useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const user = jwt(CookiesToken);
+        setToken(CookiesToken);
+        // Check the login status once the token is available
+        setUserId(user.userId);
+        console.log("User ID: ", userId);
+      } catch (error) {
+        console.error('Error fetching token:', error);
+      }
+    };
+    fetchToken();
+  }, [token]);
+  
+  useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://audiocloud.asia:8000/v1/user/get-info/${userId}`, { withCredentials: true });
@@ -53,21 +68,6 @@ const PopupForm = ({ closePopup }) => {
     };
     fetchData();
   }, [userId]);
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const user = jwt(CookiesToken);
-        setToken(receivedToken);
-        // Check the login status once the token is available
-        setUserId(user.userId);
-        console.log("User ID: ", userId);
-      } catch (error) {
-        console.error('Error fetching token:', error);
-      }
-    };
-    fetchToken();
-  }, [token]);
 
   const handleChanges = async () => {
     const formData = new FormData();
@@ -158,7 +158,7 @@ const PopupForm = ({ closePopup }) => {
               <TailSpin type="TailSpin" color="#00BFFF" height={80} width={80} />
             ) : (
               <button className="btn btn-primary mt-3" type="button" onClick={handleChanges}>
-                Save changes
+                Lưu thay đổi
               </button>
             )}
           </form>

@@ -49,7 +49,7 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(AccountValidation || EmailValidation || PassValidation || !RepassValidation){
+        if(AccountValidation || EmailValidation || PassValidation || RepassValidation){
             window.alert('Đăng ký không thành công. Hãy thử lại');
         }
         // If the passwords match, you can proceed with form submission logic
