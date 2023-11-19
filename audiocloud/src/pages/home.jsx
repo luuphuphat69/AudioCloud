@@ -32,13 +32,13 @@ const Home = () => {
     };
 
     const items = [
-        { id: 'Pop', text: 'https://images.pexels.com/photos/1370545/pexels-photo-1370545.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
-        { id: 'Ballad', text: 'https://images.pexels.com/photos/838696/pexels-photo-838696.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
-        { id: 'Rock', text: 'https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
-        { id: 'Rap', text: 'https://images.pexels.com/photos/1047442/pexels-photo-1047442.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
-        { id: 'Funk', text: 'https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
-        { id: 'Lofi', text: 'https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
-        { id: 'EDM', text: 'https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
+        { id: 'Pop', text: 'https://i1.sndcdn.com/artworks-JSbtTLwqbsznBT2w-4b5vbQ-t500x500.jpg' },
+        { id: 'Ballad', text: 'https://i1.sndcdn.com/artworks-ks1OWgNgZHpGJ2wn-IWCyaA-t500x500.jpg' },
+        { id: 'Rock', text: 'https://i1.sndcdn.com/artworks-oG6BW5y0LNFMnySV-zUiZfQ-t500x500.jpg' },
+        { id: 'Hip-Hop', text: 'https://i1.sndcdn.com/artworks-hpe8s7Pq0G8z92GE-sj499g-t500x500.jpg'},
+        // { id: 'Funk', text: 'https://images.pexels.com/photos/1190298/pexels-photo-1190298.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
+        // { id: 'Lofi', text: 'https://images.pexels.com/photos/210922/pexels-photo-210922.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
+        // { id: 'EDM', text: 'https://images.pexels.com/photos/1763075/pexels-photo-1763075.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500' },
     ];
 
     const [data, setData] = useState([]);
@@ -131,7 +131,7 @@ const Home = () => {
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <h4>TOP50 <span>{item.id}</span></h4>
+                                                {item.id !== 'Hip-Hop' ? <h4>TOP50 <span>{item.id}</span></h4> : <h4>TOP50 <span>HipHop</span></h4>}
                                             </div>
                                         ))}
                                     </Slider>
@@ -163,7 +163,7 @@ const Home = () => {
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <h4>TOP50 <span>{item.id}</span></h4>
+                                                {item.id !== 'Hip-Hop' ? <h4>TOP50 <span>{item.id}</span></h4> : <h4>TOP50 <span>HipHop</span></h4>}
                                             </div>
                                         ))}
                                     </Slider>
@@ -195,7 +195,7 @@ const Home = () => {
                                                         </div>
                                                     </div>
                                                 </a>
-                                                <h4>TOP50 <span>{item.id}</span></h4>
+                                                {item.id !== 'Hip-Hop' ? <h4>TOP50 <span>{item.id}</span></h4> : <h4>TOP50 <span>HipHop</span></h4>}
                                             </div>
                                         ))}
                                     </Slider>
@@ -244,7 +244,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                     </a>
-                                    <h4>TOP50 <span>{item.id}</span></h4>
+                                    {item.id !== 'Hip-Hop' ? <h4>TOP50 <span>{item.id}</span></h4> : <h4>TOP50 <span>HipHop</span></h4>}
                                 </div>
                             ))}
                         </div>
@@ -278,7 +278,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                     </a>
-                                    <h4>TOP50 <span>{item.id}</span></h4>
+                                    {item.id !== 'Hip-Hop' ? <h4>TOP50 <span>{item.id}</span></h4> : <h4>TOP50 <span>HipHop</span></h4>}
                                 </div>
                             ))}
                         </div>
@@ -312,7 +312,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                     </a>
-                                    <h4>TOP50 <span>{item.id}</span></h4>
+                                    {item.id !== 'Hip-Hop' ? <h4>TOP50 <span>{item.id}</span></h4> : <h4>TOP50 <span>HipHop</span></h4>}
                                 </div>
                             ))}
                         </div>
