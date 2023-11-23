@@ -116,6 +116,7 @@ const EditTrack = ({ audioId, closePopup }) => {
                         value="public"
                         className="form-check-input"
                         onChange={() => handleRadioChange(true)}
+                        required
                       />
                       <label className="form-check-label">Công khai</label>
                     </div>
@@ -126,6 +127,7 @@ const EditTrack = ({ audioId, closePopup }) => {
                         value="private"
                         className="form-check-input"
                         onChange={() => handleRadioChange(false)}
+                        required
                       />
                       <label className="form-check-label">Cá nhân</label>
                     </div>
