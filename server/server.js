@@ -68,15 +68,6 @@ app.use("/v1/comment", commentRoute);
 app.use("/v1/history", historyRoute);
 app.use("/v1/billing", billingRoute);
 
-app.get('/get-cookies', (req, res) =>{
-  res.send(req.cookies.token);
-  console.log(req.cookies);
-});
-
-app.get('/set-cookies', (req, res) => {
-  res.send('hello', 'this is test cookie');
-})
-
 app.listen(8000, () => {
    console.log("Server is running");
 });

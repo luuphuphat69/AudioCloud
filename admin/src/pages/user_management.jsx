@@ -18,7 +18,11 @@ const Users = () => {
   const itemsPerPage = 10; 
 
   useEffect(() => {
-    axios.get('http://audiocloud.asia:8000/v1/user/getAll')
+    axios.get('http://audiocloud.asia:8000/v1/user/getAll', {
+      headers: {
+        'X-API-Key': process.env.SECRET_KEY,
+      },
+    })
       .then((response) => {
         setData(response.data);
       })

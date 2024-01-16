@@ -1,24 +1,17 @@
-// authMiddleware.js
-const jwt = require('jsonwebtoken');
-
 const authMiddleware = (req, res, next) => {
-  // Get the token from the request header
-  const token = req.header('Authorization');
+  // Get the API key from the request header
+  const apiKey = req.header('X-API-Key'); // Assuming API key is provided in the 'x-api-key' header
 
-  // Check if token is present
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized - No token provided' });
+  // Check if the API key is present
+  if (!apiKey) {
+    return res.status(401).json({ message: 'Unauthorized - No API key provided' });
   }
 
-  try {
-    // Verify the token
-    const decoded = jwt.verify(token, 'audi0_stream_secret_key');
-
-    // Attach the user information to the request for further processing
-    req.user = decoded.user;
+  // Validate the API key (replace 'your_api_key' with your actual API key)
+  if (apiKey.value === process.env.API_KEY) {
     next(); // Continue to the next middleware or route handler
-  } catch (error) {
-    res.status(401).json({ message: 'Unauthorized - Invalid token' });
+  } else {
+    res.status(401).json({ message: 'Unauthorized - Invalid API key' });
   }
 };
 

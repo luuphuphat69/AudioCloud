@@ -1,11 +1,11 @@
 const userController = require('../controller/user_controller');
 const router = require("express").Router();
 const multer = require('multer');
-
+const auth = require('../middleware/auth');
 const upload = multer({ dest: 'temp/' }); // Specify a temporary upload directory
 
 //Endpoint
-router.get("/getAll", userController.getAllUser);
+router.get("/getAll", auth, userController.getAllUser);
 router.post('/login', (req, res, next) => {
     req.withCredentials = true;
     next();
