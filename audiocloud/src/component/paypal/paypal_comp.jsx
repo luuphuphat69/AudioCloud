@@ -15,7 +15,7 @@ const PaymentComponent = ({ userId, type, amount, closePopup }) => {
 
   const handleUpdateBilling = async () => {
     try {
-      await axios.post(`http://audiocloud.asia:8000/v1/billing/create-bill/${userId}`);
+      await axios.post(`http://54.161.251.210:8000/v1/billing/create-bill/${userId}`);
     } catch (err) {
       console.log(err);
     }
@@ -28,10 +28,10 @@ const PaymentComponent = ({ userId, type, amount, closePopup }) => {
         navigate('/home');
       }
       if (type === 'Artist') {
-        await axios.put(`http://audiocloud.asia:8000/v1/user/update-artist/${user.userId}`);
+        await axios.put(`http://54.161.251.210:8000/v1/user/update-artist/${user.userId}`);
       }
       if (type === 'Listener') {
-        await axios.put(`http://audiocloud.asia:8000/v1/user/update-pro/${user.userId}`);
+        await axios.put(`http://54.161.251.210:8000/v1/user/update-pro/${user.userId}`);
       }
     } catch (err) {
       console.log(err);

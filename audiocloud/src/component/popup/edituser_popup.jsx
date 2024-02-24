@@ -58,7 +58,7 @@ const PopupForm = ({ closePopup }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://audiocloud.asia:8000/v1/user/get-info/${userId}`, { withCredentials: true });
+        const response = await axios.get(`http://54.161.251.210:8000/v1/user/get-info/${userId}`, { withCredentials: true });
         const _user = response.data;
         setUser(_user);
         console.log(user);
@@ -76,7 +76,7 @@ const PopupForm = ({ closePopup }) => {
     formData.append("Bio", document.getElementById('bio')?.value);
     formData.append("Address", document.getElementById('address')?.value);
 
-    axios.put(`http://audiocloud.asia:8000/v1/user/edit/${userId}`, formData, {
+    axios.put(`http://54.161.251.210:8000/v1/user/edit/${userId}`, formData, {
       method: "PUT",
       credentials: "include",
       headers: {

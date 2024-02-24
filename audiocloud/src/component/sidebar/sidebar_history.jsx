@@ -40,7 +40,7 @@ const SidebarHistory = () => {
 
     useEffect(() => {
         // Fetch data from the API endpoint
-        axios.get(`http://audiocloud.asia:8000/v1/history/get-history/${userId}`)
+        axios.get(`http://54.161.251.210:8000/v1/history/get-history/${userId}`)
             .then((response) => {
                 setData(response.data.ListAudio);
             })
@@ -52,7 +52,7 @@ const SidebarHistory = () => {
     const handleLike = async (audioId) => {
         try {
             console.log(userId);
-            await axios.put(`http://audiocloud.asia:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://54.161.251.210:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
         } catch (err) {
             console.log(err);
         }
@@ -61,7 +61,7 @@ const SidebarHistory = () => {
     const handleClearHistory = async () => {
         try {
             console.log(userId);
-            await axios.delete(`http://audiocloud.asia:8000/v1/history/clear-history/${userId}`);
+            await axios.delete(`http://54.161.251.210:8000/v1/history/clear-history/${userId}`);
             setShowNotify(true);
         } catch (err) {
             console.log(err);

@@ -85,7 +85,7 @@ const Home = () => {
             if (genre) {
                 try {
                     console.log("UseEffeect", genre);
-                    const response = await axios.get(`http://audiocloud.asia:8000/v1/audio/getTop50/${genre}`);
+                    const response = await axios.get(`http://54.161.251.210:8000/v1/audio/getTop50/${genre}`);
                     setData(response.data);
                 } catch (error) {
                     console.error('Error fetching data:', error);

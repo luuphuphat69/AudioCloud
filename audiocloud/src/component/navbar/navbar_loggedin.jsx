@@ -13,7 +13,7 @@ const NavbarLoggedIn = () => {
 
     // Logout, delete cookie
     const handleLogOut = () => {
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.audiocloud.asia";
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.54.161.251.210";
         window.location.href = '/home';
     }
     
@@ -22,8 +22,8 @@ const NavbarLoggedIn = () => {
         e.preventDefault(); // Prevent the default form submission behavior
 
         try {
-            const response = await axios.get(`http://audiocloud.asia:8000/v1/audio/search?queries=${searchTerm}`);
-            const response2 = await axios.get(`http://audiocloud.asia:8000/v1/playlist/search?queries=${searchTerm}`);
+            const response = await axios.get(`http://54.161.251.210:8000/v1/audio/search?queries=${searchTerm}`);
+            const response2 = await axios.get(`http://54.161.251.210:8000/v1/playlist/search?queries=${searchTerm}`);
             console.log(response2.data);
             // Redirect to the search page with search results as a URL parameter
             // Navigate to the /search page with response data as a prop

@@ -37,7 +37,7 @@ const Tab_AddToPlaylist = (audioId) => {
         if (userId) {
             const fetchData = async () => {
                 try {
-                    const response = await axios.get(`http://audiocloud.asia:8000/v1/playlist/get-user-playlist/${userId}`);
+                    const response = await axios.get(`http://54.161.251.210:8000/v1/playlist/get-user-playlist/${userId}`);
                     setData(response.data);
                 } catch (error) {
                     console.log(error);
@@ -50,7 +50,7 @@ const Tab_AddToPlaylist = (audioId) => {
     const handleClick = async (audioId, playlistId) => {
         console.log(audioId.audioId);
         setShowNotification(true);
-        await axios.put(`http://audiocloud.asia:8000/v1/playlist/add-to-playlist/${audioId.audioId}/${playlistId}`);
+        await axios.put(`http://54.161.251.210:8000/v1/playlist/add-to-playlist/${audioId.audioId}/${playlistId}`);
         console.log("add success");
     }
 
