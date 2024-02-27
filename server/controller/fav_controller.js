@@ -40,7 +40,11 @@ const Fav_Controller = {
         try{
             const userId = req.params.userId;
             const fav = await UserFav.findOne({UserId: userId});
-            return res.status(201).json(fav.ListAudio);
+            if(fav.ListAudio){
+                return res.status(201).json(fav.ListAudio);
+            }else{
+                return res.status(404);
+            }
         }catch(err){
             console.log(err);
         }
