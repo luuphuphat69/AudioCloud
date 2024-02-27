@@ -37,16 +37,17 @@ const Fav_Controller = {
         }
     },    
     getListFav: async (req, res) => {
-        try{
+        try {
             const userId = req.params.userId;
-            const fav = await UserFav.findOne({UserId: userId});
-            if(fav.ListAudio){
+            const fav = await UserFav.findOne({ UserId: userId });
+            if (fav && fav.ListAudio) {
                 return res.status(201).json(fav.ListAudio);
-            }else{
-                return res.status(404);
+            } else {
+                return res.status(404).send('Fav not found or ListAudio is empty');
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
+            return res.status(500).send('Internal Server Error');
         }
     },
     removeFav: async (req, res) => {
