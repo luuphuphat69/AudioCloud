@@ -1,4 +1,5 @@
 const Billing = require("../model/billing");
+const DayDifferenceCalculatorVisitor = require("../usage/visitor/DayDiffCalculator")
 
 const billingController = {
     getBills: async(req, res) => {
@@ -48,6 +49,28 @@ const billingController = {
             return res.status(500).json(err);
         }
     },
+    dateDiff: async (req, res) => {
+        try {
+            const bills = await Billing.find();
+
+            if (!bills || bills.length === 0) {
+                return res.status(404).json({ message: "No bills found" });
+            }
+
+            // Create an instance of the concrete visitor
+            const visitor = new DayDifferenceCalculatorVisitor();
+
+            // Iterate over each bill and apply the visitor
+            for (const bill of bills) {
+                bill.accept(visitor);
+            }
+
+            return res.status(200).json({ message: "Day differences calculated for all bills" });
+        } catch (err) {
+            console.log(err);
+            return res.status(500).json({ message: "Server error" });
+        }
+    }
 }
 function generateBillId() {
     // Generate an 8-digit random number

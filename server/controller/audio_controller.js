@@ -3,6 +3,8 @@ const User = require("../model/user");
 const Playlist = require("../model/playlist");
 const admin = require("firebase-admin");
 
+const {AudioFactory, UserFactory} = require("../usage/ModelFactory");
+
 const storage = admin.storage();
 const storageBucket = storage.bucket();
 
@@ -43,29 +45,36 @@ function generateDownloadUrlForAudioPhoto(fileName) {
     });
 }
 
-// Controller
 const audioController = {
-
   postAudio: async (req, res) => {
     try {
+      // Extract data from request
       const file = req.files['Audio'][0];
       const photoFile = req.files['Photo'] ? req.files['Photo'][0] : null;
       const { audioName, audioGenre, description, isPublic } = req.body;
       const audioId = generateAudioId();
       const userId = req.params.UserId;
 
+      // Create factories
+      const audioFactory = new AudioFactory();
+      const userFactory = new UserFactory();
+
       let audioUrl = null;
       let audioPhotoUrl = null;
 
+      // Upload file
       if (file) {
         audioUrl = await uploadAudioFile(file);
       }
       if (photoFile) {
         audioPhotoUrl = await uploadAudioPhoto(photoFile);
       }
-      const user = await User.findOne({ UserId: userId });
 
-      const audio = new Audio({
+      // Create user object
+      const user = userFactory.createModel({ UserId: userId });
+
+      // Create audio object
+      const audio = audioFactory.createModel({
         AudioId: audioId,
         AudioName: audioName,
         UserId: userId,
@@ -76,6 +85,7 @@ const audioController = {
         IsPublic: isPublic,
         UserDisplayname: user.Displayname
       });
+      console.log(audio);
       await audio.save();
       res.json({ message: 'File uploaded successfully!' });
     } catch (error) {
@@ -83,6 +93,7 @@ const audioController = {
       res.status(500).json({ message: 'Server error' });
     }
   },
+
   removeAudio: async (req, res) => {
     try {
       const audioId = req.params.audioId;
@@ -116,6 +127,7 @@ const audioController = {
       res.status(500).json({ message: "Server error" });
     }
   },
+
   // For admin
   getAudios: async (req, res) => {
     try {
