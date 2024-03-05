@@ -1,4 +1,5 @@
 const Comment = require('../model/comment');
+const CommentReposConcrete = require('../usage/repository/CommentReposConcrete');
 
 const commentController = {
     postComment: async(req, res) => {
@@ -8,7 +9,7 @@ const commentController = {
             const currentDate = new Date();
             const formattedDate = formatDateTime(currentDate);
 
-            const comment = new Comment({
+            const commentData ={
                 CommentId: generateCommentId(),
                 CommentContent: commentContent,
                 AudioId: audioId,
@@ -16,10 +17,9 @@ const commentController = {
                 UserDisplayname: userDisplayname,
                 PhotoURL: photoURL,
                 DateComment:formattedDate,
-            });
-
-            await comment.save();
-            return res.status(201).json({message: "Posted comment"});
+            };
+            const comment = await CommentReposConcrete.createComment(commentData);
+            return res.status(201).json({message: "Posted comment: ", comment});
         }catch(err){
             console.log(err);
             return res.status(500).json({message: "Server error"});
@@ -28,7 +28,7 @@ const commentController = {
     getComments: async(req, res) => {
         try{
             const audioId = req.params.audioId;
-            const comments = await Comment.find({ AudioId: audioId }).sort({ DateComment: -1 });
+            const comments = await CommentReposConcrete.findCommentByAudioId(audioId);
             return res.status(200).json(comments);
         }catch(err){
             console.log(err);

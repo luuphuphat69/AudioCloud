@@ -1,5 +1,5 @@
-const Audio = require("../model/audio");
-const User = require("../model/user");
+const Audio = require("../../model/audio");
+const User = require("../../model/user");
 
 class ModelFactory{
     createModel(){}

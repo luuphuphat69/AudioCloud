@@ -3,7 +3,7 @@ const User = require("../model/user");
 const Playlist = require("../model/playlist");
 const admin = require("firebase-admin");
 
-const {AudioFactory, UserFactory} = require("../usage/ModelFactory");
+const {AudioFactory, UserFactory} = require("../usage/factory/ModelFactory");
 
 const storage = admin.storage();
 const storageBucket = storage.bucket();

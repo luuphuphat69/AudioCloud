@@ -12,4 +12,5 @@ class DayDiffCalculator extends BillingVisitor {
         console.log(`Day difference for bill ${billing.BillId}: ${diffInDays}`);
     }
 }
+
 module.exports = DayDiffCalculator;

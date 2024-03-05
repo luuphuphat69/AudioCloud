@@ -3,9 +3,14 @@ const Audio = require('../model/audio');
 const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const admin = require("firebase-admin");
+const StrategyImplement = require("../usage/strategy/StrategyImplement");
+const CreateAccount = require("../usage/strategy/UserConcreteStrategy");
+const CreateAccountWithRole = require("../usage/strategy/UserConcreteStrategy");
 
 const storage = admin.storage();
 const storageBucket = storage.bucket();
+
+const strategyImplement = new StrategyImplement();
 
 const userController = {
     getAllUser: async (req, res) => {
@@ -52,42 +57,10 @@ const userController = {
         try {
             const { Account, Password, Email } = req.body
             const UserId = generateUserId();
-            const existingUser = await User.findOne({ $or: [{ Account }, { Email }] });
-
-            // Check if Account or Password is null or empty
-            if (!Account || !Password) {
-                return res.status(400).json({ message: 'Account or Password cannot be empty' });
-            }
-
-            // Generate a salt (a random value used for hashing)
-            const saltRounds = 10; // Recommended number of salt rounds
-            bcrypt.genSalt(saltRounds, (err, salt) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                // Hash the password with the generated salt
-                bcrypt.hash(Password, salt, async (err, hash) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-                    if (existingUser) {
-                        // If an account with the same Account or Email exists, return an error
-                        return res.status(401).json({ message: 'Account or Email already exists' });
-                    }
-                    const newUser = new User({
-                        UserId,
-                        Account,
-                        Displayname: Account,
-                        Password: hash,
-                        Role: 'User',
-                        Email,
-                    });
-                    await newUser.save();
-                    res.status(201).json({ message: 'Registration successful', Account, Password, Email });
-                });
-            });
+            
+            strategyImplement.setStrategy(new CreateAccount());
+            strategyImplement.createAccount(UserId, Account, Password, Email, null);
+            
         } catch (error) {
             res.status(500).json({ message: error });
         }
@@ -96,42 +69,10 @@ const userController = {
         try {
             const { Account, Password, Email, Role} = req.body
             const UserId = generateUserId();
-            const existingUser = await User.findOne({ $or: [{ Account }, { Email }] });
-
-            // Check if Account or Password is null or empty
-            if (!Account || !Password) {
-                return res.status(400).json({ message: 'Account or Password cannot be empty' });
-            }
-
-            // Generate a salt (a random value used for hashing)
-            const saltRounds = 10; // Recommended number of salt rounds
-            bcrypt.genSalt(saltRounds, (err, salt) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                // Hash the password with the generated salt
-                bcrypt.hash(Password, salt, async (err, hash) => {
-                    if (err) {
-                        console.error(err);
-                        return;
-                    }
-                    if (existingUser) {
-                        // If an account with the same Account or Email exists, return an error
-                        return res.status(401).json({ message: 'Account or Email already exists' });
-                    }
-                    const newUser = new User({
-                        UserId,
-                        Account,
-                        Displayname: Account,
-                        Password: hash,
-                        Role: Role,
-                        Email,
-                    });
-                    await newUser.save();
-                    res.status(201).json({ message: 'Registration successful', Account, Password, Email });
-                });
-            });
+            
+            strategyImplement.setStrategy(new CreateAccountWithRole());
+            strategyImplement.createAccount(UserId, Account, Password, Email, Role);
+            
         } catch (error) {
             res.status(500).json({ message: error });
         }
