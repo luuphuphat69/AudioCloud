@@ -1,12 +1,20 @@
-class StrategyImplement{
-    constructor(UserStrategy){
-        this.UserStrategy = UserStrategy
-    }
-    setStrategy(UserStrategy){
+class StrategyImplement {
+    constructor(UserStrategy) {
         this.UserStrategy = UserStrategy;
     }
-    createAccount(UserId, Account, Password, Email, Role){
-        this.UserStrategy.create(UserId, Account, Password, Email, Role);
+    
+    setStrategy(UserStrategy) {
+        this.UserStrategy = UserStrategy;
+    }
+    
+    async createAccount(UserId, Account, Password, Email, Role) {
+        try {
+            const newUser = await this.UserStrategy.create(UserId, Account, Password, Email, Role);
+            return newUser; // Return the new user created
+        } catch (error) {
+            throw error;
+        }
     }
 }
+
 module.exports = StrategyImplement;

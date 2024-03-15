@@ -1,5 +1,6 @@
 const Playlist = require('../model/playlist');
 const Audio = require('../model/audio');
+const PlaylistConcreateBuilder = require('../usage/builder/PlaylistConcreateBuilder');
 const jwt = require('jsonwebtoken');
 
 const PlaylistController = {
@@ -58,14 +59,17 @@ const PlaylistController = {
             if (existPlaylist) {
                 return res.status(400).json({ message: "Playlist is existed" });
             }
-            const playlist = new Playlist({
-                PlaylistId: generatePlaylistId(),
-                UserId: userId,
-                Title: title,
-                Genre: genre,
-                IsPublic: isPublic
-            });
+            
+            const builder = new PlaylistConcreateBuilder()
+            .setPlaylistId(generatePlaylistId())
+            .setUserId(userId)
+            .setGenre(genre)
+            .setIsPublic(isPublic)
+            .build();
+
+            const playlist = builder.build();
             await playlist.save();
+
             res.status(201).json({ message: "Create playlist succesfull" });
         } catch (error) {
             console.log(error);

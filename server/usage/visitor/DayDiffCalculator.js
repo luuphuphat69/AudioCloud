@@ -1,7 +1,7 @@
 const BillingVisitor = require('./BillingVisitor');
 
 class DayDiffCalculator extends BillingVisitor {
-    calculateDayDiff(billing) {
+    visit(billing) {
         const now = new Date();
         const billingDateTimeParts = billing.DateTime.split(/[\s,:/]+/); // Split the date string into its components
         // Parse the components into a Date object (month - 1 because months are zero-indexed in JavaScript)

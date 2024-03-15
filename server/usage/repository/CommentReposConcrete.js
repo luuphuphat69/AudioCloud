@@ -1,5 +1,5 @@
 const CommentRepost = require("./CommentRepos");
-const Commnet = require("../../model/comment");
+const Comment = require("../../model/comment");
 
 class CommentReposConcrete extends CommentRepost{
     createComment(commentData){
@@ -13,7 +13,8 @@ class CommentReposConcrete extends CommentRepost{
     }
     findCommentByAudioId(audioId){
         try {
-            return Comment.find({ AudioId: audioId }).sort({ DateComment: -1 });
+            const comments =  Comment.find({ AudioId: audioId }).sort({ DateComment: -1 });
+            return comments;
         } catch (error) {
             console.log(error);
         }

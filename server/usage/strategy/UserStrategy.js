@@ -1,4 +1,4 @@
 class UserStrategy{
-    create(UserId, Account, Password, Email, Role){};
+    async create(UserId, Account, Password, Email, Role){};
 }
 module.exports = UserStrategy;

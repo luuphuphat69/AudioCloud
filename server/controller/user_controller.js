@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require('bcrypt');
 const admin = require("firebase-admin");
 const StrategyImplement = require("../usage/strategy/StrategyImplement");
-const CreateAccount = require("../usage/strategy/UserConcreteStrategy");
-const CreateAccountWithRole = require("../usage/strategy/UserConcreteStrategy");
+const CreateAccount = require("../usage/strategy/CreateAccount");
+const CreateAccountWithRole = require("../usage/strategy/CreateAccountWithRole");
 
 const storage = admin.storage();
 const storageBucket = storage.bucket();
@@ -54,14 +54,18 @@ const userController = {
         }
     },
     register: async (req, res) => {
-        try {
+        try { 
             const { Account, Password, Email } = req.body
             const UserId = generateUserId();
             
             strategyImplement.setStrategy(new CreateAccount());
-            strategyImplement.createAccount(UserId, Account, Password, Email, null);
+            const result = await strategyImplement.createAccount(UserId, Account, Password, Email, null);
+            if(result){
+                return res.status(200).json(result);
+            }
             
         } catch (error) {
+            console.log(error);
             res.status(500).json({ message: error });
         }
     },

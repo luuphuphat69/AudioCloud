@@ -16,7 +16,7 @@ const BillingSchema = new mongoose.Schema({
 });
 
 BillingSchema.methods.accept = function (visitor){
-    visitor.calculateDayDiff(this);
+    visitor.visit(this);
 }
 
 const Billing = mongoose.model("Billing", BillingSchema, "Billing");

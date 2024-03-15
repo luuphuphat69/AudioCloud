@@ -1,5 +1,7 @@
 const History = require("../model/history");
 const Audio = require("../model/audio");
+const HistoryFlyweight = require("../usage/flyweight/HistoryFlyweight");
+
 const HistoryController = {
 
     updateHistory: async (req, res) => {
@@ -8,7 +10,7 @@ const HistoryController = {
             const audioId = req.params.audioId;
             const audio = await Audio.findOne({ AudioId: audioId });
 
-            let history = await History.findOne({ UserId: userId });
+            let history = await HistoryFlyweight.getUserHistory(userId);
 
             if (!history) {
                 history = new History({ UserId: userId, ListAudio: [] });
@@ -30,7 +32,7 @@ const HistoryController = {
     },
     getHistory: async (req, res) => {
         const userId = req.params.userId;
-        const history = await History.findOne({ UserId: userId });
+        const history = await HistoryFlyweight.getUserHistory(userId)
         if (history) {
             return res.status(200).json(history);
         } else {

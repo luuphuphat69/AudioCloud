@@ -1,4 +1,4 @@
 class BillVisitor{
-    calculateDayDiff(billing){}
+    visit(billing){}
 }
 module.exports = BillVisitor;
