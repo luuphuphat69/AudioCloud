@@ -56,11 +56,7 @@ const billingController = {
             if (!bills || bills.length === 0) {
                 return res.status(404).json({ message: "No bills found" });
             }
-
-            // Create an instance of the concrete visitor
             const visitor = new DayDifferenceCalculatorVisitor();
-
-            // Iterate over each bill and apply the visitor
             for (const bill of bills) {
                 bill.accept(visitor);
             }

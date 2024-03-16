@@ -70,6 +70,7 @@ const NavbarLoggedIn = () => {
                                             className="form-control pl-3"
                                             style={{ width: '300px' }}
                                             placeholder="Tìm kiếm"
+                                            name="searchinput"
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)} />
                                     </div>

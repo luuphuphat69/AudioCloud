@@ -1,6 +1,4 @@
-const Comment = require('../model/comment');
 const CommentReposConcrete = require('../usage/repository/CommentReposConcrete');
-
 const commentRepo = new CommentReposConcrete();
 
 const commentController = {
