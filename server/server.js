@@ -28,7 +28,7 @@ const billingRoute = require('./router/billing_router');
 dotenv.config();
 
 // Connection string
-const mongoURI = process.env.MONGO_DATABASE;
+const mongoURI = "mongodb+srv://luuphuphat:adolph29122003@cluster0.nipyiqe.mongodb.net/AudioCloud";
 
 // Connect to MongoDB 
 (async () => {
