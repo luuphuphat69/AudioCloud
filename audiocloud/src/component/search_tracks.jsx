@@ -61,7 +61,7 @@ const Search_Tracks = ({ searchResults }) => {
 
     const handleLike = async (audioId) => {
         try {
-            await axios.put(`http://54.161.251.210:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
             handleLikeClick();
         } catch (err) {
             console.log(err);
@@ -70,14 +70,14 @@ const Search_Tracks = ({ searchResults }) => {
 
     const updatePlays = async (audioId) => {
         try {
-            await axios.put(`http://54.161.251.210:8000/v1/audio/update-plays/${audioId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/audio/update-plays/${audioId}`);
         } catch (error) {
             console.log(error);
         }
     }
     const updateHistory = async (audioId) => {
         try {
-            await axios.put(`http://54.161.251.210:8000/v1/history/update-history/${audioId}/${userId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/history/update-history/${audioId}/${userId}`);
         } catch (err) {
             console.log(err);
         }

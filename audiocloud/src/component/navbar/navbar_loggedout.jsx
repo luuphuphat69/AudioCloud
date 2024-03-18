@@ -14,8 +14,8 @@ const NavbarLoggedOut = () => {
     const handleSearch = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
         try {
-            const response = await axios.get(`http://54.161.251.210:8000/v1/audio/search?queries=${searchTerm}`);
-            const response2 = await axios.get(`http://54.161.251.210:8000/v1/playlist/search?queries=${searchTerm}`);
+            const response = await axios.get(`http://audiocloud.asia:8000/v1/audio/search?queries=${searchTerm}`);
+            const response2 = await axios.get(`http://audiocloud.asia:8000/v1/playlist/search?queries=${searchTerm}`);
             console.log('response.data:', response.data);
             console.log('response2.data:', response2.data);
         

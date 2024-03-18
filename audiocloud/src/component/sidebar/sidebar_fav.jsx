@@ -25,7 +25,7 @@ const SidebarFav = () => {
             try {
                 const user = jwt(CookiesToken);
                 setUserId(user.userId);
-                const _response = await axios.get(`http://54.161.251.210:8000/v1/fav/get-list-fav/${user.userId}`, { withCredentials: true });
+                const _response = await axios.get(`http://audiocloud.asia:8000/v1/fav/get-list-fav/${user.userId}`, { withCredentials: true });
                 setData(_response.data);
             } catch (error) {
                 console.error('Error fetching token:', error);

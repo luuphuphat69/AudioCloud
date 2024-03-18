@@ -33,7 +33,7 @@ const Upload = () => {
             try {
                 const user = jwt(CookiesToken);
                 setToken(CookiesToken);
-                const User = await axios.get(`http://54.161.251.210:8000/v1/user/get-info/${user.userId}`);
+                const User = await axios.get(`http://audiocloud.asia:8000/v1/user/get-info/${user.userId}`);
                 setUser(User.data);
                 // Check the login status once the token is available
                 checkLoginStatus();
@@ -72,7 +72,7 @@ const Upload = () => {
     };
 
     const getTracks = async () => {
-        const response = await axios.get(`http://54.161.251.210:8000/v1/audio/getTracks/${userId}`);
+        const response = await axios.get(`http://audiocloud.asia:8000/v1/audio/getTracks/${userId}`);
         const tracks = response.data;
         return tracks.length;        
     }
@@ -97,7 +97,7 @@ const Upload = () => {
                 formData.append('description', document.getElementById('description').value);
                 formData.append('isPublic', isPublic);
     
-                axios.post(`http://54.161.251.210:8000/v1/audio/postAudio/${userId}`, formData, {
+                axios.post(`http://audiocloud.asia:8000/v1/audio/postAudio/${userId}`, formData, {
                     method: "POST",
                     credentials: "include",
                     headers: {

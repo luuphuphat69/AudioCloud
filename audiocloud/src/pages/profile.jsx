@@ -37,7 +37,7 @@ const Profile = () => {
                 checkLoginStatus();
 
                 const _user = jwt(token);
-                const userDataResponse = await axios.get(`http://54.161.251.210:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
+                const userDataResponse = await axios.get(`http://audiocloud.asia:8000/v1/user/get-info/${_user.userId}`, { withCredentials: true });
                 setUser(userDataResponse.data);
             } catch (error) {
                 // console.error('Error fetching token:', error);

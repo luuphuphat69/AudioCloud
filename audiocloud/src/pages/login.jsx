@@ -34,7 +34,7 @@ const Login = () => {
 
         try {
             // Send a POST request to your login API
-            const apiData = await fetch("http://54.161.251.210:8000/v1/user/login", {
+            const apiData = await fetch("http://audiocloud.asia:8000/v1/user/login", {
                 method: "POST",
                 body: JSON.stringify({ Account: account, Password: password }),
                 credentials: 'include',

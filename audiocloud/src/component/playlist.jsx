@@ -29,7 +29,7 @@ const Playlists = () => {
         setToken(CookiesToken);
         const _user = jwt(token);
 
-        const responseData = await axios.get(`http://54.161.251.210:8000/v1/playlist/get-user-playlist/${_user?.userId}`);
+        const responseData = await axios.get(`http://audiocloud.asia:8000/v1/playlist/get-user-playlist/${_user?.userId}`);
         setData(responseData.data);
       } catch (error) {
         console.error('Error fetching token:', error);
@@ -39,7 +39,7 @@ const Playlists = () => {
   }, [token]);
 
   const handleClick = async (playlistId) => {
-    const response = await axios.get(`http://54.161.251.210:8000/v1/playlist/getInfo/${playlistId}`);
+    const response = await axios.get(`http://audiocloud.asia:8000/v1/playlist/getInfo/${playlistId}`);
     const playlist = response.data;
     initializeAPlayer(playlist.ListAudio);
   }
@@ -47,7 +47,7 @@ const Playlists = () => {
   const handleRemove = async (playlistId) => {
     const shouldDelete = window.confirm("Bạn có chắc muốn xóa playlist này ?");
     if (shouldDelete) {
-      await axios.delete(`http://54.161.251.210:8000/v1/playlist/delete/${playlistId}`);
+      await axios.delete(`http://audiocloud.asia:8000/v1/playlist/delete/${playlistId}`);
       const updatedData = data.filter((item) => item.PlaylistId !== playlistId);
       setData(updatedData);
       setShowNotification(true);

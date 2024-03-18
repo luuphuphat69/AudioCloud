@@ -15,7 +15,7 @@ const SidebarTop100 = () => {
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
     const isDesktopOrLaptop = useMediaQuery({ query: '(min-width: 1224px)' })
 
-    const apiEndpoint = 'http://54.161.251.210:8000/v1/audio/getTop100';
+    const apiEndpoint = 'http://audiocloud.asia:8000/v1/audio/getTop100';
     const [data, setData] = useState([]);
     const [userId, setUserId] = useState('');
 
@@ -47,7 +47,7 @@ const SidebarTop100 = () => {
 
     const handleLike = async (audioId) => {
         try {
-            await axios.put(`http://54.161.251.210:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
         } catch (err) {
             console.log(err);
         }
@@ -66,7 +66,7 @@ const SidebarTop100 = () => {
 
     const updateHistory = async (audioId, userId) => {
         try{
-            await axios.put(`http://54.161.251.210:8000/v1/history/update-history/${audioId}/${userId}`);
+            await axios.put(`http://audiocloud.asia:8000/v1/history/update-history/${audioId}/${userId}`);
         }catch(err){
             console.log(err);
         }

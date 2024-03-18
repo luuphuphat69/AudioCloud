@@ -28,7 +28,7 @@ const Tracks = () => {
       try {
         setToken(CookiesToken);
         const _user = jwt(CookiesToken);
-        const responseData = await axios.get(`http://54.161.251.210:8000/v1/audio/getTracks/${_user?.userId}`);
+        const responseData = await axios.get(`http://audiocloud.asia:8000/v1/audio/getTracks/${_user?.userId}`);
         setData(responseData.data);
         setUser(_user);
       } catch (error) {
