@@ -1,6 +1,6 @@
 const Playlist = require('../model/playlist');
 const Audio = require('../model/audio');
-const PlaylistConcreateBuilder = require('../usage/builder/PlaylistConcreateBuilder');
+const PlaylistBuilder = require('../usage/builder/PlaylistBuilder');
 const jwt = require('jsonwebtoken');
 
 const PlaylistController = {
@@ -55,19 +55,18 @@ const PlaylistController = {
         try {
             const userId = req.params.UserId;
             const { title, genre, isPublic } = req.body;
+            const playlistId = generatePlaylistId();
+
             const existPlaylist = await Playlist.findOne({ Title: title, UserId: userId });
             if (existPlaylist) {
                 return res.status(400).json({ message: "Playlist is existed" });
             }
             
-            const builder = new PlaylistConcreateBuilder()
-            .setPlaylistId(generatePlaylistId())
-            .setUserId(userId)
-            .setGenre(genre)
-            .setIsPublic(isPublic)
-            .build();
-
-            const playlist = builder.build();
+            const playlistBuilder = new PlaylistBuilder();
+            playlistBuilder.playlistBuilder(playlistId, userId, title, isPublic);
+            playlistBuilder.playlistWithGenre(genre);
+            
+            const playlist = playlistBuilder.build();
             await playlist.save();
 
             res.status(201).json({ message: "Create playlist succesfull" });

@@ -3,15 +3,13 @@ const User = require("../model/user");
 const Playlist = require("../model/playlist");
 const admin = require("firebase-admin");
 
-const {AudioFactory, UserFactory} = require("../usage/factory/ModelFactory");
-
+const ConcreateFactory = require("../usage/factory/ConcreateFactory");
 const storage = admin.storage();
 const storageBucket = storage.bucket();
 
 // Generate downloadURL for file
 function generateDownloadUrl(fileName) {
   const file = storageBucket.file(`audio/${fileName}`);
-
   return file
     .getSignedUrl({
       action: 'read',
@@ -29,7 +27,6 @@ function generateDownloadUrl(fileName) {
 
 function generateDownloadUrlForAudioPhoto(fileName) {
   const file = storageBucket.file(`audio_photo/${fileName}`);
-
   return file
     .getSignedUrl({
       action: 'read',
@@ -54,10 +51,10 @@ const audioController = {
       const { audioName, audioGenre, description, isPublic } = req.body;
       const audioId = generateAudioId();
       const userId = req.params.UserId;
+      const user = await User.findOne({UserId: userId});
 
-      // Create factories
-      const audioFactory = new AudioFactory();
-      const userFactory = new UserFactory();
+      // create factory
+      const factory = new ConcreateFactory();
 
       let audioUrl = null;
       let audioPhotoUrl = null;
@@ -70,11 +67,8 @@ const audioController = {
         audioPhotoUrl = await uploadAudioPhoto(photoFile);
       }
 
-      // Create user object
-      const user = userFactory.createModel({ UserId: userId });
-
       // Create audio object
-      const audio = audioFactory.createModel({
+      const audio = factory.createModel("Audio", {
         AudioId: audioId,
         AudioName: audioName,
         UserId: userId,
@@ -85,6 +79,7 @@ const audioController = {
         IsPublic: isPublic,
         UserDisplayname: user.Displayname
       });
+
       console.log(audio);
       await audio.save();
       res.json({ message: 'File uploaded successfully!' });
