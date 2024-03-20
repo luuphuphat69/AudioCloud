@@ -63,7 +63,7 @@ const PlaylistController = {
             }
             
             const playlistBuilder = new PlaylistBuilder();
-            playlistBuilder.playlistBuilder(playlistId, userId, title, isPublic);
+            playlistBuilder.playlistBuilder(playlistId, userId, title, isPublic)
             playlistBuilder.playlistWithGenre(genre);
             
             const playlist = playlistBuilder.build();

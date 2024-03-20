@@ -13,6 +13,7 @@ class HistoryFlyweight {
                 this.userHistoryCache[userId] = history;
             }
         }
+        console.log(this.userHistoryCache);
         return this.userHistoryCache[userId];
     }
 }
