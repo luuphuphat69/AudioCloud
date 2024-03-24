@@ -1,5 +1,7 @@
 const CommentReposConcrete = require('../usage/repository/CommentReposConcrete');
 const commentRepo = new CommentReposConcrete();
+const Comment = require('../model/comment');
+const ConcreateCommentPrototype = require('../usage/prototype/ConcreateCommentPrototype');
 
 const commentController = {
     postComment: async(req, res) => {
@@ -8,16 +10,34 @@ const commentController = {
 
             const currentDate = new Date();
             const formattedDate = formatDateTime(currentDate);
-
-            const commentData ={
-                CommentId: generateCommentId(),
-                CommentContent: commentContent,
-                AudioId: audioId,
-                UserId: userId,
-                UserDisplayname: userDisplayname,
-                PhotoURL: photoURL,
-                DateComment:formattedDate,
-            };
+            let commentData = null;
+            
+            let findComment = await Comment.findOne({AudioId: audioId, UserId: userId, CommentContent: commentContent});
+            if(findComment){
+                const copyComment = new ConcreateCommentPrototype(findComment);
+                const copied = copyComment.clone();
+                console.log("copied", copied);
+                commentData = {
+                    CommentId: generateCommentId(),
+                    CommentContent: copied._doc.CommentContent,
+                    AudioId: copied._doc.AudioId,
+                    UserId: copied._doc.UserId,
+                    UserDisplayname: copied._doc.UserDisplayname,
+                    PhotoURL: copied._doc.PhotoURL,
+                    DateComment: formattedDate,
+                };                
+                console.log("commentData", commentData);
+            }else{
+                commentData ={
+                    CommentId: generateCommentId(),
+                    CommentContent: commentContent,
+                    AudioId: audioId,
+                    UserId: userId,
+                    UserDisplayname: userDisplayname,
+                    PhotoURL: photoURL,
+                    DateComment:formattedDate,
+                };
+            }
             const comment = await commentRepo.createComment(commentData);
             return res.status(201).json({message: "Posted comment: ", comment});
         }catch(err){
