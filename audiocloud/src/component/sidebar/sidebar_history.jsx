@@ -80,7 +80,8 @@ const SidebarHistory = () => {
                 <h3 className="widget_title">Lịch sử</h3>
                 <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
                     <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                        {data && data.length > 0 ? (data.map((item) => (
+                    {console.log(data)}
+                        {data && data.ListAudio && data.ListAudio.length > 0 ? (data.ListAudio.map((item) => (
                             <div key={item.AudioId} class="d-block d-md-flex podcast-entry mb-5" data-aos="fade-up">
                                 <div className="image-container">
                                     {item.PhotoURL ? (
@@ -122,7 +123,7 @@ const SidebarHistory = () => {
                 {showNotify ? <Notification type='success' message='Xóa lịch sử thành công' onClose={handleClose}/> : null}
                 <h3 className="widget_title">Lịch sử</h3>
                 <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                    {data && data.length > 0 ? (data.map((item) => (
+                    {data && data.ListAudio.length > 0 ? (data.ListAudio.map((item) => (
                         <div key={item.AudioId} class="d-block d-md-flex podcast-entry mb-5" data-aos="fade-up" style={{ position: 'relative' }}>
                             <div className="image-container">
                                 {item.PhotoURL ? (

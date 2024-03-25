@@ -45,12 +45,14 @@ const HistoryController = {
             return res.status(500).json({ message: "Server error" });
         }
     },
+
     clearHistory: async (req, res) => {
         const userId = req.params.userId;
         try {
             const result = await History.findOneAndDelete({ UserId: userId });
 
             if (result) {
+                delete HistoryFlyweight.userHistoryCache[userId];
                 return res.status(200).json({ message: 'History cleared successfully' });
             } else {
                 return res.status(404).json({ message: 'History not found for the given user ID' });
