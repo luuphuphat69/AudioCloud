@@ -8,9 +8,9 @@ class HistoryFlyweight {
 
     async getUserHistory(userId) {
         if (!this.userHistoryCache[userId]) {
-            let history = await History.findOne({ UserId: userId });
+            let histories = await History.find({ UserId: userId });
             if (history) {
-                this.userHistoryCache[userId] = history;
+                this.userHistoryCache[userId] = histories;
             }
         }
         console.log(this.userHistoryCache);

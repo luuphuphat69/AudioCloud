@@ -61,7 +61,7 @@ const userController = {
             strategyImplement.setStrategy(new CreateAccount());
             const result = await strategyImplement.createAccount(UserId, Account, Password, Email, null);
             if(result){
-                return res.status(200).json(result);
+                return res.status(201).json(result);
             }
             
         } catch (error) {
@@ -76,7 +76,8 @@ const userController = {
             
             strategyImplement.setStrategy(new CreateAccountWithRole());
             strategyImplement.createAccount(UserId, Account, Password, Email, Role);
-            
+
+            res.status(201).json({ message: 'Registration successful', Account, Password, Email });
         } catch (error) {
             res.status(500).json({ message: error });
         }
