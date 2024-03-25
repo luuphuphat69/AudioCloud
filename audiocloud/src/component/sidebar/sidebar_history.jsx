@@ -39,15 +39,22 @@ const SidebarHistory = () => {
     }, []);
 
     useEffect(() => {
-        // Fetch data from the API endpoint
-        axios.get(`http://54.161.251.210:8000/v1/history/get-history/${userId}`)
-            .then((response) => {
-                setData(response.data.ListAudio);
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error);
-            });
+        const fetchToken = async () => {
+            try {
+                const user = jwt(CookiesToken);
+                setUserId(user.userId);
+                const _response = await axios.get(`http://54.161.251.210:8000/v1/history/get-history/${userId}`, { withCredentials: true });
+                setData(_response.data);
+            } catch (error) {
+                console.error('Error fetching token:', error);
+            }
+        };
+        fetchToken();
     }, [userId]);
+
+    useEffect(() => {
+        console.log("History Data: ", data);
+    }, [data]);
 
     const handleLike = async (audioId) => {
         try {
@@ -84,9 +91,8 @@ const SidebarHistory = () => {
                 {showNotify ? <Notification type='success' message='Xóa lịch sử thành công' onClose={handleClose}/> : null}
                 <h3 className="widget_title">Lịch sử</h3>
                 <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                    {console.log(data)}
                     <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                        {data.map((item) => (
+                        {data && data.length > 0 ? (data.map((item) => (
                             <div key={item.AudioId} class="d-block d-md-flex podcast-entry mb-5" data-aos="fade-up">
                                 <div className="image-container">
                                     {item.PhotoURL ? (
@@ -112,7 +118,9 @@ const SidebarHistory = () => {
                                     <LongMenu audioId={item.AudioId} handleLike={handleLike} />
                                 </div>
                             </div>
-                        ))}
+                        ))) :  (
+                            <p>Không tìm thấy lịch sử bài hát</p>
+                        )}
                     </div>
                 </div>
                 <div className='mt-4'>
@@ -126,7 +134,7 @@ const SidebarHistory = () => {
                 {showNotify ? <Notification type='success' message='Xóa lịch sử thành công' onClose={handleClose}/> : null}
                 <h3 className="widget_title">Lịch sử</h3>
                 <div className="scrollable-list" style={{ maxHeight: '600px', overflowY: 'auto' }}>
-                    {data.map((item) => (
+                    {data && data.length > 0 ? (data.map((item) => (
                         <div key={item.AudioId} class="d-block d-md-flex podcast-entry mb-5" data-aos="fade-up" style={{ position: 'relative' }}>
                             <div className="image-container">
                                 {item.PhotoURL ? (
@@ -152,7 +160,9 @@ const SidebarHistory = () => {
                                 <LongMenu audioId={item.AudioId} handleLike={handleLike} />
                             </div>
                         </div>
-                    ))}
+                    ))) :(
+                        <p>Không tìm thấy lịch sử bài hát</p>
+                    )}
                 </div>
                 <div className='mt-4'>
                     <Link to='' onClick={handleClearHistory}>Xóa lịch sử</Link>

@@ -35,7 +35,7 @@ const SidebarFav = () => {
     }, [userId]);
 
     useEffect(() => {
-        console.log("Data: ", data); // Log the data here, within a separate useEffect
+        console.log("Data: ", data);
     }, [data]);
 
     const handleClick = async (audioURL, photoURL, audioName, userDisplayname) => {
