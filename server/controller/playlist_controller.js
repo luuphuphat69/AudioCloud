@@ -65,6 +65,7 @@ const PlaylistController = {
             const playlistBuilder = new PlaylistBuilder();
             playlistBuilder.playlistBuilder(playlistId, userId, title, isPublic)
             playlistBuilder.playlistWithGenre(genre);
+            playlistBuilder.playlistWithListAudio([]);
             
             const playlist = playlistBuilder.build();
             await playlist.save();
