@@ -3,6 +3,7 @@ const Builder = require("./Builder");
 
 class PlaylistBuilder extends Builder{
     constructor() {
+        super();
         this.playlistId = null;
         this.userId = null;
         this.title = null;
