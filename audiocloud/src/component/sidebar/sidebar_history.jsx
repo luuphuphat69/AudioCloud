@@ -31,7 +31,7 @@ const SidebarHistory = () => {
             try {
                 const user = jwt(CookiesToken);
                 setUserId(user.userId);
-                const _response = await axios.get(`http://54.161.251.210:8000/v1/history/get-history/${userId}`, { withCredentials: true });
+                const _response = await axios.get(`http://3.86.36.56:8000/v1/history/get-history/${userId}`, { withCredentials: true });
                 setData(_response.data);
             } catch (error) {
                 console.error('Error fetching token:', error);
@@ -47,7 +47,7 @@ const SidebarHistory = () => {
     const handleLike = async (audioId) => {
         try {
             console.log(userId);
-            await axios.put(`http://54.161.251.210:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
+            await axios.put(`http://3.86.36.56:8000/v1/fav/add-to-fav/${audioId}/${userId}`);
         } catch (err) {
             console.log(err);
         }
@@ -56,7 +56,7 @@ const SidebarHistory = () => {
     const handleClearHistory = async () => {
         try {
             console.log(userId);
-            await axios.delete(`http://54.161.251.210:8000/v1/history/clear-history/${userId}`);
+            await axios.delete(`http://3.86.36.56:8000/v1/history/clear-history/${userId}`);
             setShowNotify(true);
         } catch (err) {
             console.log(err);

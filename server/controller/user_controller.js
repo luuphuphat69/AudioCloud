@@ -41,7 +41,7 @@ const userController = {
                         expiresIn: '1h',
                     });
                     // Save token into cookies
-                    res.cookie('token', token, { secure: false, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/', domain: ".54.161.251.210" });
+                    res.cookie('token', token, { secure: false, maxAge: (60 * 60 * 24 * 30) * 1000, path: '/', domain: ".3.86.36.56" });
                     return res.status(201).json(token);
                 } else {
                     console.log('Authentication failed');

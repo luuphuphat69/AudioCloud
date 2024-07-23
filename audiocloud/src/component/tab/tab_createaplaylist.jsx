@@ -51,7 +51,7 @@ const Tab_CreatePlaylist = () => {
             data.append('genre', genre);
             data.append('isPublic', isPublic);
 
-            await axios.post(`http://54.161.251.210:8000/v1/playlist/create/${userId}`, data, {
+            await axios.post(`http://3.86.36.56:8000/v1/playlist/create/${userId}`, data, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
